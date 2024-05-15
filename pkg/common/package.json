@@ -1,0 +1,26 @@
+{
+  "name": "@kmcssz-org/scoutdb-common",
+  "version": "0.0.1",
+  "description": "Shared code for back-end (NodeJS) and front-end (web browser) usage.",
+  "main": "build/main/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scout-db/scout-db.git"
+  },
+  "author": "Peter Somogyvari<peter.metz@unarin.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/scout-db/scout-db/issues"
+  },
+  "homepage": "https://github.com/scout-db/scout-db.git#readme",
+  "dependencies": {
+    "fast-safe-stringify": "2.1.1",
+    "run-time-error": "1.4.0"
+  },
+  "devDependencies": {
+    "typescript": "5.1.6"
+  }
+}
