@@ -3,12 +3,10 @@ import { Request, Response } from "express";
 import express from "express";
 import { Ok, Result } from "ts-results";
 
-import { saveJoinerEmailAddress } from "./lib/beta-waitlist/save-joiner-email-address.js";
 import {
   createLogger,
   DEFAULT_APP_LOG_LEVEL,
 } from "./lib/logging/create-logger.js";
-import { createPostgresClient } from "./lib/persistence/postgres-client-factory.js";
 import { IScoutDbServerOptions } from "./types/i-scout-db-server-options.js";
 import { IScoutDbServer } from "./types/i-scout-db-server.js";
 
@@ -40,18 +38,7 @@ export async function startServer(
         res.status(400).json({ error: "Invalid email address" });
       } else {
         try {
-          const db = createPostgresClient();
-
-          const ret = await saveJoinerEmailAddress({
-            db,
-            emailAddress: email,
-          });
-          if (ret.ok) {
-            res.json({ message: "Email address is valid" });
-          } else {
-            log.error("Error saving email address: %s", ret.err);
-            res.status(500).json({ error: "We could not sign you up." });
-          }
+          res.json({ message: "Email address is valid" });
         } catch (ex) {
           console.error(
             "Error saving beta waitlist join. Email: %s:",
@@ -64,21 +51,17 @@ export async function startServer(
     },
   );
 
-  app.post(
-    "/api/v1/health",
-    async (req, res): Promise<Result<void, Error>> => {
-      const fn = "HTTP POST /api/v1/health";
-      log.debug("%s ENTRY", fn);
-      
+  app.post("/api/v1/health", async (req, res): Promise<Result<void, Error>> => {
+    const fn = "HTTP POST /api/v1/health";
+    log.debug("%s ENTRY", fn);
 
-      res.json({
-        ts: new Date().toJSON(),
-        url: req.url,
-        memoryUsageV8: process.memoryUsage(),
-      });
-      return Ok.EMPTY;
-    },
-  );
+    res.json({
+      ts: new Date().toJSON(),
+      url: req.url,
+      memoryUsageV8: process.memoryUsage(),
+    });
+    return Ok.EMPTY;
+  });
 
   // Define an API endpoint
   app.get("/api/hello", (req, res): Result<void, Error> => {

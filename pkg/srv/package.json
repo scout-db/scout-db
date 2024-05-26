@@ -11,6 +11,7 @@
     "start": "node build/scout-db-cli.js --log-level=debug --tracing-diag-log-level=NONE --www-dir=../gui/www/",
     "build": "run-p build:*",
     "build:main": "tsc -p tsconfig.json",
+    "codegen": "openapi-generator-cli generate -i ../common/src/openapi.json -g typescript-angular -o ./generated/openapi/typescript-angular/ --additional-properties=ngVersion=18.0.0,npmName=restClient,supportsES6=true,npmVersion=10.2.4,withInterfaces=true",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint src --ext .ts --fix",
@@ -43,6 +44,7 @@
   "devDependencies": {
     "@ava/typescript": "4.1.0",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
+    "@openapitools/openapi-generator-cli": "2.13.4",
     "@types/express": "4.17.18",
     "@types/nodemailer": "^6.4.11",
     "@types/sendmail": "^1.4.5",
@@ -103,7 +105,6 @@
     ]
   },
   "dependencies": {
-    "@grpc/grpc-js": "1.9.5",
     "@opentelemetry/api": "1.4.1",
     "@opentelemetry/auto-instrumentations-node": "0.39.2",
     "@opentelemetry/core": "1.17.0",
@@ -113,14 +114,10 @@
     "@opentelemetry/semantic-conventions": "1.17.0",
     "express": "4.18.2",
     "http-errors-enhanced": "2.0.7",
-    "node-llama-cpp": "2.8.9",
-    "nodemailer": "6.9.9",
-    "ollama": "0.5.0",
+
     "pino": "8.15.6",
     "pino-opentelemetry-transport": "0.4.0",
     "pino-pretty": "10.2.3",
-    "postgres": "3.4.0",
-    "sendmail": "^1.6.1",
     "ts-results": "3.3.0",
     "tslib": "2.6.2",
     "yargs": "17.7.2"

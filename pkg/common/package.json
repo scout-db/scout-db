@@ -4,13 +4,14 @@
   "description": "Shared code for back-end (NodeJS) and front-end (web browser) usage.",
   "main": "build/main/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "codegen": "npm-run-all2 -s 'codegen:*'",
+    "codegen:typescript-angular": "openapi-generator-cli generate -i ./src/openapi.json -g typescript-angular -o ./generated/openapi/typescript-angular/ --additional-properties=ngVersion=18.0.0,npmName=,supportsES6=true,npmVersion=0.0.1,withInterfaces=true"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/scout-db/scout-db.git"
   },
-  "author": "Peter Somogyvari<peter.metz@unarin.com>",
+  "author": "Peter Somogyvari <peter.metz@unarin.com>",
   "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/scout-db/scout-db/issues"
@@ -21,6 +22,7 @@
     "run-time-error": "1.4.0"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "2.13.4",
     "typescript": "5.1.6"
   }
 }

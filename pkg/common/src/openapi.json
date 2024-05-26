@@ -1,0 +1,287 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Scout API",
+      "description": "API for managing scout records.",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:8080/api",
+        "description": "Local server"
+      }
+    ],
+    "paths": {
+      "/scouts": {
+        "get": {
+          "summary": "Get all scouts",
+          "operationId": "getScouts",
+          "responses": {
+            "200": {
+              "description": "A list of scouts",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Scout"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new scout",
+          "operationId": "createScout",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Scout"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Scout created successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Scout"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/scouts/{id}": {
+        "get": {
+          "summary": "Get a scout by ID",
+          "operationId": "getScoutById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A single scout",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Scout"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Scout not found"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update a scout by ID",
+          "operationId": "updateScout",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Scout"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Scout updated successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Scout"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Scout not found"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a scout by ID",
+          "operationId": "deleteScout",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Scout deleted successfully"
+            },
+            "404": {
+              "description": "Scout not found"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Scout": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "maxLength": 36,
+              "example": "123e4567-e89b-12d3-a456-426614174000"
+            },
+            "first_name": {
+              "type": "string",
+              "maxLength": 50,
+              "example": "John"
+            },
+            "last_name": {
+              "type": "string",
+              "maxLength": 50,
+              "example": "Doe"
+            },
+            "birth_year": {
+              "type": "integer",
+              "example": 2005
+            },
+            "email_1": {
+              "type": "string",
+              "maxLength": 100,
+              "example": "john.doe@example.com"
+            },
+            "phone_number_1": {
+              "type": "string",
+              "maxLength": 15,
+              "example": "555-1234"
+            },
+            "troop_name": {
+              "type": "string",
+              "maxLength": 100,
+              "example": "Eagle Scouts"
+            },
+            "troop_number": {
+              "type": "integer",
+              "example": 123
+            },
+            "troop_url": {
+              "type": "string",
+              "maxLength": 200,
+              "example": "http://eaglescouts.org"
+            },
+            "country": {
+              "type": "string",
+              "maxLength": 56,
+              "example": "USA"
+            },
+            "state": {
+              "type": "string",
+              "maxLength": 50,
+              "example": "California"
+            },
+            "city": {
+              "type": "string",
+              "maxLength": 100,
+              "example": "Los Angeles"
+            },
+            "rank": {
+              "type": "string",
+              "maxLength": 50,
+              "example": "Eagle"
+            },
+            "been_to_jubilee": {
+              "type": "integer",
+              "example": 1
+            },
+            "jubilee_participant_years_csv": {
+              "type": "string",
+              "maxLength": 100,
+              "example": "2018,2019,2020"
+            },
+            "can_set_fire": {
+              "type": "integer",
+              "example": 1
+            },
+            "can_carve_wood": {
+              "type": "integer",
+              "example": 1
+            },
+            "can_train_others": {
+              "type": "integer",
+              "example": 1
+            },
+            "can_make_sausage": {
+              "type": "integer",
+              "example": 0
+            },
+            "can_lead_campfire": {
+              "type": "integer",
+              "example": 1
+            },
+            "can_first_aid": {
+              "type": "integer",
+              "example": 1
+            },
+            "can_cook": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          "required": [
+            "id",
+            "first_name",
+            "last_name",
+            "birth_year",
+            "email_1",
+            "phone_number_1",
+            "troop_name",
+            "troop_number",
+            "troop_url",
+            "country",
+            "state",
+            "city",
+            "rank",
+            "been_to_jubilee",
+            "can_set_fire",
+            "can_carve_wood",
+            "can_train_others",
+            "can_make_sausage",
+            "can_lead_campfire",
+            "can_first_aid",
+            "can_cook"
+          ]
+        }
+      }
+    }
+  }
