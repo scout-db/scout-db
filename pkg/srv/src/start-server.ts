@@ -1,6 +1,10 @@
+import path from "path";
+
+import { OpenApiJson, Scout } from "@kmcssz-org/scoutdb-common";
 import bodyParser from "body-parser";
-import { Request, Response } from "express";
 import express from "express";
+import * as OpenApiValidator from "express-openapi-validator";
+import { Knex, knex } from "knex";
 import { Ok, Result } from "ts-results";
 
 import {
@@ -9,9 +13,6 @@ import {
 } from "./lib/logging/create-logger.js";
 import { IScoutDbServerOptions } from "./types/i-scout-db-server-options.js";
 import { IScoutDbServer } from "./types/i-scout-db-server.js";
-
-// Define a regular expression for validating email addresses
-const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export async function startServer(
   opts: IScoutDbServerOptions,
@@ -23,32 +24,19 @@ export async function startServer(
   // Use body-parser to parse JSON requests
   app.use(bodyParser.json());
 
-  // POST handler for receiving email addresses
-  app.post(
-    "/api/v1/email/sign-up-for-beta",
-    async (
-      req: Readonly<Request>,
-      res: Readonly<Response>,
-    ): Promise<Result<unknown, Error>> => {
-      const email = req.body.email;
+  const paths = Object.keys(
+    (OpenApiJson as { paths: Record<string, unknown> }).paths,
+  );
+  log.debug(`Paths to be checked by OpenApiValidator: `, paths);
 
-      if (!email) {
-        res.status(400).json({ error: "Email address is required" });
-      } else if (!emailRegex.test(email)) {
-        res.status(400).json({ error: "Invalid email address" });
-      } else {
-        try {
-          res.json({ message: "Email address is valid" });
-        } catch (ex) {
-          console.error(
-            "Error saving beta waitlist join. Email: %s:",
-            email,
-            ex,
-          );
-        }
-      }
-      return Ok(null);
-    },
+  app.use(
+    OpenApiValidator.middleware({
+      apiSpec: OpenApiJson as never,
+      validateApiSpec: false,
+      validateRequests: true, // (default)
+      validateResponses: false, // false by default
+      ignorePaths: (path: string) => !paths.includes(path),
+    }),
   );
 
   app.post("/api/v1/health", async (req, res): Promise<Result<void, Error>> => {
@@ -60,6 +48,37 @@ export async function startServer(
       url: req.url,
       memoryUsageV8: process.memoryUsage(),
     });
+    return Ok.EMPTY;
+  });
+
+  app.post("/api/v1/scouts", async (req, res): Promise<Result<void, Error>> => {
+    const fn = "HTTP POST /api/v1/scouts";
+    log.debug("%s ENTRY", fn);
+
+    const config: Knex.Config = {
+      client: "sqlite3",
+      connection: {
+        filename: "../../infra/scoutdb.db",
+      },
+    };
+
+    const knexInstance = knex(config);
+    log.debug("knexInstance created OK: ", knexInstance.VERSION);
+
+    try {
+      const entity = await knexInstance<Scout>("scout").insert(req.body);
+      log.debug("[knex] scout entity: %o", entity);
+      res.json({
+        entity,
+        ts: new Date().toJSON(),
+        url: req.url,
+      });
+    } catch (ex: unknown) {
+      log.error("Failed to insert scout record: ", ex);
+      res.status(500).json({
+        message: "InternalServerError",
+      });
+    }
     return Ok.EMPTY;
   });
 
@@ -77,6 +96,11 @@ export async function startServer(
 
   // Serve static files
   app.use(express.static(opts.wwwDir));
+
+  app.get("*", (_req, res): Result<void, Error> => {
+    res.sendFile(path.join(opts.wwwDir, "index.html"));
+    return Ok.EMPTY;
+  });
 
   // Start the server
   const { httpHost, httpPort } = opts;

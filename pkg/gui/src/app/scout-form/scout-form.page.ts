@@ -1,7 +1,14 @@
+import { nanoid } from 'nanoid';
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import {
+  Configuration,
+  DefaultApi,
+} from '../../../../common/src/generated/openapi/typescript-axios/index';
 
 @Component({
   selector: 'app-scout-form',
@@ -39,15 +46,15 @@ export class ScoutFormPage implements OnInit {
       state: ['', [Validators.required, Validators.maxLength(50)]],
       city: ['', [Validators.required, Validators.maxLength(100)]],
       rank: ['', [Validators.required, Validators.maxLength(50)]],
-      been_to_jubilee: [false, [Validators.required]],
+      been_to_jubilee: [null, [Validators.required]],
       jubilee_participant_years_csv: ['', [Validators.maxLength(100)]],
-      can_set_fire: [false, [Validators.required]],
-      can_carve_wood: [false, [Validators.required]],
-      can_train_others: [false, [Validators.required]],
-      can_make_sausage: [false, [Validators.required]],
-      can_lead_campfire: [false, [Validators.required]],
-      can_first_aid: [false, [Validators.required]],
-      can_cook: [false, [Validators.required]],
+      can_set_fire: [null, [Validators.required]],
+      can_carve_wood: [null, [Validators.required]],
+      can_train_others: [null, [Validators.required]],
+      can_make_sausage: [null, [Validators.required]],
+      can_lead_campfire: [null, [Validators.required]],
+      can_first_aid: [null, [Validators.required]],
+      can_cook: [null, [Validators.required]],
     });
 
     this.scoutForm.valueChanges.subscribe((next: unknown) => {
@@ -60,10 +67,23 @@ export class ScoutFormPage implements OnInit {
     });
   }
 
-  onSubmit() {
-    if (this.scoutForm && this.scoutForm.valid) {
+  async onSubmit() {
+    if (!this.scoutForm) {
+      throw new Error('onSubmit() this.scoutFrom cannot be falsy.');
+    }
+    if (this.scoutForm.valid) {
       console.log('Form Submitted', this.scoutForm.value);
-      // Handle form submission, e.g., send data to API
+      const scoutFormData = this.scoutForm.value;
+      const newId = nanoid(12);
+      const scout = { ...scoutFormData, id: newId };
+      const api = new DefaultApi(new Configuration({}));
+      try {
+        const res = await api.createScout(scout);
+        console.log('Submitted scout data OK', res);
+      } catch (ex: unknown) {
+        console.error('Failed to save scout data: ', ex);
+        throw new Error('We could not save your data.');
+      }
     }
   }
 

@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "description": "Shared code for back-end (NodeJS) and front-end (web browser) usage.",
   "main": "build/main/index.js",
+  "types": "./build/main/index.d.ts",
   "scripts": {
     "codegen": "npm-run-all2 -s 'codegen:*'",
-    "codegen:typescript-angular": "openapi-generator-cli generate -i ./src/openapi.json -g typescript-angular -o ./generated/openapi/typescript-angular/ --additional-properties=ngVersion=18.0.0,npmName=,supportsES6=true,npmVersion=0.0.1,withInterfaces=true"
+    "codegen:typescript-axios": "openapi-generator-cli generate -i ./src/openapi.json -g typescript-axios -o ./src/generated/openapi/typescript-axios/ --ignore-file-override=./.openapi-generator-ignore --additional-properties=ngVersion=18.0.0,npmName=,supportsES6=true,npmVersion=0.0.1,withInterfaces=true"
   },
   "repository": {
     "type": "git",

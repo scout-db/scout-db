@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "incremental": true,
+    "composite": true,
     "target": "ES2020",
     "outDir": "./build/",
+    "rootDir": "./src/",
     "moduleResolution": "node",
     "module": "commonjs",
     "declaration": true,
@@ -43,7 +45,7 @@
     "typeRoots": ["node_modules/@types", "src/types"],
   },
   "references": [
-    { "path": "../common/" }
+    { "path": "../common/tsconfig.json" }
   ],
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules/**"],

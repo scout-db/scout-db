@@ -7,12 +7,12 @@
     },
     "servers": [
       {
-        "url": "http://localhost:8080/api",
+        "url": "http://localhost:3000",
         "description": "Local server"
       }
     ],
     "paths": {
-      "/scouts": {
+      "/api/v1/scouts": {
         "get": {
           "summary": "Get all scouts",
           "operationId": "getScouts",
@@ -59,7 +59,7 @@
           }
         }
       },
-      "/scouts/{id}": {
+      "/api/v1/scouts/{id}": {
         "get": {
           "summary": "Get a scout by ID",
           "operationId": "getScoutById",
@@ -198,7 +198,7 @@
             "troop_url": {
               "type": "string",
               "maxLength": 200,
-              "example": "http://eaglescouts.org"
+              "example": "http://example.com"
             },
             "country": {
               "type": "string",
@@ -213,16 +213,17 @@
             "city": {
               "type": "string",
               "maxLength": 100,
-              "example": "Los Angeles"
+              "example": "Kiskunfélegyháza"
             },
             "rank": {
               "type": "string",
               "maxLength": 50,
-              "example": "Eagle"
+              "example": "Officer"
             },
             "been_to_jubilee": {
-              "type": "integer",
-              "example": 1
+              "type": "string",
+              "enum": ["TRUE", "FALSE"],
+              "example": "TRUE"
             },
             "jubilee_participant_years_csv": {
               "type": "string",
@@ -230,32 +231,39 @@
               "example": "2018,2019,2020"
             },
             "can_set_fire": {
-              "type": "integer",
-              "example": 1
+              "type": "string",
+              "enum": ["TRUE", "FALSE"],
+              "example": "TRUE"
             },
             "can_carve_wood": {
-              "type": "integer",
-              "example": 1
+              "type": "string",
+              "enum": ["TRUE", "FALSE"],
+              "example": "TRUE"
             },
             "can_train_others": {
-              "type": "integer",
-              "example": 1
+              "type": "string",
+              "enum": ["TRUE", "FALSE"],
+              "example": "TRUE"
             },
             "can_make_sausage": {
-              "type": "integer",
-              "example": 0
+              "type": "string",
+              "enum": ["TRUE", "FALSE"],
+              "example": "TRUE"
             },
             "can_lead_campfire": {
-              "type": "integer",
-              "example": 1
+              "type": "string",
+              "enum": ["TRUE", "FALSE"],
+              "example": "TRUE"
             },
             "can_first_aid": {
-              "type": "integer",
-              "example": 1
+              "type": "string",
+              "enum": ["TRUE", "FALSE"],
+              "example": "TRUE"
             },
             "can_cook": {
-              "type": "integer",
-              "example": 1
+              "type": "string",
+              "enum": ["TRUE", "FALSE"],
+              "example": "TRUE"
             }
           },
           "required": [

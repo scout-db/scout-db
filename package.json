@@ -1,0 +1,11 @@
+{
+    "name": "@kmcssz/scout-db",
+    "workspaces": {
+        "packages": [
+            "pkg/*"
+        ]
+    },
+    "devDependencies": {
+        "typescript": "5.4.5"
+    }
+}

@@ -8,7 +8,7 @@
   "repository": "https://github.com/scout-db/scout-db.git",
   "keywords": [],
   "scripts": {
-    "start": "node build/scout-db-cli.js --log-level=debug --tracing-diag-log-level=NONE --www-dir=../gui/www/",
+    "start": "node build/scout-db-cli.js --log-level=debug --tracing-diag-log-level=NONE --www-dir=$PWD/../gui/www/",
     "build": "run-p build:*",
     "build:main": "tsc -p tsconfig.json",
     "codegen": "openapi-generator-cli generate -i ../common/src/openapi.json -g typescript-angular -o ./generated/openapi/typescript-angular/ --additional-properties=ngVersion=18.0.0,npmName=restClient,supportsES6=true,npmVersion=10.2.4,withInterfaces=true",
@@ -105,6 +105,7 @@
     ]
   },
   "dependencies": {
+    "@kmcssz-org/scoutdb-common": "0.0.1",
     "@opentelemetry/api": "1.4.1",
     "@opentelemetry/auto-instrumentations-node": "0.39.2",
     "@opentelemetry/core": "1.17.0",
@@ -113,11 +114,13 @@
     "@opentelemetry/sdk-node": "0.43.0",
     "@opentelemetry/semantic-conventions": "1.17.0",
     "express": "4.18.2",
+    "express-openapi-validator": "5.1.6",
     "http-errors-enhanced": "2.0.7",
-
+    "knex": "3.1.0",
     "pino": "8.15.6",
     "pino-opentelemetry-transport": "0.4.0",
     "pino-pretty": "10.2.3",
+    "sqlite3": "5.1.7",
     "ts-results": "3.3.0",
     "tslib": "2.6.2",
     "yargs": "17.7.2"
