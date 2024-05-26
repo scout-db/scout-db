@@ -1,0 +1,237 @@
+<div class="container">
+  <h2>Insert Scout</h2>
+  <form *ngIf="scoutForm" [formGroup]="scoutForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="first_name">First Name</label>
+      <input
+        id="first_name"
+        formControlName="first_name"
+        class="form-control"
+      />
+      <div
+        *ngIf="scoutForm.get('first_name')?.invalid && scoutForm.get('first_name')?.touched"
+        class="error-message"
+      >
+        <small *ngIf="scoutForm.get('first_name')?.errors?.['required']"
+          >First Name is required</small
+        >
+        <small *ngIf="scoutForm.get('first_name')?.errors?.['maxlength']"
+          >First Name cannot be more than 50 characters</small
+        >
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="last_name">Last Name</label>
+      <input id="last_name" formControlName="last_name" class="form-control" />
+      <div
+        *ngIf="scoutForm.get('last_name')?.invalid && scoutForm.get('last_name')?.touched"
+        class="error-message"
+      >
+        <small *ngIf="scoutForm.get('last_name')?.errors?.['required']"
+          >Last Name is required</small
+        >
+        <small *ngIf="scoutForm.get('last_name')?.errors?.['maxlength']"
+          >Last Name cannot be more than 50 characters</small
+        >
+      </div>
+    </div>
+
+    <div
+      class="form-group"
+      [ngClass]="{'has-error': scoutForm.get('birth_year')?.invalid && scoutForm.get('birth_year')?.touched}"
+    >
+      <label for="birth_year">Birth Year</label>
+      <input
+        id="birth_year"
+        formControlName="birth_year"
+        type="number"
+        class="form-control"
+      />
+      <div
+        *ngIf="scoutForm.get('birth_year')?.invalid && scoutForm.get('birth_year')?.touched"
+        class="error-message"
+      >
+        <small *ngIf="scoutForm.get('birth_year')?.errors?.['required']"
+          >Birth Year is required</small
+        >
+        <small *ngIf="scoutForm.get('birth_year')?.errors?.['min']"
+          >Birth Year cannot be before 1000</small
+        >
+        <small *ngIf="scoutForm.get('birth_year')?.errors?.['max']"
+          >Birth Year cannot be in the future</small
+        >
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email_1">Email</label>
+      <input
+        id="email_1"
+        formControlName="email_1"
+        type="email"
+        class="form-control"
+      />
+      <div
+        *ngIf="scoutForm.get('email_1')?.invalid && scoutForm.get('email_1')?.touched"
+        class="error-message"
+      >
+        <small *ngIf="scoutForm.get('email_1')?.errors?.['required']"
+          >Email is required</small
+        >
+        <small *ngIf="scoutForm.get('email_1')?.errors?.['email']"
+          >Email is not valid</small
+        >
+        <small *ngIf="scoutForm.get('email_1')?.errors?.['maxlength']"
+          >Email cannot be more than 100 characters</small
+        >
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="phone_number_1">Phone Number</label>
+      <input
+        id="phone_number_1"
+        formControlName="phone_number_1"
+        type="tel"
+        class="form-control"
+      />
+      <div
+        *ngIf="scoutForm.get('phone_number_1')?.invalid && scoutForm.get('phone_number_1')?.touched"
+        class="error-message"
+      >
+        <small *ngIf="scoutForm.get('phone_number_1')?.errors?.['required']"
+          >Phone Number is required</small
+        >
+        <small *ngIf="scoutForm.get('phone_number_1')?.errors?.['maxlength']"
+          >Phone Number cannot be more than 15 characters</small
+        >
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="troop_name">Troop Name</label>
+      <input
+        id="troop_name"
+        formControlName="troop_name"
+        class="form-control"
+      />
+    </div>
+    <div class="form-group">
+      <label for="troop_number">Troop Number</label>
+      <input
+        id="troop_number"
+        formControlName="troop_number"
+        type="number"
+        class="form-control"
+      />
+    </div>
+    <div class="form-group">
+      <label for="troop_url">Troop URL</label>
+      <input
+        id="troop_url"
+        formControlName="troop_url"
+        type="url"
+        class="form-control"
+      />
+    </div>
+    <div class="form-group">
+      <label for="country">Country</label>
+      <input id="country" formControlName="country" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="state">State</label>
+      <input id="state" formControlName="state" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="city">City</label>
+      <input id="city" formControlName="city" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="rank">Rank</label>
+      <input id="rank" formControlName="rank" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="been_to_jubilee">Been to Jubilee</label>
+      <input
+        id="been_to_jubilee"
+        formControlName="been_to_jubilee"
+        type="checkbox"
+        class="form-check-input"
+      />
+    </div>
+    <div class="form-group">
+      <label for="jubilee_participant_years_csv"
+        >Jubilee Participant Years</label
+      >
+      <input
+        id="jubilee_participant_years_csv"
+        formControlName="jubilee_participant_years_csv"
+        class="form-control"
+      />
+    </div>
+    <div class="form-group">
+      <label for="can_set_fire">Can Set Fire</label>
+      <input
+        id="can_set_fire"
+        formControlName="can_set_fire"
+        type="checkbox"
+        class="form-check-input"
+      />
+    </div>
+    <div class="form-group">
+      <label for="can_carve_wood">Can Carve Wood</label>
+      <input
+        id="can_carve_wood"
+        formControlName="can_carve_wood"
+        type="checkbox"
+        class="form-check-input"
+      />
+    </div>
+    <div class="form-group">
+      <label for="can_train_others">Can Train Others</label>
+      <input
+        id="can_train_others"
+        formControlName="can_train_others"
+        type="checkbox"
+        class="form-check-input"
+      />
+    </div>
+    <div class="form-group">
+      <label for="can_make_sausage">Can Make Sausage</label>
+      <input
+        id="can_make_sausage"
+        formControlName="can_make_sausage"
+        type="checkbox"
+        class="form-check-input"
+      />
+    </div>
+    <div class="form-group">
+      <label for="can_lead_campfire">Can Lead Campfire</label>
+      <input
+        id="can_lead_campfire"
+        formControlName="can_lead_campfire"
+        type="checkbox"
+        class="form-check-input"
+      />
+    </div>
+    <div class="form-group">
+      <label for="can_first_aid">Can First Aid</label>
+      <input
+        id="can_first_aid"
+        formControlName="can_first_aid"
+        type="checkbox"
+        class="form-check-input"
+      />
+    </div>
+    <div class="form-group">
+      <label for="can_cook">Can Cook</label>
+      <input
+        id="can_cook"
+        formControlName="can_cook"
+        type="checkbox"
+        class="form-check-input"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="!scoutForm.valid">
+      Submit
+    </button>
+  </form>
+</div>
