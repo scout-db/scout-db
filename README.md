@@ -37,5 +37,5 @@ docker build . --tag scoutdb
 Run the image you've just built and then visit: http://localhost:3000/
 
 ```sh
-docker run -it --env SCOUT_DB_HTTP_HOST=0.0.0.0 -p 3000:3000 scoutdb
+docker run -it --env SCOUTDB_HTTP_HOST=0.0.0.0 -p 3000:3000 scoutdb
 ```

@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/scout-db/scout-db.git"
+    "url": "git+https://github.com/scoutdb/scoutdb.git"
   },
   "author": "Peter Somogyvari <peter.metz@unarin.com>",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/scout-db/scout-db/issues"
+    "url": "https://github.com/scoutdb/scoutdb/issues"
   },
-  "homepage": "https://github.com/scout-db/scout-db.git#readme",
+  "homepage": "https://github.com/scoutdb/scoutdb.git#readme",
   "dependencies": {
     "fast-safe-stringify": "2.1.1",
     "run-time-error": "1.4.0"

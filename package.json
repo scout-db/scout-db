@@ -1,5 +1,5 @@
 {
-    "name": "@kmcssz/scout-db",
+    "name": "@kmcssz/scoutdb",
     "workspaces": {
         "packages": [
             "pkg/*"

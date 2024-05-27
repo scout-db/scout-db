@@ -1,6 +1,6 @@
-export { main } from "./scout-db-cli.js";
+export { main } from "./scoutdb-cli.js";
 export { startServer } from "./start-server.js";
 
-export type { IScoutDbServer } from "./types/i-scout-db-server.js";
+export type { IScoutDbServer } from "./types/i-scoutdb-server.js";
 
-export type { IScoutDbServerOptions } from "./types/i-scout-db-server-options.js";
+export type { IScoutDbServerOptions } from "./types/i-scoutdb-server-options.js";

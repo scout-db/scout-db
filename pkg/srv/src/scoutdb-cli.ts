@@ -2,12 +2,12 @@ import process from "process";
 
 import yargs from "yargs";
 
-import { newRex } from "../../common/build/main/index.js";
+import { newRex } from "@kmcssz-org/scoutdb-common";
 
 import { ISharedGlobalState } from "./lib/state/shared-global-state.js";
 import { configureOpenTelemetry } from "./lib/tracing/configure-open-telemetry.js";
 import { isAppLogLevel } from "./types/app-log-level.js";
-import type { IScoutDbServerOptions } from "./types/i-scout-db-server-options.js";
+import type { IScoutDbServerOptions } from "./types/i-scoutdb-server-options.js";
 import { diagLogLevelFromString } from "./types/open-telemetry/diag-log-level-converters.js";
 
 export async function main() {
@@ -48,7 +48,7 @@ export async function main() {
     .option("tracing-service-name", {
       alias: "tsn",
       type: "string",
-      default: "scout-db-server",
+      default: "scoutdb-server",
       description: "The service name to use for tracing and logging.",
     })
     .option("log-level", {
@@ -59,7 +59,7 @@ export async function main() {
       description:
         "Logging level (one of: silent, fatal, error, warn, info, debug, trace)",
     })
-    .env("SCOUT_DB")
+    .env("SCOUTDB")
     .help()
     .alias("help", "h").argv;
 

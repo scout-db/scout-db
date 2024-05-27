@@ -11,8 +11,8 @@ import {
   createLogger,
   DEFAULT_APP_LOG_LEVEL,
 } from "./lib/logging/create-logger.js";
-import { IScoutDbServerOptions } from "./types/i-scout-db-server-options.js";
-import { IScoutDbServer } from "./types/i-scout-db-server.js";
+import { IScoutDbServerOptions } from "./types/i-scoutdb-server-options.js";
+import { IScoutDbServer } from "./types/i-scoutdb-server.js";
 
 export async function startServer(
   opts: IScoutDbServerOptions,

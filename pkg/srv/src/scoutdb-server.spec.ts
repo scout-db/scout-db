@@ -3,8 +3,8 @@ import test from "ava";
 
 import { ISharedGlobalState } from "./lib/state/shared-global-state.js";
 import { startServer } from "./start-server.js";
-import { IScoutDbServerOptions } from "./types/i-scout-db-server-options.js";
-import { IScoutDbServer } from "./types/i-scout-db-server.js";
+import { IScoutDbServerOptions } from "./types/i-scoutdb-server-options.js";
+import { IScoutDbServer } from "./types/i-scoutdb-server.js";
 
 test("startServer()", async (t) => {
   const sgs: ISharedGlobalState = {
@@ -13,7 +13,7 @@ test("startServer()", async (t) => {
     buildVersion: "0.0.0-test",
     extras: new Map(),
     logLevel: "trace",
-    serviceName: "scout-db-server-TEST",
+    serviceName: "scoutdb-server-TEST",
     serviceVersion: "0.0.0-test",
   };
   const srvOpts: IScoutDbServerOptions = {
