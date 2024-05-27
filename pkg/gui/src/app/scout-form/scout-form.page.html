@@ -1,6 +1,6 @@
 <div class="container">
   <h2>Insert Scout</h2>
-  <form *ngIf="scoutForm" [formGroup]="scoutForm" (ngSubmit)="onSubmit()">
+  <form name="scoutForm" *ngIf="scoutForm" [formGroup]="scoutForm" (ngSubmit)="onSubmit()">
     <div class="form-group" [ngClass]="{'has-error': scoutForm.get('first_name')?.invalid && scoutForm.get('first_name')?.touched}">
       <label for="first_name">First Name</label>
       <input id="first_name" formControlName="first_name" class="form-control">
