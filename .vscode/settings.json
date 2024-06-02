@@ -5,6 +5,7 @@
   ],
   "cSpell.words": [
     "Adatbázis",
+    "axios",
     "codecov",
     "codegen",
     "Cserkész",
@@ -12,6 +13,7 @@
     "devkit",
     "haptics",
     "ionicons",
+    "Kiscserkész",
     "Kiskunfélegyháza",
     "KMCSSZ",
     "lcov",
@@ -22,7 +24,11 @@
     "opentelemetry",
     "pino",
     "scoutdb",
+    "Segéd",
     "Somogyvari",
+    "Tiszt",
+    "varnames",
+    "Vezető",
     "waitlist"
   ]
 }

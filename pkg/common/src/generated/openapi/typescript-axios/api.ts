@@ -106,13 +106,13 @@ export interface Scout {
      * @type {string}
      * @memberof Scout
      */
-    'rank': string;
+    'rank': ScoutRankEnum;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof Scout
      */
-    'been_to_jubilee': number;
+    'been_to_jubilee': ScoutBeenToJubileeEnum;
     /**
      * 
      * @type {string}
@@ -121,47 +121,121 @@ export interface Scout {
     'jubilee_participant_years_csv'?: string;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof Scout
      */
-    'can_set_fire': number;
+    'can_set_fire': ScoutCanSetFireEnum;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof Scout
      */
-    'can_carve_wood': number;
+    'can_carve_wood': ScoutCanCarveWoodEnum;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof Scout
      */
-    'can_train_others': number;
+    'can_train_others': ScoutCanTrainOthersEnum;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof Scout
      */
-    'can_make_sausage': number;
+    'can_make_sausage': ScoutCanMakeSausageEnum;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof Scout
      */
-    'can_lead_campfire': number;
+    'can_lead_campfire': ScoutCanLeadCampfireEnum;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof Scout
      */
-    'can_first_aid': number;
+    'can_first_aid': ScoutCanFirstAidEnum;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof Scout
      */
-    'can_cook': number;
+    'can_cook': ScoutCanCookEnum;
 }
+
+export const ScoutRankEnum = {
+    /**
+    * KOV- Kiscserkész Őrs Vezető
+    */
+    KOV: 'KOV- Kiscserkész Őrs Vezető',
+    /**
+    * OV - Őrs Vezető
+    */
+    OV: 'OV - Őrs Vezető',
+    /**
+    * KST- Kiscserkész Segéd Tiszt
+    */
+    KST: 'KST- Kiscserkész Segéd Tiszt',
+    /**
+    * ST - Segéd Tiszt
+    */
+    ST: 'ST - Segéd Tiszt',
+    /**
+    * T - Tiszt
+    */
+    T: 'T - Tiszt'
+} as const;
+
+export type ScoutRankEnum = typeof ScoutRankEnum[keyof typeof ScoutRankEnum];
+export const ScoutBeenToJubileeEnum = {
+    True: 'TRUE',
+    False: 'FALSE'
+} as const;
+
+export type ScoutBeenToJubileeEnum = typeof ScoutBeenToJubileeEnum[keyof typeof ScoutBeenToJubileeEnum];
+export const ScoutCanSetFireEnum = {
+    True: 'TRUE',
+    False: 'FALSE'
+} as const;
+
+export type ScoutCanSetFireEnum = typeof ScoutCanSetFireEnum[keyof typeof ScoutCanSetFireEnum];
+export const ScoutCanCarveWoodEnum = {
+    True: 'TRUE',
+    False: 'FALSE'
+} as const;
+
+export type ScoutCanCarveWoodEnum = typeof ScoutCanCarveWoodEnum[keyof typeof ScoutCanCarveWoodEnum];
+export const ScoutCanTrainOthersEnum = {
+    True: 'TRUE',
+    False: 'FALSE'
+} as const;
+
+export type ScoutCanTrainOthersEnum = typeof ScoutCanTrainOthersEnum[keyof typeof ScoutCanTrainOthersEnum];
+export const ScoutCanMakeSausageEnum = {
+    True: 'TRUE',
+    False: 'FALSE'
+} as const;
+
+export type ScoutCanMakeSausageEnum = typeof ScoutCanMakeSausageEnum[keyof typeof ScoutCanMakeSausageEnum];
+export const ScoutCanLeadCampfireEnum = {
+    True: 'TRUE',
+    False: 'FALSE'
+} as const;
+
+export type ScoutCanLeadCampfireEnum = typeof ScoutCanLeadCampfireEnum[keyof typeof ScoutCanLeadCampfireEnum];
+export const ScoutCanFirstAidEnum = {
+    True: 'TRUE',
+    False: 'FALSE'
+} as const;
+
+export type ScoutCanFirstAidEnum = typeof ScoutCanFirstAidEnum[keyof typeof ScoutCanFirstAidEnum];
+export const ScoutCanCookEnum = {
+    True: 'TRUE',
+    False: 'FALSE'
+} as const;
+
+export type ScoutCanCookEnum = typeof ScoutCanCookEnum[keyof typeof ScoutCanCookEnum];
+
 
 /**
  * DefaultApi - axios parameter creator

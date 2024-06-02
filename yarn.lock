@@ -3453,6 +3453,7 @@ __metadata:
   dependencies:
     "@openapitools/openapi-generator-cli": "npm:2.13.4"
     fast-safe-stringify: "npm:2.1.1"
+    npm-run-all2: "npm:6.2.0"
     run-time-error: "npm:1.4.0"
     typescript: "npm:5.1.6"
   languageName: unknown
@@ -16410,7 +16411,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"npm-run-all2@npm:^6.2.0":
+"npm-run-all2@npm:6.2.0, npm-run-all2@npm:^6.2.0":
   version: 6.2.0
   resolution: "npm-run-all2@npm:6.2.0"
   dependencies:
