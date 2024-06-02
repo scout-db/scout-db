@@ -1,14 +1,5 @@
-export interface Form {
-  autosave: boolean;
-  username: string;
-  password: string;
-  email: string;
-  description: string;
-  requestGift: boolean;
-  birthday: Date;
-  rating: number;
-}
+import { Scout } from "@kmcssz-org/scoutdb-common";
 
 export interface FormState {
-  form: Form;
+  form: Scout;
 }

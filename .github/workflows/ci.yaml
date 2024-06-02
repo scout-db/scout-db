@@ -15,7 +15,8 @@ jobs:
           cache: 'yarn'
           cache-dependency-path: './yarn.lock'
       - run: yarn install
-        working-directory: ./pkg/gui
+      - run: yarn build
+        working-directory: ./pkg/common/
       - run: yarn test
         working-directory: ./pkg/gui
   gui_build_prod:
@@ -29,7 +30,8 @@ jobs:
           cache: 'yarn'
           cache-dependency-path: './yarn.lock'
       - run: yarn install
-        working-directory: ./pkg/gui
+      - run: yarn build
+        working-directory: ./pkg/common/
       - run: yarn build:prod
         working-directory: ./pkg/gui
   gui_test_e2e:
@@ -47,6 +49,8 @@ jobs:
       - run: corepack prepare yarn@4.2.1 --activate
       - run: yarn set version 4.2.1
       - run: yarn install
+      - run: yarn build
+        working-directory: ./pkg/common/
       - name: Cypress_Run_${{matrix.browser}}
         uses: cypress-io/github-action@v6.7.0
         with:

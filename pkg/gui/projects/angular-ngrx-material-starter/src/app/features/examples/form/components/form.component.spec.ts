@@ -8,12 +8,12 @@ import { SharedModule } from '../../../../shared/shared.module';
 
 import { FormComponent } from './form.component';
 import { selectFormState } from '../form.selectors';
-import { Form } from '../form.model';
 
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatInputHarness } from '@angular/material/input/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
+import { Scout } from '@kmcssz-org/scoutdb-common';
 
 describe('FormComponent', () => {
   let store: MockStore;
@@ -45,7 +45,7 @@ describe('FormComponent', () => {
     });
 
     store = TestBed.inject(MockStore);
-    store.overrideSelector(selectFormState, { form: {} as Form });
+    store.overrideSelector(selectFormState, { form: {} as Scout });
     fixture = TestBed.createComponent(FormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

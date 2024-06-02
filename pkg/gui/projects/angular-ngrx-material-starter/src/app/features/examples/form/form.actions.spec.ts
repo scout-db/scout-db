@@ -1,18 +1,10 @@
-import { Form } from './form.model';
 import { actionFormUpdate, actionFormReset } from './form.actions';
+import { Scout } from '@kmcssz-org/scoutdb-common';
+import { createMockScout } from '../../../../test/create-mock-scout';
 
 describe('Form Actions', () => {
   it('should create ActionFormUpdate action', () => {
-    const testForm: Form = {
-      autosave: false,
-      username: 'test',
-      password: 'test',
-      email: 'test@test.test',
-      description: 'It is a test.',
-      requestGift: true,
-      birthday: new Date(),
-      rating: 10
-    };
+    const testForm: Scout = createMockScout();
     const action = actionFormUpdate({
       form: testForm
     });

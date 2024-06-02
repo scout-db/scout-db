@@ -1,18 +1,13 @@
-import { Form } from './form.model';
 import { formReducer, initialState } from './form.reducer';
 import { actionFormReset, actionFormUpdate } from './form.actions';
+import { Scout, ScoutRankEnum } from '@kmcssz-org/scoutdb-common';
+import { createMockScout } from "../../../../test/create-mock-scout";
 
 describe('FormReducer', () => {
-  const form: Form = {
-    autosave: false,
-    username: 'test',
-    password: 'test',
-    email: 'test@test.test',
-    description: 'It is a test.',
-    requestGift: true,
-    birthday: new Date(),
-    rating: 10
-  };
+
+    /* eslint-disable @typescript-eslint/naming-convention */
+    const form: Scout = createMockScout();
+    /* eslint-enable @typescript-eslint/naming-convention */
 
   it('should return the default state', () => {
     const action = {} as any;
@@ -22,10 +17,10 @@ describe('FormReducer', () => {
 
   it('should update the form', () => {
     const action = actionFormUpdate({
-      form: { ...form, username: 'updated' }
+      form: { ...form, rank: ScoutRankEnum.KOV }
     });
     const state = formReducer(initialState, action);
-    expect(state.form.username).toBe('updated');
+    expect(state.form.rank).toBe(ScoutRankEnum.KOV);
   });
 
   it('should reset the form', () => {

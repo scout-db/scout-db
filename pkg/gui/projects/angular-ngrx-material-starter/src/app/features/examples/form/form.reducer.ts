@@ -1,16 +1,18 @@
-import { FormState, Form } from './form.model';
+import { FormState } from './form.model';
 import { actionFormReset, actionFormUpdate } from './form.actions';
 import { Action, createReducer, on } from '@ngrx/store';
 
+import { Scout } from "@kmcssz-org/scoutdb-common";
+
 export const initialState: FormState = {
-  form: {} as Form
+  form: {} as Scout
 };
 
 const reducer = createReducer(
   initialState,
   on(actionFormUpdate, (state, { form }) => ({
     ...state,
-    form: { ...form, password: '*'.repeat(form.password.length) }
+    form: { ...form }
   })),
   on(actionFormReset, () => initialState)
 );

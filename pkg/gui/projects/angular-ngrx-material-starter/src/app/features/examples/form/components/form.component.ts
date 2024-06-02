@@ -12,8 +12,9 @@ import {
 
 import { actionFormReset, actionFormUpdate } from '../form.actions';
 import { selectFormState } from '../form.selectors';
-import { Form } from '../form.model';
 import { State } from '../../examples.state';
+
+import { Scout } from '@kmcssz-org/scoutdb-common';
 
 @Component({
   selector: 'sdbg-form',
@@ -42,7 +43,7 @@ export class FormComponent implements OnInit {
     rating: [0, Validators.required]
   });
 
-  formValueChanges$: Observable<Form> | undefined;
+  formValueChanges$: Observable<Scout> | undefined;
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -52,16 +53,12 @@ export class FormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.formValueChanges$ = this.form.valueChanges.pipe(
-      filter((form: Form) => form.autosave),
-      tap((updatedForm) => this.update(updatedForm))
-    );
     this.store
       .pipe(select(selectFormState), take(1))
       .subscribe((form) => this.form.patchValue(form.form));
   }
 
-  update(form: Form) {
+  update(form: Scout) {
     this.store.dispatch(actionFormUpdate({ form }));
   }
 
