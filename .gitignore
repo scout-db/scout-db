@@ -74,3 +74,8 @@ node_modules/
 .angular/
 pkg/gui/www/
 pkg/srv/tsconfig.tsbuildinfo
+
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+.pnp.*

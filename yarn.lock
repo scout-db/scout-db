@@ -7881,6 +7881,7 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": "npm:^6.5.2"
     "@fortawesome/free-brands-svg-icons": "npm:^6.5.2"
     "@fortawesome/free-solid-svg-icons": "npm:^6.5.2"
+    "@kmcssz-org/scoutdb-common": "npm:0.0.1"
     "@ngrx/effects": "npm:~17.2.0"
     "@ngrx/entity": "npm:~17.2.0"
     "@ngrx/router-store": "npm:~17.2.0"
