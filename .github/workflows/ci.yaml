@@ -1,0 +1,58 @@
+name: CI
+on: [push, pull_request]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  gui_test_unit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4.1.6
+      - run: corepack enable
+      - uses: actions/setup-node@v4.0.2
+        with:
+          node-version: '20.11.1'
+          cache: 'yarn'
+          cache-dependency-path: './yarn.lock'
+      - run: yarn install
+        working-directory: ./pkg/gui
+      - run: yarn test
+        working-directory: ./pkg/gui
+  gui_build_prod:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4.1.6
+      - run: corepack enable
+      - uses: actions/setup-node@v4.0.2
+        with:
+          node-version: '20.11.1'
+          cache: 'yarn'
+          cache-dependency-path: './yarn.lock'
+      - run: yarn install
+        working-directory: ./pkg/gui
+      - run: yarn build:prod
+        working-directory: ./pkg/gui
+  gui_test_e2e:
+    runs-on: ubuntu-24.04
+    container:
+      image: cypress/browsers:node-20.13.1-chrome-125.0.6422.60-1-ff-126.0-edge-125.0.2535.51-1
+      options: --user 1001
+    strategy:
+      matrix:
+        browser: ['firefox', 'chrome']
+    name: E2E_${{ matrix.browser }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.6
+      - run: corepack prepare yarn@4.2.1 --activate
+      - run: yarn set version 4.2.1
+      - run: yarn install
+      - name: Cypress_Run_${{matrix.browser}}
+        uses: cypress-io/github-action@v6.7.0
+        with:
+          working-directory: ./pkg/gui/
+          start: yarn ng serve --host=127.0.0.1
+          parallel: false
+          wait-on: 'http://127.0.0.1:4200'
+          wait-on-timeout: 180
+          browser: ${{matrix.browser}}
