@@ -1,9 +1,9 @@
 @use '@angular/material' as mat;
 
-@mixin anms-child-component-theme($theme) {
+@mixin sdbg-child-component-theme($theme) {
   $warn: map-get($theme, warn);
 
-  anms-child {
+  sdbg-child {
     > div {
       border-color: mat.m2-get-color-from-palette($warn);
 

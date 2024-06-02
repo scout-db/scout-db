@@ -24,7 +24,7 @@ import {
 import { Language } from '../core/settings/settings.model';
 
 @Component({
-  selector: 'anms-root',
+  selector: 'sdbg-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   animations: [routeAnimations]
@@ -37,13 +37,13 @@ export class AppComponent implements OnInit {
   logo = 'assets/logo.png';
   languages = ['en', 'de', 'sk', 'fr', 'es', 'pt-br', 'zh-cn', 'he', 'ar'];
   navigation = [
-    { link: 'about', label: 'anms.menu.about' },
-    { link: 'feature-list', label: 'anms.menu.features' },
-    { link: 'examples', label: 'anms.menu.examples' }
+    { link: 'about', label: 'sdbg.menu.about' },
+    { link: 'feature-list', label: 'sdbg.menu.features' },
+    { link: 'examples', label: 'sdbg.menu.examples' }
   ];
   navigationSideMenu = [
     ...this.navigation,
-    { link: 'settings', label: 'anms.menu.settings' }
+    { link: 'settings', label: 'sdbg.menu.settings' }
   ];
 
   isAuthenticated$: Observable<boolean> | undefined;

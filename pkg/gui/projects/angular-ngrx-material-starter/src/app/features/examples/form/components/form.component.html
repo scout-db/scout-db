@@ -1,7 +1,7 @@
 <div class="container" rtl>
   <div class="row">
     <div class="col">
-      <h1 class="main-heading">{{ 'anms.examples.form.title' | translate }}</h1>
+      <h1 class="main-heading">{{ 'sdbg.examples.form.title' | translate }}</h1>
     </div>
   </div>
   <ng-container *ngIf="formValueChanges$ | async as updatedForm">
@@ -11,77 +11,77 @@
       <div class="col">
         <mat-card appearance="outlined">
           <span class="d-flex justify-content-between align-items-baseline">
-            <h2>{{ 'anms.examples.form.subtitle1' | translate }}</h2>
+            <h2>{{ 'sdbg.examples.form.subtitle1' | translate }}</h2>
             <mat-slide-toggle formControlName="autosave">
-              {{ 'anms.examples.form.autosave' | translate }}
+              {{ 'sdbg.examples.form.autosave' | translate }}
             </mat-slide-toggle>
           </span>
           <div class="row">
             <mat-form-field class="col-md-6 col-sm-12" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'anms.examples.form.placeholder1' | translate }}"
+              <input matInput placeholder="{{ 'sdbg.examples.form.placeholder1' | translate }}"
                 formControlName="username">
               <mat-error *ngIf="form.get('username')?.invalid">
-                {{ 'anms.examples.form.placeholder1' | translate }}
-                {{ 'anms.examples.form.error1' | translate }}
+                {{ 'sdbg.examples.form.placeholder1' | translate }}
+                {{ 'sdbg.examples.form.error1' | translate }}
               </mat-error>
             </mat-form-field>
             <mat-form-field class="col-md-6 col-sm-12" [ngClass]="routeAnimationsElements">
-              <input matInput type="password" placeholder="{{ 'anms.examples.form.placeholder2' | translate }}"
+              <input matInput type="password" placeholder="{{ 'sdbg.examples.form.placeholder2' | translate }}"
                 formControlName="password">
               <mat-error *ngIf="form.get('password')?.invalid">
-                {{ 'anms.examples.form.placeholder2' | translate }}
-                {{ 'anms.examples.form.error1' | translate }}
+                {{ 'sdbg.examples.form.placeholder2' | translate }}
+                {{ 'sdbg.examples.form.error1' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput placeholder="{{ 'anms.examples.form.placeholder3' | translate }}"
+              <input matInput placeholder="{{ 'sdbg.examples.form.placeholder3' | translate }}"
                 formControlName="email" type="email">
               <mat-error *ngIf="form.get('email')?.hasError('required')">
-                {{ 'anms.examples.form.placeholder3' | translate }}
-                {{ 'anms.examples.form.error1' | translate }}
+                {{ 'sdbg.examples.form.placeholder3' | translate }}
+                {{ 'sdbg.examples.form.error1' | translate }}
               </mat-error>
               <mat-error *ngIf="form.get('email')?.hasError('email')">
-                {{ 'anms.examples.form.placeholder3' | translate }}
-                {{ 'anms.examples.form.error2' | translate }}</mat-error>
+                {{ 'sdbg.examples.form.placeholder3' | translate }}
+                {{ 'sdbg.examples.form.error2' | translate }}</mat-error>
             </mat-form-field>
           </div>
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <input matInput formControlName="birthday" [matDatepicker]="picker" placeholder="{{ 'anms.examples.form.placeholder5' | translate }}">
+              <input matInput formControlName="birthday" [matDatepicker]="picker" placeholder="{{ 'sdbg.examples.form.placeholder5' | translate }}">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
               <mat-error *ngIf="form.get('birthday')?.hasError('required')">
-                {{ 'anms.examples.form.placeholder5' | translate }}
-                {{ 'anms.examples.form.error1' | translate }}
+                {{ 'sdbg.examples.form.placeholder5' | translate }}
+                {{ 'sdbg.examples.form.error1' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
           <div class="row">
             <mat-form-field class="col" [ngClass]="routeAnimationsElements">
-              <textarea matInput placeholder="{{ 'anms.examples.form.placeholder4' | translate }}"
+              <textarea matInput placeholder="{{ 'sdbg.examples.form.placeholder4' | translate }}"
                 formControlName="description" minlength="10" maxlength="1000" cdkTextareaAutosize
                 #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="3" cdkAutosizeMaxRows="10"></textarea>
               <mat-hint align="end">{{form.get('description')?.value?.length}} /
                 1000</mat-hint>
               <mat-error *ngIf="form.get('description')?.hasError('required')">
-                {{ 'anms.examples.form.placeholder4' | translate }}
-                {{ 'anms.examples.form.error1' | translate }}
+                {{ 'sdbg.examples.form.placeholder4' | translate }}
+                {{ 'sdbg.examples.form.error1' | translate }}
               </mat-error>
               <mat-error *ngIf="form.get('description')?.hasError('minlength')">
-                {{ 'anms.examples.form.placeholder4' | translate }}
-                {{ 'anms.examples.form.error3' | translate }} 10
+                {{ 'sdbg.examples.form.placeholder4' | translate }}
+                {{ 'sdbg.examples.form.error3' | translate }} 10
               </mat-error>
               <mat-error *ngIf="form.get('description')?.hasError('maxlength')">
-                {{ 'anms.examples.form.placeholder4' | translate }}
-                {{ 'anms.examples.form.error4' | translate }} 1000
+                {{ 'sdbg.examples.form.placeholder4' | translate }}
+                {{ 'sdbg.examples.form.error4' | translate }} 1000
               </mat-error>
             </mat-form-field>
           </div>
           <div class="row" [ngClass]="routeAnimationsElements">
             <div class="col">
-              <label>{{ 'anms.examples.form.text2' | translate }}</label>
+              <label>{{ 'sdbg.examples.form.text2' | translate }}</label>
               <br>
               <!-- TODO: The 'tickInterval' property no longer exists -->
               <mat-slider thumbLabel min="1" max="10"><input formControlName="rating" matSliderThumb /></mat-slider>
@@ -89,19 +89,19 @@
           </div>
           <div class="row">
             <mat-checkbox class="col" formControlName="requestGift" [ngClass]="routeAnimationsElements">
-              {{ 'anms.examples.form.text1' | translate }}
+              {{ 'sdbg.examples.form.text1' | translate }}
             </mat-checkbox>
           </div>
           <div class="row buttons d-flex justify-content-between pad">
             <button mat-raised-button color="primary" [ngClass]="routeAnimationsElements">
-              {{ 'anms.examples.form.send' | translate }}
+              {{ 'sdbg.examples.form.send' | translate }}
             </button>
             <button type="button" mat-raised-button color="accent" [disabled]="form.get('autosave')?.value"
               [ngClass]="routeAnimationsElements" (click)="save()">
-              {{ 'anms.examples.form.save' | translate }}
+              {{ 'sdbg.examples.form.save' | translate }}
             </button>
             <button type="reset" mat-raised-button (click)="reset()" [ngClass]="routeAnimationsElements">
-              {{ 'anms.examples.form.reset' | translate }}
+              {{ 'sdbg.examples.form.reset' | translate }}
             </button>
           </div>
         </mat-card>

@@ -52,34 +52,34 @@
 @import './app/features/examples/examples/examples.component.scss-theme';
 
 @mixin custom-components-theme($theme) {
-  @include anms-styles-reset-theme($theme);
-  @include anms-app-component-theme($theme);
-  @include anms-about-component-theme($theme);
-  @include anms-big-input-component-theme($theme);
-  @include anms-notifications-component-theme($theme);
-  @include anms-todos-container-component-theme($theme);
-  @include anms-stock-market-container-component-theme($theme);
-  @include anms-parent-component-theme($theme);
-  @include anms-child-component-theme($theme);
-  @include anms-examples-component-theme($theme);
+  @include sdbg-styles-reset-theme($theme);
+  @include sdbg-app-component-theme($theme);
+  @include sdbg-about-component-theme($theme);
+  @include sdbg-big-input-component-theme($theme);
+  @include sdbg-notifications-component-theme($theme);
+  @include sdbg-todos-container-component-theme($theme);
+  @include sdbg-stock-market-container-component-theme($theme);
+  @include sdbg-parent-component-theme($theme);
+  @include sdbg-child-component-theme($theme);
+  @include sdbg-examples-component-theme($theme);
 }
 
 .default-theme {
-  @include mat.all-component-themes($anms-theme);
-  @include custom-components-theme($anms-theme);
+  @include mat.all-component-themes($sdbg-theme);
+  @include custom-components-theme($sdbg-theme);
 }
 
 .light-theme {
-  @include mat.all-component-themes($anms-light-theme);
-  @include custom-components-theme($anms-light-theme);
+  @include mat.all-component-themes($sdbg-light-theme);
+  @include custom-components-theme($sdbg-light-theme);
 }
 
 .black-theme {
-  @include mat.all-component-themes($anms-black-theme);
-  @include custom-components-theme($anms-black-theme);
+  @include mat.all-component-themes($sdbg-black-theme);
+  @include custom-components-theme($sdbg-black-theme);
 }
 
 .nature-theme {
-  @include mat.all-component-themes($anms-nature-theme);
-  @include custom-components-theme($anms-nature-theme);
+  @include mat.all-component-themes($sdbg-nature-theme);
+  @include custom-components-theme($sdbg-nature-theme);
 }

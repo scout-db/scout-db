@@ -23,11 +23,11 @@ module.exports = [
     rules: {
       '@angular-eslint/directive-selector': [
         'error',
-        { type: 'attribute', prefix: 'anms', style: 'camelCase' }
+        { type: 'attribute', prefix: 'sdbg', style: 'camelCase' }
       ],
       '@angular-eslint/component-selector': [
         'error',
-        { type: 'element', prefix: 'anms', style: 'kebab-case' }
+        { type: 'element', prefix: 'sdbg', style: 'kebab-case' }
       ],
       '@angular-eslint/component-class-suffix': 'error',
       '@angular-eslint/directive-class-suffix': 'error',

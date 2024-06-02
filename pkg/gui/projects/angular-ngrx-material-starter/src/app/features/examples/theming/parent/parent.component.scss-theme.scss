@@ -1,9 +1,9 @@
 @use '@angular/material' as mat;
 
-@mixin anms-parent-component-theme($theme) {
+@mixin sdbg-parent-component-theme($theme) {
   $accent: map-get($theme, accent);
 
-  anms-parent {
+  sdbg-parent {
     > .container {
       > .row {
         > .col-md-6 {

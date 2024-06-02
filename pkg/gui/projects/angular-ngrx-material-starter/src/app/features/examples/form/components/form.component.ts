@@ -16,7 +16,7 @@ import { Form } from '../form.model';
 import { State } from '../../examples.state';
 
 @Component({
-  selector: 'anms-form',
+  selector: 'sdbg-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -74,10 +74,10 @@ export class FormComponent implements OnInit {
       this.save();
       this.notificationService.info(
         (this.form.value.requestGift
-          ? this.translate.instant('anms.examples.form.text4')
-          : this.translate.instant('anms.examples.form.text5')) +
+          ? this.translate.instant('sdbg.examples.form.text4')
+          : this.translate.instant('sdbg.examples.form.text5')) +
           ' : ' +
-          this.translate.instant('anms.examples.form.text6')
+          this.translate.instant('sdbg.examples.form.text6')
       );
     }
   }

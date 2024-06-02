@@ -1,12 +1,12 @@
 @use '@angular/material' as mat;
 
-@mixin anms-big-input-component-theme($theme) {
+@mixin sdbg-big-input-component-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $foreground: map-get($theme, foreground);
   $background: map-get($theme, background);
 
-  anms-big-input {
+  sdbg-big-input {
     .mdc-card {
       flex-direction: row;
     }

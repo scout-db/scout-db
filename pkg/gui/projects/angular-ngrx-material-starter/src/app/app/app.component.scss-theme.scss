@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 
-@mixin anms-app-component-theme($theme) {
+@mixin sdbg-app-component-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);

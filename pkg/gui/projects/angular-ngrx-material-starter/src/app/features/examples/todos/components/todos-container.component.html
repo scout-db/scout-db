@@ -1,24 +1,24 @@
 <div class="container">
   <div class="row">
     <div class="offset-md-2 col-md-8 entry">
-      <anms-big-input rtl [placeholder]="'anms.examples.todos.input' | translate" [value]="newTodo" (keyup)="onNewTodoChange($event)"
+      <sdbg-big-input rtl [placeholder]="'sdbg.examples.todos.input' | translate" [value]="newTodo" (keyup)="onNewTodoChange($event)"
         (keyup.enter)="!isAddTodoDisabled && onAddTodo()" (keyup.escape)="onNewTodoClear()" data-testid="examples-todo-input">
-        <anms-big-input-action fontSet="fas" fontIcon="plus" faIcon="plus" color="accent"
-          (action)="onAddTodo()" [disabled]="isAddTodoDisabled" [matTooltip]="'anms.examples.todos.tooltip.add' | translate"
+        <sdbg-big-input-action fontSet="fas" fontIcon="plus" faIcon="plus" color="accent"
+          (action)="onAddTodo()" [disabled]="isAddTodoDisabled" [matTooltip]="'sdbg.examples.todos.tooltip.add' | translate"
           matTooltipPosition="before" data-testid="examples-todo-button-add">
-        </anms-big-input-action>
-        <anms-big-input-action fontSet="fas" fontIcon="trash" faIcon="trash" color="warn"
+        </sdbg-big-input-action>
+        <sdbg-big-input-action fontSet="fas" fontIcon="trash" faIcon="trash" color="warn"
           (action)="onRemoveDoneTodos()" [disabled]="(removeDoneDisabled$ | async) || false"
-          [matTooltip]="'anms.examples.todos.tooltip.remove' | translate" matTooltipPosition="after" data-testid="examples-todo-button-remove">
-        </anms-big-input-action>
-      </anms-big-input>
+          [matTooltip]="'sdbg.examples.todos.tooltip.remove' | translate" matTooltipPosition="after" data-testid="examples-todo-button-remove">
+        </sdbg-big-input-action>
+      </sdbg-big-input>
     </div>
   </div>
   <div class="row">
     <ng-container *ngIf="todos$ | async as todos">
       <div class="col-md-6">
         <h2 class="dotos-title" rtl>
-          <span>{{ 'anms.examples.todos.list' | translate }}</span>
+          <span>{{ 'sdbg.examples.todos.list' | translate }}</span>
           <button class="todos-filter" mat-icon-button [matMenuTriggerFor]="todosFilter">
             <fa-icon icon="filter"></fa-icon>
           </button>
@@ -27,30 +27,30 @@
               <mat-icon>
                 <fa-icon icon="tasks"></fa-icon>
               </mat-icon>
-              <span>{{ 'anms.examples.todos.filter.all' | translate }}</span>
+              <span>{{ 'sdbg.examples.todos.filter.all' | translate }}</span>
             </button>
             <button mat-menu-item (click)="onFilterTodos('DONE')" [class.active]="(filter$ | async) === 'DONE'">
               <mat-icon>
                 <fa-icon icon="check"></fa-icon>
               </mat-icon>
-              <span>{{ 'anms.examples.todos.filter.done' | translate }}</span>
+              <span>{{ 'sdbg.examples.todos.filter.done' | translate }}</span>
             </button>
             <button mat-menu-item (click)="onFilterTodos('ACTIVE')" [class.active]="(filter$ | async) === 'ACTIVE'">
               <mat-icon>
                 <fa-icon icon="square"></fa-icon>
               </mat-icon>
-              <span>{{ 'anms.examples.todos.filter.active' | translate }}</span>
+              <span>{{ 'sdbg.examples.todos.filter.active' | translate }}</span>
             </button>
           </mat-menu>
           <mat-chip-listbox class="todos-filter-info d-none d-sm-block d-md-none d-lg-block">
             <mat-chip-option [disabled]=true [ngPlural]="todos.length">
-              {{ 'anms.examples.todos.filter.description' | translate }}
-              <ng-template ngPluralCase="other">{{ todos.length }} {{ 'anms.examples.todos.filter.items' |
+              {{ 'sdbg.examples.todos.filter.description' | translate }}
+              <ng-template ngPluralCase="other">{{ todos.length }} {{ 'sdbg.examples.todos.filter.items' |
                 translate }}</ng-template>
-              <ng-template ngPluralCase="=1">{{ 'anms.examples.todos.filter.one' | translate }} {{
-                'anms.examples.todos.filter.item' | translate }}</ng-template>
-              <ng-template ngPluralCase="=0">{{ 'anms.examples.todos.filter.none' | translate }} {{
-                'anms.examples.todos.filter.items' | translate }}</ng-template>
+              <ng-template ngPluralCase="=1">{{ 'sdbg.examples.todos.filter.one' | translate }} {{
+                'sdbg.examples.todos.filter.item' | translate }}</ng-template>
+              <ng-template ngPluralCase="=0">{{ 'sdbg.examples.todos.filter.none' | translate }} {{
+                'sdbg.examples.todos.filter.items' | translate }}</ng-template>
             </mat-chip-option>
           </mat-chip-listbox>
         </h2>
@@ -62,17 +62,17 @@
       </div>
   </ng-container>
     <div class="offset-md-1 col-md-5" [ngClass]="routeAnimationsElements" rtl>
-      <h2>{{ 'anms.examples.todos.example' | translate }}</h2>
+      <h2>{{ 'sdbg.examples.todos.example' | translate }}</h2>
       <p>
-        {{ 'anms.examples.todos.text1' | translate }}
-        <code rtl>{{ 'anms.examples.todos.text2' | translate }}</code>
-        {{ 'anms.examples.todos.text3' | translate }}
+        {{ 'sdbg.examples.todos.text1' | translate }}
+        <code rtl>{{ 'sdbg.examples.todos.text2' | translate }}</code>
+        {{ 'sdbg.examples.todos.text3' | translate }}
       </p>
       <p>
-        {{ 'anms.examples.todos.text4' | translate }} <code>ngrx</code>
-        {{ 'anms.examples.todos.text5' | translate }}
+        {{ 'sdbg.examples.todos.text4' | translate }} <code>ngrx</code>
+        {{ 'sdbg.examples.todos.text5' | translate }}
       </p>
-      <p>{{ 'anms.examples.todos.text6' | translate }}</p>
+      <p>{{ 'sdbg.examples.todos.text6' | translate }}</p>
       <br>
     </div>
   </div>
