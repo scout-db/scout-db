@@ -1,11 +1,14 @@
 {
-    "name": "@kmcssz/scoutdb",
-    "workspaces": {
-        "packages": [
-            "pkg/*"
-        ]
-    },
-    "devDependencies": {
-        "typescript": "5.4.5"
-    }
+  "name": "@kmcssz/scoutdb",
+  "packageManager": "yarn@4.2.1",
+  "workspaces": {
+    "packages": [
+      "pkg/common",
+      "pkg/gui",
+      "pkg/srv"
+    ]
+  },
+  "devDependencies": {
+    "typescript": "5.4.5"
+  }
 }

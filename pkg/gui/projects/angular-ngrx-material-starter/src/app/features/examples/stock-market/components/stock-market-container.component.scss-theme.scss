@@ -1,0 +1,20 @@
+@use '@angular/material' as mat;
+
+@mixin anms-stock-market-container-component-theme($theme) {
+  $warn: map-get($theme, warn);
+
+  anms-stock-market {
+    /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+    mat-card {
+      .negative {
+        color: mat.m2-get-color-from-palette($warn);
+      }
+    }
+
+    .error-state {
+      fa-icon {
+        color: mat.m2-get-color-from-palette($warn);
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+.main-heading {
+  text-transform: uppercase;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+mat-card {
+  margin-bottom: 20px;
+  padding: 16px;
+}
+/* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version. */
+mat-checkbox {
+  margin: 10px 0 20px 0;
+}
+/* TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version. */
+mat-slider {
+  width: 100%;
+}
+.buttons {
+  margin: 20px 0px;
+
+  button {
+    flex: 1 1 0;
+    margin: 0 10px 0 0;
+
+    &:last-of-type {
+      margin: 0;
+    }
+  }
+}
