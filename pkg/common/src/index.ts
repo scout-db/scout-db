@@ -15,6 +15,7 @@ export {
   ConfigurationParameters as KmcsszApiConfigurationParameters,
 } from "./generated/openapi/typescript-axios/configuration.js";
 
+export { RankLongName } from "./generated/openapi/typescript-axios/api.js";
 export { Scout } from "./generated/openapi/typescript-axios/api.js";
 export { ScoutBeenToJubileeEnum } from "./generated/openapi/typescript-axios/api.js";
 export { ScoutCanCarveWoodEnum } from "./generated/openapi/typescript-axios/api.js";

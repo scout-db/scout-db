@@ -21,7 +21,6 @@ describe('App', () => {
     const expectedMenus = ['About', 'Features', 'Examples'];
     cy.get('[data-testid="app-nav-bar-main"]').within(() => {
       cy.get('[data-testid="app-nav-bar-route-button"]').each((menu, index) => {
-        console.log('menu=%o, index=%o', menu, index);
         cy.wrap(menu).should('have.text', expectedMenus[index]);
       });
     });

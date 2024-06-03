@@ -154,6 +154,26 @@
   },
   "components": {
     "schemas": {
+      "RankLongName": {
+        "type": "string",
+        "enum": [
+          "KOV - Kiscserkész Őrs Vezető",
+          "OV - Őrs Vezető",
+          "KST - Kiscserkész Segéd Tiszt",
+          "ST - Segéd Tiszt",
+          "T - Tiszt"
+        ],
+        "x-enum-varnames": ["KOV", "OV", "KST", "ST", "T"],
+        "x-enum-descriptions": [
+          "KOV - Kiscserkész Őrs Vezető",
+          "OV - Őrs Vezető",
+          "KST - Kiscserkész Segéd Tiszt",
+          "ST - Segéd Tiszt",
+          "T - Tiszt"
+        ],
+        "maxLength": 50,
+        "example": "T - Tiszt"
+      },
       "Scout": {
         "type": "object",
         "properties": {
@@ -217,23 +237,17 @@
           },
           "rank": {
             "type": "string",
-            "enum": [
-              "KOV- Kiscserkész Őrs Vezető",
-              "OV - Őrs Vezető",
-              "KST- Kiscserkész Segéd Tiszt",
-              "ST - Segéd Tiszt",
-              "T - Tiszt"
-            ],
+            "enum": ["KOV", "OV", "KST", "ST", "T"],
             "x-enum-varnames": ["KOV", "OV", "KST", "ST", "T"],
             "x-enum-descriptions": [
-              "KOV- Kiscserkész Őrs Vezető",
+              "KOV - Kiscserkész Őrs Vezető",
               "OV - Őrs Vezető",
-              "KST- Kiscserkész Segéd Tiszt",
+              "KST - Kiscserkész Segéd Tiszt",
               "ST - Segéd Tiszt",
               "T - Tiszt"
             ],
             "maxLength": 50,
-            "example": "Officer"
+            "example": "T - Tiszt"
           },
           "been_to_jubilee": {
             "type": "string",

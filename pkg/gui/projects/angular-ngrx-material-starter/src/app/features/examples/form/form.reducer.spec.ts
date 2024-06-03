@@ -1,13 +1,10 @@
 import { formReducer, initialState } from './form.reducer';
 import { actionFormReset, actionFormUpdate } from './form.actions';
 import { Scout, ScoutRankEnum } from '@kmcssz-org/scoutdb-common';
-import { createMockScout } from "../../../../test/create-mock-scout";
+import { createMockScout } from '../../../../test/create-mock-scout';
 
 describe('FormReducer', () => {
-
-    /* eslint-disable @typescript-eslint/naming-convention */
-    const form: Scout = createMockScout();
-    /* eslint-enable @typescript-eslint/naming-convention */
+  const form: Scout = createMockScout();
 
   it('should return the default state', () => {
     const action = {} as any;

@@ -5,6 +5,7 @@ export const environment = {
   envName: 'TEST',
   production: false,
   test: true,
+  httpApiBaseUrl: document.location.protocol + '//' + document.location.host,
   i18nPrefix: '',
   versions: {
     app: packageJson.version,

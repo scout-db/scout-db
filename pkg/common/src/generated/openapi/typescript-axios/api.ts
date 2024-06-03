@@ -26,6 +26,38 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 /**
  * 
  * @export
+ * @enum {string}
+ */
+
+export const RankLongName = {
+    /**
+    * KOV - Kiscserkész Őrs Vezető
+    */
+    KOV: 'KOV - Kiscserkész Őrs Vezető',
+    /**
+    * OV - Őrs Vezető
+    */
+    OV: 'OV - Őrs Vezető',
+    /**
+    * KST - Kiscserkész Segéd Tiszt
+    */
+    KST: 'KST - Kiscserkész Segéd Tiszt',
+    /**
+    * ST - Segéd Tiszt
+    */
+    ST: 'ST - Segéd Tiszt',
+    /**
+    * T - Tiszt
+    */
+    T: 'T - Tiszt'
+} as const;
+
+export type RankLongName = typeof RankLongName[keyof typeof RankLongName];
+
+
+/**
+ * 
+ * @export
  * @interface Scout
  */
 export interface Scout {
@@ -165,25 +197,25 @@ export interface Scout {
 
 export const ScoutRankEnum = {
     /**
-    * KOV- Kiscserkész Őrs Vezető
+    * KOV - Kiscserkész Őrs Vezető
     */
-    KOV: 'KOV- Kiscserkész Őrs Vezető',
+    KOV: 'KOV',
     /**
     * OV - Őrs Vezető
     */
-    OV: 'OV - Őrs Vezető',
+    OV: 'OV',
     /**
-    * KST- Kiscserkész Segéd Tiszt
+    * KST - Kiscserkész Segéd Tiszt
     */
-    KST: 'KST- Kiscserkész Segéd Tiszt',
+    KST: 'KST',
     /**
     * ST - Segéd Tiszt
     */
-    ST: 'ST - Segéd Tiszt',
+    ST: 'ST',
     /**
     * T - Tiszt
     */
-    T: 'T - Tiszt'
+    T: 'T'
 } as const;
 
 export type ScoutRankEnum = typeof ScoutRankEnum[keyof typeof ScoutRankEnum];

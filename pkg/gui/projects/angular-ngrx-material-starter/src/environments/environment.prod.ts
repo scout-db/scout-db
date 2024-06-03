@@ -5,6 +5,7 @@ export const environment = {
   envName: 'PROD',
   production: true,
   test: false,
+  httpApiBaseUrl: document.location.protocol + '//' + document.location.host,
   i18nPrefix: '/angular-ngrx-material-starter',
   versions: {
     app: packageJson.version,

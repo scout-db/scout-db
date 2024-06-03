@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { tap } from 'rxjs/operators';
 
-import { LocalStorageService } from '../../../core/core.module';
-
 import { actionFormUpdate } from './form.actions';
+import { KmcsszApiService } from '../../../shared/kmcssz-api-service';
 
 export const FORM_KEY = 'EXAMPLES.FORM';
 
@@ -14,8 +13,9 @@ export class FormEffects {
     () =>
       this.actions$.pipe(
         ofType(actionFormUpdate),
-        tap((action) =>
-          this.localStorageService.setItem(FORM_KEY, { form: action.form })
+        tap(
+          (action) => this.api.upsertScout(action.form)
+          // this.localStorageService.setItem(FORM_KEY, { form: action.form })
         )
       ),
     { dispatch: false }
@@ -23,6 +23,6 @@ export class FormEffects {
 
   constructor(
     private actions$: Actions,
-    private localStorageService: LocalStorageService
+    private api: KmcsszApiService
   ) {}
 }

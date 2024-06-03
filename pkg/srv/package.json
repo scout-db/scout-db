@@ -9,7 +9,7 @@
   "keywords": [],
   "scripts": {
     "start": "node build/scoutdb-cli.js --log-level=debug --tracing-diag-log-level=NONE --www-dir=$PWD/../gui/www/",
-    "build": "run-p build:*",
+    "build": "run-p 'build:*'",
     "build:main": "tsc -p tsconfig.json",
     "codegen": "openapi-generator-cli generate -i ../common/src/openapi.json -g typescript-angular -o ./generated/openapi/typescript-angular/ --additional-properties=ngVersion=18.0.0,npmName=restClient,supportsES6=true,npmVersion=10.2.4,withInterfaces=true",
     "fix": "run-s fix:*",

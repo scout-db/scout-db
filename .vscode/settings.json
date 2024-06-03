@@ -24,6 +24,7 @@
     "lcov",
     "moby",
     "ngrx",
+    "ngxtranslate",
     "npmignore",
     "openapi",
     "openapitools",
@@ -36,6 +37,7 @@
     "Tiszt",
     "varnames",
     "Vezető",
-    "waitlist"
+    "waitlist",
+    "webfonts"
   ]
 }

@@ -1,9 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Validators, UntypedFormBuilder } from '@angular/forms';
+import { UntypedFormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
-import { filter, take, tap } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+
+import { Scout } from '@kmcssz-org/scoutdb-common';
 
 import {
   ROUTE_ANIMATIONS_ELEMENTS,
@@ -14,43 +16,37 @@ import { actionFormReset, actionFormUpdate } from '../form.actions';
 import { selectFormState } from '../form.selectors';
 import { State } from '../../examples.state';
 
-import { Scout } from '@kmcssz-org/scoutdb-common';
+import { KmcsszApiService } from '../../../../shared/kmcssz-api-service';
+import {
+  SCOUT_FORM_FIELDS,
+  createScoutFormGroupConfig
+} from '../scout.form-fields';
 
 @Component({
   selector: 'sdbg-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [KmcsszApiService]
 })
 export class FormComponent implements OnInit {
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
 
-  form = this.fb.group({
-    autosave: false,
-    username: ['', [Validators.required]],
-    password: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
-    description: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(1000)
-      ]
-    ],
-    requestGift: [''],
-    birthday: ['', [Validators.required]],
-    rating: [0, Validators.required]
-  });
+  form: FormGroup;
+  fields = SCOUT_FORM_FIELDS;
 
   formValueChanges$: Observable<Scout> | undefined;
 
   constructor(
+    private readonly api: KmcsszApiService,
     private fb: UntypedFormBuilder,
     private store: Store<State>,
     private translate: TranslateService,
     private notificationService: NotificationService
-  ) {}
+  ) {
+    const cfg = createScoutFormGroupConfig();
+    this.form = this.fb.group(cfg);
+  }
 
   ngOnInit() {
     this.store
@@ -66,7 +62,7 @@ export class FormComponent implements OnInit {
     this.store.dispatch(actionFormUpdate({ form: this.form.value }));
   }
 
-  submit() {
+  onSubmit() {
     if (this.form.valid) {
       this.save();
       this.notificationService.info(
@@ -84,5 +80,25 @@ export class FormComponent implements OnInit {
     this.form.clearValidators();
     this.form.clearAsyncValidators();
     this.store.dispatch(actionFormReset());
+  }
+
+  getAllErrors(form: FormGroup | FormArray): { [key: string]: any } | null {
+    let hasError = false;
+    const result = Object.keys(form.controls).reduce(
+      (acc, key) => {
+        const control = form.get(key);
+        const errors =
+          control instanceof FormGroup || control instanceof FormArray
+            ? this.getAllErrors(control)
+            : control?.errors;
+        if (errors) {
+          acc[key] = errors;
+          hasError = true;
+        }
+        return acc;
+      },
+      {} as { [key: string]: any }
+    );
+    return hasError ? result : null;
   }
 }
