@@ -29,6 +29,7 @@
     "openapi",
     "openapitools",
     "opentelemetry",
+    "petermetz",
     "pino",
     "scoutdb",
     "sdbg",

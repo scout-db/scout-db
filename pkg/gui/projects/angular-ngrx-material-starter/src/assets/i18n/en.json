@@ -61,6 +61,6 @@
   "sdbg.settings.themes.sticky-header": "Sticky header",
   "sdbg.settings.themes.title": "Themes",
   "sdbg.settings.title": "Settings",
-  "sdbg.title.long": "Angular NgRx Material Starter",
-  "sdbg.title.short": "Angular Starter"
+  "sdbg.title.long": "ScoutDB",
+  "sdbg.title.short": "ScoutDB"
 }

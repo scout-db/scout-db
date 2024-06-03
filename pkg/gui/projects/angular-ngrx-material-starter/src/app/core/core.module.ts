@@ -147,7 +147,7 @@ export function httpLoaderFactory(http: HttpClient) {
     environment.production
       ? []
       : StoreDevtoolsModule.instrument({
-          name: 'Angular NgRx Material Starter',
+          name: 'ScoutDB',
           connectInZone: true
         }),
     // 3rd party

@@ -1,12 +1,12 @@
 const packageJson = require('../../../../package.json');
 
 export const environment = {
-  appName: 'Angular Ngrx Material Starter',
+  appName: 'ScoutDB',
   envName: 'PROD',
   production: true,
   test: false,
   httpApiBaseUrl: document.location.protocol + '//' + document.location.host,
-  i18nPrefix: '/angular-ngrx-material-starter',
+  i18nPrefix: '/scoutdb',
   versions: {
     app: packageJson.version,
     angular: packageJson.dependencies['@angular/core'],

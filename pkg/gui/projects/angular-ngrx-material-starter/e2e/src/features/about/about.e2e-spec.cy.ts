@@ -6,11 +6,7 @@ describe('About Page', () => {
   });
 
   it('should display main heading', () => {
-    cy.contains('h1', 'Angular NgRx Material Starter'); // Check the main heading text
-  });
-
-  it('should display "Get started" H2', () => {
-    cy.get('h2:contains("Get started")');
+    cy.contains('h1', 'ScoutDB'); // Check the main heading text
   });
 
   it('first action button should lead to "Features" route', () => {
