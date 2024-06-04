@@ -13,7 +13,6 @@ CREATE TABLE "scout" (
 	"city"	TEXT NOT NULL,
 	"rank"	TEXT NOT NULL,
 	"been_to_jubilee"	TEXT NOT NULL,
-	"jubilee_participant_years_csv"	TEXT,
 	"can_set_fire"	TEXT NOT NULL,
 	"can_carve_wood"	TEXT NOT NULL,
 	"can_train_others"	TEXT NOT NULL,

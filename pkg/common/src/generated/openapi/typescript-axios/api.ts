@@ -150,12 +150,6 @@ export interface Scout {
      * @type {string}
      * @memberof Scout
      */
-    'jubilee_participant_years_csv'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Scout
-     */
     'can_set_fire': ScoutCanSetFireEnum;
     /**
      * 

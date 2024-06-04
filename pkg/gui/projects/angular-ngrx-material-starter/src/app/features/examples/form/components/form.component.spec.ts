@@ -123,7 +123,6 @@ describe('FormComponent', () => {
     });
     await canFirstAidSelect.clickOptions({ text: scout.can_first_aid });
     await canCookSelect.clickOptions({ text: scout.can_cook });
-    delete scout.jubilee_participant_years_csv;
 
     await saveButton.click();
 

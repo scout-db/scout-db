@@ -254,11 +254,6 @@
             "enum": ["TRUE", "FALSE"],
             "example": "TRUE"
           },
-          "jubilee_participant_years_csv": {
-            "type": "string",
-            "maxLength": 100,
-            "example": "2018,2019,2020"
-          },
           "can_set_fire": {
             "type": "string",
             "enum": ["TRUE", "FALSE"],

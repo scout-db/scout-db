@@ -58,7 +58,6 @@ export function createMockScout(): Scout {
     troop_name: nanoid(),
     troop_number: 1 + Math.ceil(Math.random() * 99),
     troop_url: `https://www.${nanoid()}.example.com`,
-    jubilee_participant_years_csv: '2010,2000'
   };
 
   /* eslint-enable @typescript-eslint/naming-convention */
