@@ -98,7 +98,7 @@
             <a [matTooltip]="'Source Code on GitHub'"
                matTooltipPosition="before"
                href="https://github.com/scout-db/scout-db">
-              <fa-icon icon="github"></fa-icon>
+               <fa-icon [icon]="['fab','github']"></fa-icon>
               {{version}} <span *ngIf="!isProd">[{{envName}}]</span>
             </a>
           </div>
