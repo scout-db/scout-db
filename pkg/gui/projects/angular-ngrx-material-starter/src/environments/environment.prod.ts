@@ -6,7 +6,7 @@ export const environment = {
   production: true,
   test: false,
   httpApiBaseUrl: document.location.protocol + '//' + document.location.host,
-  i18nPrefix: '/scoutdb',
+  i18nPrefix: '',
   versions: {
     app: packageJson.version,
     angular: packageJson.dependencies['@angular/core'],
