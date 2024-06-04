@@ -11,12 +11,12 @@ import {
   ROUTE_ANIMATIONS_ELEMENTS,
   NotificationService
 } from '../../../../core/core.module';
+import { environment } from "../../../../../environments/environment";
 
 import { actionFormReset, actionFormUpdate } from '../form.actions';
 import { selectFormState } from '../form.selectors';
 import { State } from '../../examples.state';
 
-import { KmcsszApiService } from '../../../../shared/kmcssz-api-service';
 import {
   SCOUT_FORM_FIELDS,
   createScoutFormGroupConfig
@@ -27,18 +27,17 @@ import {
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [KmcsszApiService]
+  providers: []
 })
 export class FormComponent implements OnInit {
   routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
-
+  isProductionEnv: boolean = environment.production;
   form: FormGroup;
   fields = SCOUT_FORM_FIELDS;
 
   formValueChanges$: Observable<Scout> | undefined;
 
   constructor(
-    private readonly api: KmcsszApiService,
     private fb: UntypedFormBuilder,
     private store: Store<State>,
     private translate: TranslateService,

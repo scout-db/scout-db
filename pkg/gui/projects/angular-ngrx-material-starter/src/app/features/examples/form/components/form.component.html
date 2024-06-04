@@ -9,8 +9,8 @@
         >
           <mat-label>{{ field.label }}</mat-label>
           <input
-          matInput
-          name="{{field.name}}"
+            matInput
+            name="{{ field.name }}"
             [formControlName]="field.name"
             [readonly]="field.isReadonly"
             type="number"
@@ -18,7 +18,7 @@
           />
           <input
             matInput
-            name="{{field.name}}"
+            name="{{ field.name }}"
             [formControlName]="field.name"
             [readonly]="field.isReadonly"
             type="text"
@@ -26,7 +26,7 @@
           />
           <input
             matInput
-            name="{{field.name}}"
+            name="{{ field.name }}"
             [formControlName]="field.name"
             [readonly]="field.isReadonly"
             type="email"
@@ -34,7 +34,7 @@
           />
           <input
             matInput
-            name="{{field.name}}"
+            name="{{ field.name }}"
             [formControlName]="field.name"
             [readonly]="field.isReadonly"
             type="url"
@@ -69,14 +69,26 @@
         </mat-form-field>
       </div>
     </div>
-    <button
-      mat-raised-button
-      color="primary"
-      type="submit"
-      [disabled]="form.invalid"
-    >
-      {{ 'sdbg.examples.form.save' | translate }}
-    </button>
-    <pre>{{ getAllErrors(form) | json }}</pre>
+
+    <div class="row">
+      <div class="col-md-6 mt-4"></div>
+      <div class="col-md-6 mt-4">
+        <button
+          mat-raised-button
+          class="float-end w-100 h-100 p-3"
+          color="primary"
+          type="submit"
+          [disabled]="form.invalid"
+        >
+          {{ 'sdbg.examples.form.save' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="isProductionEnv !== true">
+      <mat-label>Validation Errors of Form Control:</mat-label>
+      <br />
+      <pre class="float-end">{{ getAllErrors(form) | json }}</pre>
+    </div>
   </form>
 </div>
