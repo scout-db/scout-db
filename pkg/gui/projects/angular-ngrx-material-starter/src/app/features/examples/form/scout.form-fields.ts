@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 /* eslint-disable @typescript-eslint/naming-convention */
 export function createScoutFormGroupConfig(): { [key: string]: any } {
   return {
-    id: [nanoid(), Validators.required],
+    id: [nanoid(16), Validators.required],
     first_name: ['', Validators.required],
     last_name: ['', Validators.required],
     birth_year: [null, Validators.required],

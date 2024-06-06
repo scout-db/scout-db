@@ -1,13 +1,196 @@
-<div class="container" rtl>
-  <div class="row">
-    <div class="col-12">
-      <h1 class="main-heading">{{ 'sdbg.examples.auth.title' | translate }}</h1>
-      <p [ngClass]="routeAnimationsElements">
-        {{ 'sdbg.examples.auth.description1' | translate }}
-      </p>
-      <p [ngClass]="routeAnimationsElements">
-        {{ 'sdbg.examples.auth.description2' | translate }}
-      </p>
-    </div>
+<div class="row">
+  <div class="col-xxl-1 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-sx-12">
+    <mat-form-field>
+      <mat-label>Filter (All Fields)</mat-label>
+      <input
+        matInput
+        (keyup)="applyTextFilter($event)"
+        placeholder="Type any text"
+      />
+    </mat-form-field>
+  </div>
+
+  <div class="col-xxl-1 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-sx-12">
+    <mat-form-field>
+      <mat-label>Rank(s)</mat-label>
+      <mat-select
+        [(ngModel)]="filterValues.ranks"
+        (selectionChange)="applyRanksFilter(filterValues.ranks)"
+        multiple
+      >
+        @for (rank of rankList; track rank) {
+          <mat-option [value]="rank">{{ rank }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="col-xxl-1 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-sx-12">
+    <mat-checkbox
+      [(ngModel)]="filterValues.been_to_jubilee"
+      (change)="
+        applyBooleanFilter('been_to_jubilee', filterValues.been_to_jubilee)
+      "
+      >Been to Jubilee</mat-checkbox
+    >
+  </div>
+
+  <div class="col-xxl-1 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-sx-12">
+    <mat-checkbox
+      [(ngModel)]="filterValues.can_set_fire"
+      (change)="applyBooleanFilter('can_set_fire', filterValues.can_set_fire)"
+      >Can Set Fire</mat-checkbox
+    >
+  </div>
+
+  <div class="col-xxl-1 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-sx-12">
+    <mat-checkbox
+      [(ngModel)]="filterValues.can_carve_wood"
+      (change)="
+        applyBooleanFilter('can_carve_wood', filterValues.can_carve_wood)
+      "
+      >Can Carve Wood</mat-checkbox
+    >
+  </div>
+
+  <div class="col-xxl-1 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-sx-12">
+    <mat-checkbox
+      [(ngModel)]="filterValues.can_train_others"
+      (change)="
+        applyBooleanFilter('can_train_others', filterValues.can_train_others)
+      "
+      >Can Train Others</mat-checkbox
+    >
+  </div>
+
+  <div class="col-xxl-1 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-sx-12">
+    <mat-checkbox
+      [(ngModel)]="filterValues.can_make_sausage"
+      (change)="
+        applyBooleanFilter('can_make_sausage', filterValues.can_make_sausage)
+      "
+      >Can Make Sausage</mat-checkbox
+    >
+  </div>
+
+  <div class="col-xxl-1 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-sx-12">
+    <mat-checkbox
+      [(ngModel)]="filterValues.can_lead_campfire"
+      (change)="
+        applyBooleanFilter('can_lead_campfire', filterValues.can_lead_campfire)
+      "
+      >Can Lead Campfire</mat-checkbox
+    >
+  </div>
+
+  <div class="col-xxl-1 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-sx-12">
+    <mat-checkbox
+      [(ngModel)]="filterValues.can_first_aid"
+      (change)="applyBooleanFilter('can_first_aid', filterValues.can_first_aid)"
+      >Can First Aid</mat-checkbox
+    >
+  </div>
+
+  <div class="col-xxl-1 col-xl-2 col-lg-3 col-md-4 col-sm-6 col-sx-12">
+    <mat-checkbox
+      [(ngModel)]="filterValues.can_cook"
+      (change)="applyBooleanFilter('can_cook', filterValues.can_cook)"
+      >Can Cook</mat-checkbox
+    >
   </div>
 </div>
+
+<mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.id }}</td>
+  </ng-container>
+  <ng-container matColumnDef="first_name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.first_name }}</td>
+  </ng-container>
+  <ng-container matColumnDef="last_name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.last_name }}</td>
+  </ng-container>
+  <ng-container matColumnDef="birth_year">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Birth Year</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.birth_year }}</td>
+  </ng-container>
+  <ng-container matColumnDef="email_1">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.email_1 }}</td>
+  </ng-container>
+  <ng-container matColumnDef="phone_number_1">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone Number</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.phone_number_1 }}</td>
+  </ng-container>
+  <ng-container matColumnDef="troop_name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Troop Name</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.troop_name }}</td>
+  </ng-container>
+  <ng-container matColumnDef="troop_number">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Troop Number</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.troop_number }}</td>
+  </ng-container>
+  <ng-container matColumnDef="troop_url">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Troop URL</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.troop_url }}</td>
+  </ng-container>
+  <ng-container matColumnDef="country">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Country</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.country }}</td>
+  </ng-container>
+  <ng-container matColumnDef="state">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>State</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.state }}</td>
+  </ng-container>
+  <ng-container matColumnDef="city">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>City</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.city }}</td>
+  </ng-container>
+  <ng-container matColumnDef="rank">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Rank</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.rank }}</td>
+  </ng-container>
+  <ng-container matColumnDef="been_to_jubilee">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Been to Jubilee</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.been_to_jubilee }}</td>
+  </ng-container>
+  <ng-container matColumnDef="can_set_fire">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Can Set Fire</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.can_set_fire }}</td>
+  </ng-container>
+  <ng-container matColumnDef="can_carve_wood">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Can Carve Wood</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.can_carve_wood }}</td>
+  </ng-container>
+  <ng-container matColumnDef="can_train_others">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Can Train Others</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.can_train_others }}</td>
+  </ng-container>
+  <ng-container matColumnDef="can_make_sausage">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Can Make Sausage</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.can_make_sausage }}</td>
+  </ng-container>
+  <ng-container matColumnDef="can_lead_campfire">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Can Lead Campfire</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.can_lead_campfire }}</td>
+  </ng-container>
+  <ng-container matColumnDef="can_first_aid">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Can First Aid</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.can_first_aid }}</td>
+  </ng-container>
+  <ng-container matColumnDef="can_cook">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Can Cook</th>
+    <td mat-cell *matCellDef="let scout">{{ scout.can_cook }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</mat-table>
+
+<mat-paginator
+  [pageSizeOptions]="[5, 10, 25, 100, 500, 1000, 5000]"
+  showFirstLastButtons
+></mat-paginator>

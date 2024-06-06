@@ -3492,7 +3492,7 @@ __metadata:
     express: "npm:4.18.2"
     express-openapi-validator: "npm:5.1.6"
     gh-pages: "npm:6.0.0"
-    http-errors-enhanced: "npm:2.0.7"
+    http-errors-enhanced-cjs: "npm:2.0.1"
     knex: "npm:3.1.0"
     npm-run-all: "npm:4.1.5"
     nyc: "npm:15.1.0"
@@ -13277,10 +13277,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"http-errors-enhanced@npm:2.0.7":
-  version: 2.0.7
-  resolution: "http-errors-enhanced@npm:2.0.7"
-  checksum: 10c0/099f895727ffab527c973a5ae970aa352d410166a43c13c42716d9c4ec25602217aa58e9579cca70e7e5a30f6933ec4d99cbef2fd45531b873071d3a1f24db55
+"http-errors-enhanced-cjs@npm:2.0.1":
+  version: 2.0.1
+  resolution: "http-errors-enhanced-cjs@npm:2.0.1"
+  checksum: 10c0/6f49de57bc0b602ab48ce8af177b859a0ca0fb99b336898142a14de401a1e2bcc4f1fa9f675d2e84004bd02761935555e46d06f4e2cf3fe169e8954ff7456059
   languageName: node
   linkType: hard
 

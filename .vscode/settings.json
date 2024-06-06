@@ -11,6 +11,7 @@
     "codecov",
     "codegen",
     "commitlint",
+    "cpus",
     "Cserkész",
     "devcontainers",
     "devkit",

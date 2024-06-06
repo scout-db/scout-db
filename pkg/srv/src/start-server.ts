@@ -1,16 +1,17 @@
 import path from "path";
 
-import { OpenApiJson, Scout } from "@kmcssz-org/scoutdb-common";
+import { newRex, OpenApiJson, Scout } from "@kmcssz-org/scoutdb-common";
 import bodyParser from "body-parser";
 import express from "express";
 import * as OpenApiValidator from "express-openapi-validator";
-import { Knex, knex } from "knex";
-import { Ok, Result } from "ts-results";
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK } from "http-errors-enhanced-cjs";
+import { Err, Ok, Result } from "ts-results";
 
 import {
   createLogger,
   DEFAULT_APP_LOG_LEVEL,
 } from "./lib/logging/create-logger.js";
+import { createKnexClient } from "./lib/persistence/create-knex-client.js";
 import { IScoutDbServerOptions } from "./types/i-scoutdb-server-options.js";
 import { IScoutDbServer } from "./types/i-scoutdb-server.js";
 
@@ -18,8 +19,11 @@ export async function startServer(
   opts: IScoutDbServerOptions,
 ): Promise<IScoutDbServer> {
   const logLevel = opts.sgs.logLevel || DEFAULT_APP_LOG_LEVEL;
-  const log = createLogger({ sgs: opts.sgs });
+  const log = createLogger({ sgs: opts.sgs, level: logLevel });
   const app = express();
+  const db = (await createKnexClient({ sgs: opts.sgs })).expect(
+    "The Knex client to have been created OK.",
+  );
 
   // Use body-parser to parse JSON requests
   app.use(bodyParser.json());
@@ -51,22 +55,81 @@ export async function startServer(
     return Ok.EMPTY;
   });
 
-  app.post("/api/v1/scouts", async (req, res): Promise<Result<void, Error>> => {
-    const fn = "HTTP POST /api/v1/scouts";
+  // GET handler for fetching paginated scout records
+  app.get(
+    OpenApiJson.paths["/api/v1/scouts"].get["x-kmcssz"].httpPath,
+    async (req, res): Promise<Result<void, Error>> => {
+      const fn = "HTTP GET /api/v1/scouts";
+      log.debug("%s ENTRY", fn);
+
+      if (typeof req.query.page !== "string") {
+        res
+          .status(BAD_REQUEST)
+          .json({ error: "Invalid page query parameter." });
+        return Ok.EMPTY;
+      }
+      if (typeof req.query.pageSize !== "string") {
+        res
+          .status(BAD_REQUEST)
+          .json({ error: "Invalid pageSize query parameter." });
+        return Ok.EMPTY;
+      }
+
+      const page = parseInt(req.query.page) || 1;
+      const pageSize = parseInt(req.query.pageSize) || 10;
+      const offset = (page - 1) * pageSize;
+      log.debug("%s page=%d pageSize=%d offset=%d", fn, page, pageSize, offset);
+
+      try {
+        // Get the total count of records
+        const totalRecordsResult = await db("scout")
+          .count("* as count")
+          .first();
+        if (!totalRecordsResult) {
+          throw new Error("Could not count scout rows.");
+        }
+        log.debug("%s totalRecordResult=%o", fn, totalRecordsResult);
+
+        const totalRowCount =
+          typeof totalRecordsResult.count === "string"
+            ? parseInt(totalRecordsResult.count, 10)
+            : totalRecordsResult.count;
+
+        log.debug("%s totalRowCount=%d", fn, totalRowCount);
+
+        const totalPages = Math.ceil(totalRowCount / pageSize);
+        log.debug("%s totalPages=%d", fn, totalPages);
+
+        // Get the paginated data
+        const scouts = await db("scout")
+          .select("*")
+          .limit(pageSize)
+          .offset(offset);
+
+        res.status(OK).json({
+          data: scouts,
+          pagination: {
+            totalRecords: totalRowCount,
+            totalPages: totalPages,
+            currentPage: page,
+            pageSize: pageSize,
+          },
+        });
+        return Ok.EMPTY;
+      } catch (ex: unknown) {
+        const rex = newRex("Failed to serve request: ", ex);
+        res.status(INTERNAL_SERVER_ERROR).json({ error: rex.toJSON() });
+        return Err(rex);
+      }
+    },
+  );
+
+  app.get("/api/v1/scouts", async (req, res): Promise<Result<void, Error>> => {
+    const fn = "HTTP GET /api/v1/scouts";
     log.debug("%s ENTRY", fn);
 
-    const config: Knex.Config = {
-      client: "sqlite3",
-      connection: {
-        filename: "../../infra/scoutdb.db",
-      },
-    };
-
-    const knexInstance = knex(config);
-    log.debug("knexInstance created OK: ", knexInstance.VERSION);
-
     try {
-      const entity = await knexInstance<Scout>("scout").insert(req.body);
+      const entity = await db<Scout>("scout").insert(req.body);
       log.debug("[knex] scout entity: %o", entity);
       res.json({
         entity,
@@ -74,8 +137,31 @@ export async function startServer(
         url: req.url,
       });
     } catch (ex: unknown) {
-      log.error("Failed to insert scout record: ", ex);
-      res.status(500).json({
+      const rex = newRex("Failed to insert scout entity to SQLite.", ex);
+      log.debug(rex);
+      res.status(INTERNAL_SERVER_ERROR).json({
+        message: "InternalServerError",
+      });
+    }
+    return Ok.EMPTY;
+  });
+
+  app.post("/api/v1/scouts", async (req, res): Promise<Result<void, Error>> => {
+    const fn = "HTTP POST /api/v1/scouts";
+    log.debug("%s ENTRY", fn);
+
+    try {
+      const entity = await db<Scout>("scout").insert(req.body);
+      log.debug("[knex] scout entity: %o", entity);
+      res.json({
+        entity,
+        ts: new Date().toJSON(),
+        url: req.url,
+      });
+    } catch (ex: unknown) {
+      const rex = newRex("Failed to insert scout entity to SQLite.", ex);
+      log.debug(rex);
+      res.status(INTERNAL_SERVER_ERROR).json({
         message: "InternalServerError",
       });
     }

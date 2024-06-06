@@ -1,6 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LazyElementsModule } from '@angular-extensions/elements';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -43,6 +46,9 @@ export function httpLoaderFactory(http: HttpClient) {
     SharedModule,
     ExamplesRoutingModule,
     StoreModule.forFeature(FEATURE_NAME, reducers),
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

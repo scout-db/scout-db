@@ -14,17 +14,96 @@
   "paths": {
     "/api/v1/scouts": {
       "get": {
-        "summary": "Get all scouts",
-        "operationId": "getScouts",
+        "summary": "Get paginated scout records",
+        "operationId": "getScoutsV1",
+        "x-kmcssz": {
+          "httpPath": "/api/v1/scouts"
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1,
+              "maxItems": 99999
+            },
+            "description": "Page number for pagination (default is 1)"
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 100
+            },
+            "description": "Number of records per page (default is 10)"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "A list of scouts",
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Scout"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Scout"
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "totalRecords": {
+                          "type": "integer"
+                        },
+                        "totalPages": {
+                          "type": "integer"
+                        },
+                        "currentPage": {
+                          "type": "integer"
+                        },
+                        "pageSize": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
                   }
                 }
               }
@@ -35,6 +114,9 @@
       "post": {
         "summary": "Create a new scout",
         "operationId": "createScout",
+        "x-kmcssz": {
+          "httpPath": "/api/v1/scouts"
+        },
         "requestBody": {
           "required": true,
           "content": {
@@ -58,101 +140,16 @@
           }
         }
       }
-    },
-    "/api/v1/scouts/{id}": {
-      "get": {
-        "summary": "Get a scout by ID",
-        "operationId": "getScoutById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A single scout",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Scout"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Scout not found"
-          }
-        }
-      },
-      "put": {
-        "summary": "Update a scout by ID",
-        "operationId": "updateScout",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Scout"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Scout updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Scout"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Scout not found"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete a scout by ID",
-        "operationId": "deleteScout",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Scout deleted successfully"
-          },
-          "404": {
-            "description": "Scout not found"
-          }
-        }
-      }
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
       "RankLongName": {
         "type": "string",

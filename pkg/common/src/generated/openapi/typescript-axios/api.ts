@@ -26,6 +26,69 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 /**
  * 
  * @export
+ * @interface GetScoutsV1200Response
+ */
+export interface GetScoutsV1200Response {
+    /**
+     * 
+     * @type {Array<Scout>}
+     * @memberof GetScoutsV1200Response
+     */
+    'data'?: Array<Scout>;
+    /**
+     * 
+     * @type {GetScoutsV1200ResponsePagination}
+     * @memberof GetScoutsV1200Response
+     */
+    'pagination'?: GetScoutsV1200ResponsePagination;
+}
+/**
+ * 
+ * @export
+ * @interface GetScoutsV1200ResponsePagination
+ */
+export interface GetScoutsV1200ResponsePagination {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetScoutsV1200ResponsePagination
+     */
+    'totalRecords'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetScoutsV1200ResponsePagination
+     */
+    'totalPages'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetScoutsV1200ResponsePagination
+     */
+    'currentPage'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetScoutsV1200ResponsePagination
+     */
+    'pageSize'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface GetScoutsV1500Response
+ */
+export interface GetScoutsV1500Response {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetScoutsV1500Response
+     */
+    'error'?: string;
+}
+/**
+ * 
+ * @export
  * @enum {string}
  */
 
@@ -307,79 +370,13 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary Delete a scout by ID
-         * @param {string} id 
+         * @summary Get paginated scout records
+         * @param {number} [page] Page number for pagination (default is 1)
+         * @param {number} [pageSize] Number of records per page (default is 10)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteScout: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('deleteScout', 'id', id)
-            const localVarPath = `/api/v1/scouts/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get a scout by ID
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getScoutById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('getScoutById', 'id', id)
-            const localVarPath = `/api/v1/scouts/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get all scouts
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getScouts: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getScoutsV1: async (page?: number, pageSize?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v1/scouts`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -392,51 +389,19 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Update a scout by ID
-         * @param {string} id 
-         * @param {Scout} scout 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateScout: async (id: string, scout: Scout, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateScout', 'id', id)
-            // verify required parameter 'scout' is not null or undefined
-            assertParamExists('updateScout', 'scout', scout)
-            const localVarPath = `/api/v1/scouts/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
             }
 
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            if (pageSize !== undefined) {
+                localVarQueryParameter['pageSize'] = pageSize;
+            }
 
 
     
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(scout, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -468,54 +433,16 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Delete a scout by ID
-         * @param {string} id 
+         * @summary Get paginated scout records
+         * @param {number} [page] Page number for pagination (default is 1)
+         * @param {number} [pageSize] Number of records per page (default is 10)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteScout(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteScout(id, options);
+        async getScoutsV1(page?: number, pageSize?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetScoutsV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getScoutsV1(page, pageSize, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.deleteScout']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Get a scout by ID
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getScoutById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Scout>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getScoutById(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.getScoutById']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Get all scouts
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getScouts(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Scout>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getScouts(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.getScouts']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Update a scout by ID
-         * @param {string} id 
-         * @param {Scout} scout 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async updateScout(id: string, scout: Scout, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Scout>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateScout(id, scout, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.updateScout']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.getScoutsV1']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -540,43 +467,14 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary Delete a scout by ID
-         * @param {string} id 
+         * @summary Get paginated scout records
+         * @param {number} [page] Page number for pagination (default is 1)
+         * @param {number} [pageSize] Number of records per page (default is 10)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteScout(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.deleteScout(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get a scout by ID
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getScoutById(id: string, options?: any): AxiosPromise<Scout> {
-            return localVarFp.getScoutById(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get all scouts
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getScouts(options?: any): AxiosPromise<Array<Scout>> {
-            return localVarFp.getScouts(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Update a scout by ID
-         * @param {string} id 
-         * @param {Scout} scout 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateScout(id: string, scout: Scout, options?: any): AxiosPromise<Scout> {
-            return localVarFp.updateScout(id, scout, options).then((request) => request(axios, basePath));
+        getScoutsV1(page?: number, pageSize?: number, options?: any): AxiosPromise<GetScoutsV1200Response> {
+            return localVarFp.getScoutsV1(page, pageSize, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -599,43 +497,14 @@ export interface DefaultApiInterface {
 
     /**
      * 
-     * @summary Delete a scout by ID
-     * @param {string} id 
+     * @summary Get paginated scout records
+     * @param {number} [page] Page number for pagination (default is 1)
+     * @param {number} [pageSize] Number of records per page (default is 10)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApiInterface
      */
-    deleteScout(id: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
-
-    /**
-     * 
-     * @summary Get a scout by ID
-     * @param {string} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApiInterface
-     */
-    getScoutById(id: string, options?: RawAxiosRequestConfig): AxiosPromise<Scout>;
-
-    /**
-     * 
-     * @summary Get all scouts
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApiInterface
-     */
-    getScouts(options?: RawAxiosRequestConfig): AxiosPromise<Array<Scout>>;
-
-    /**
-     * 
-     * @summary Update a scout by ID
-     * @param {string} id 
-     * @param {Scout} scout 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApiInterface
-     */
-    updateScout(id: string, scout: Scout, options?: RawAxiosRequestConfig): AxiosPromise<Scout>;
+    getScoutsV1(page?: number, pageSize?: number, options?: RawAxiosRequestConfig): AxiosPromise<GetScoutsV1200Response>;
 
 }
 
@@ -660,50 +529,15 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
 
     /**
      * 
-     * @summary Delete a scout by ID
-     * @param {string} id 
+     * @summary Get paginated scout records
+     * @param {number} [page] Page number for pagination (default is 1)
+     * @param {number} [pageSize] Number of records per page (default is 10)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public deleteScout(id: string, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).deleteScout(id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Get a scout by ID
-     * @param {string} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public getScoutById(id: string, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getScoutById(id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Get all scouts
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public getScouts(options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getScouts(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Update a scout by ID
-     * @param {string} id 
-     * @param {Scout} scout 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public updateScout(id: string, scout: Scout, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).updateScout(id, scout, options).then((request) => request(this.axios, this.basePath));
+    public getScoutsV1(page?: number, pageSize?: number, options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).getScoutsV1(page, pageSize, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
