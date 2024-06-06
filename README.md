@@ -37,5 +37,16 @@ docker build . --tag scoutdb
 Run the image you've just built and then visit: http://localhost:3000/
 
 ```sh
-docker run -it --env SCOUTDB_HTTP_HOST=0.0.0.0 -v "$(pwd)":/data/scoutdb/ -p 3000:3000 scoutdb
+docker run -it --restart=always --env SCOUTDB_HTTP_HOST=0.0.0.0 -v "$(pwd)":/data/scoutdb/ -p 3000:3000 scoutdb
+```
+
+### Running the image in production
+
+```sh
+docker run --detach \
+    --restart=always \
+    --env SCOUTDB_HTTP_HOST=0.0.0.0 \
+    --volume "$(pwd)":/data/scoutdb/ \
+    --publish 3000:3000 \
+    scoutdb
 ```
