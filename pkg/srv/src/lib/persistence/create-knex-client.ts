@@ -1,5 +1,3 @@
-import path from "node:path";
-
 import knex from "knex";
 import { Ok, Result } from "ts-results";
 
@@ -22,11 +20,7 @@ export async function createKnexClient(
   const migrationSource = await createMigrationSource();
   log.debug("Created migration source OK");
 
-  const dbFilePathRelative = "../../../../../infra/scoutdb.sqlite3";
-  log.debug("dbFilePathRelative=%s", dbFilePathRelative);
-  log.debug("__dirname=%s", __dirname);
-
-  const dbFilePath = path.resolve(__dirname, dbFilePathRelative);
+  const dbFilePath = "/data/scoutdb/scoutdb.sqlite3";
   log.debug("dbFilePath=%s", dbFilePath);
 
   const knexConfig = {

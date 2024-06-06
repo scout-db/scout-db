@@ -79,4 +79,6 @@ pkg/srv/tsconfig.tsbuildinfo
 !.yarn/releases
 !.yarn/plugins
 .pnp.*
-infra/*.sqlite3
+
+
+*.sqlite3
