@@ -40,6 +40,80 @@
   "sdbg.examples.form.text4": "Gift sent!",
   "sdbg.examples.form.text5": "No gift sent.",
   "sdbg.examples.form.text6": "Clap",
+  "sdbg.examples.form.text7": "We've successfully saved the data to the database.",
+
+
+
+  "sdbg.examples.form.checkbox.true": "TRUE",
+  "sdbg.examples.form.checkbox.false": "FALSE",
+
+  "sdbg.examples.form.id.error": "Filling out the ID field is mandatory!",
+  "sdbg.examples.form.id.label": "Identifier",
+
+  "sdbg.examples.form.first_name.error": "Filling out the First Name field is mandatory!",
+  "sdbg.examples.form.first_name.label": "First Name",
+
+  "sdbg.examples.form.last_name.error": "Filling out the Last Name field is mandatory!",
+  "sdbg.examples.form.last_name.label": "Last Name",
+
+  "sdbg.examples.form.birth_year.error": "Filling out the Birth Year field is mandatory!",
+  "sdbg.examples.form.birth_year.label": "Birth Year",
+
+  "sdbg.examples.form.email_1.error": "Filling out the Email field is mandatory!",
+  "sdbg.examples.form.email_1.label": "Email",
+
+  "sdbg.examples.form.phone_number_1.error": "Filling out the Phone Number field is mandatory!",
+  "sdbg.examples.form.phone_number_1.label": "Phone Number",
+
+  "sdbg.examples.form.troop_name.error": "Filling out the Troop Name field is mandatory!",
+  "sdbg.examples.form.troop_name.label": "Troop Name",
+
+  "sdbg.examples.form.troop_number.error": "Filling out the Troop Number field is mandatory!",
+  "sdbg.examples.form.troop_number.label": "Troop Number",
+
+  "sdbg.examples.form.troop_url.error": "Filling out the Troop URL field is mandatory!",
+  "sdbg.examples.form.troop_url.label": "Troop URL",
+
+  "sdbg.examples.form.country.error": "Filling out the Country field is mandatory!",
+  "sdbg.examples.form.country.label": "Country",
+
+  "sdbg.examples.form.state.error": "Filling out the State field is mandatory!",
+  "sdbg.examples.form.state.label": "State",
+
+  "sdbg.examples.form.city.error": "Filling out the City field is mandatory!",
+  "sdbg.examples.form.city.label": "City",
+
+  "sdbg.examples.form.rank.error": "Filling out the Rank field is mandatory!",
+  "sdbg.examples.form.rank.label": "Rank",
+
+  "sdbg.examples.form.been_to_jubilee.error": "Filling out this field is mandatory!",
+  "sdbg.examples.form.been_to_jubilee.label": "Been to Jubilee",
+
+  "sdbg.examples.form.can_set_fire.error": "Filling out this field is mandatory!",
+  "sdbg.examples.form.can_set_fire.label": "Can Set Fire",
+
+  "sdbg.examples.form.can_carve_wood.error": "Filling out this field is mandatory!",
+  "sdbg.examples.form.can_carve_wood.label": "Can Carve Wood",
+
+  "sdbg.examples.form.can_train_others.error": "Filling out this field is mandatory!",
+  "sdbg.examples.form.can_train_others.label": "Can Train Others",
+
+  "sdbg.examples.form.can_make_sausage.error": "Filling out this field is mandatory!",
+  "sdbg.examples.form.can_make_sausage.label": "Can Make Sausage",
+
+  "sdbg.examples.form.can_lead_campfire.error": "Filling out this field is mandatory!",
+  "sdbg.examples.form.can_lead_campfire.label": "Can Lead Campfire",
+
+  "sdbg.examples.form.can_first_aid.error": "Filling out this field is mandatory!",
+  "sdbg.examples.form.can_first_aid.label": "Can Perform First Aid",
+
+  "sdbg.examples.form.can_cook.error": "Filling out this field is mandatory!",
+  "sdbg.examples.form.can_cook.label": "Can Cook"
+
+
+
+
+
   "sdbg.examples.form.title": "Reactive form using a form builder",
   "sdbg.examples.menu.auth": "Auth",
   "sdbg.examples.menu.crud": "CRUD",

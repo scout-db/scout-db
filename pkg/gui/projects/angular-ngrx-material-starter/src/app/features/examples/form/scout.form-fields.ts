@@ -1,10 +1,10 @@
-import { Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { nanoid } from 'nanoid';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 export function createScoutFormGroupConfig(): { [key: string]: any } {
   return {
-    id: [nanoid(16), Validators.required],
+    id: new FormControl({ value: nanoid(16), disabled: false }, Validators.required),
     first_name: ['', Validators.required],
     last_name: ['', Validators.required],
     birth_year: [null, Validators.required],
@@ -31,91 +31,91 @@ export function createScoutFormGroupConfig(): { [key: string]: any } {
 export const SCOUT_FORM_FIELDS = [
   {
     name: 'id',
-    label: 'ID',
+    label: 'sdbg.examples.form.id.label',
     type: 'text',
-    error: 'ID is required',
+    error: 'sdbg.examples.form.id.error',
     isReadonly: true
   },
   {
     name: 'first_name',
-    label: 'First Name',
+    label: 'sdbg.examples.form.first_name.label',
     type: 'text',
-    error: 'First Name is required',
+    error: 'sdbg.examples.form.first_name.error',
     isReadonly: false
   },
   {
     name: 'last_name',
-    label: 'Last Name',
+    label: 'sdbg.examples.form.last_name.label',
     type: 'text',
-    error: 'Last Name is required',
+    error: 'sdbg.examples.form.last_name.error',
     isReadonly: false
   },
   {
     name: 'birth_year',
-    label: 'Birth Year',
+    label: 'sdbg.examples.form.birth_year.label',
     type: 'number',
-    error: 'Birth Year is required',
+    error: 'sdbg.examples.form.birth_year.error',
     isReadonly: false
   },
   {
     name: 'email_1',
-    label: 'Email',
+    label: 'sdbg.examples.form.email_1.label',
     type: 'email',
-    error: 'Email is required',
+    error: 'sdbg.examples.form.email_1.error',
     isReadonly: false
   },
   {
     name: 'phone_number_1',
-    label: 'Phone Number',
+    label: 'sdbg.examples.form.phone_number_1.label',
     type: 'text',
-    error: 'Phone Number is required',
+    error: 'sdbg.examples.form.phone_number_1.error',
     isReadonly: false
   },
   {
     name: 'troop_name',
-    label: 'Troop Name',
+    label: 'sdbg.examples.form.troop_name.label',
     type: 'text',
-    error: 'Troop Name is required',
+    error: 'sdbg.examples.form.troop_name.error',
     isReadonly: false
   },
   {
     name: 'troop_number',
-    label: 'Troop Number',
+    label: 'sdbg.examples.form.troop_number.label',
     type: 'number',
-    error: 'Troop Number is required',
+    error: 'sdbg.examples.form.troop_number.error',
     isReadonly: false
   },
   {
     name: 'troop_url',
-    label: 'Troop URL',
+    label: 'sdbg.examples.form.troop_url.label',
     type: 'url',
-    error: 'Troop URL is required',
+    error: 'sdbg.examples.form.troop_url.error',
     isReadonly: false
   },
   {
     name: 'country',
-    label: 'Country',
+    label: 'sdbg.examples.form.country.label',
     type: 'text',
-    error: 'Country is required',
+    error: 'sdbg.examples.form.country.error',
     isReadonly: false
   },
   {
     name: 'state',
-    label: 'State',
+    label: 'sdbg.examples.form.state.label',
     type: 'text',
-    error: 'State is required',
+    error: 'sdbg.examples.form.state.error',
     isReadonly: false
   },
   {
     name: 'city',
-    label: 'City',
+    label: 'sdbg.examples.form.city.label',
     type: 'text',
-    error: 'City is required',
+    error: 'sdbg.examples.form.city.error',
     isReadonly: false
   },
   {
     name: 'rank',
-    label: 'Rank',
+    label: 'sdbg.examples.form.rank.label',
     type: 'select',
     options: [
       { value: 'KOV', viewValue: 'KOV - Kiscserkész Őrs Vezető' },
@@ -124,95 +124,95 @@ export const SCOUT_FORM_FIELDS = [
       { value: 'ST', viewValue: 'ST - Segéd Tiszt' },
       { value: 'T', viewValue: 'T - Tiszt' }
     ],
-    error: 'Rank is required',
+    error: 'sdbg.examples.form.rank.error',
     isReadonly: false
   },
   {
     name: 'been_to_jubilee',
-    label: 'Been to Jubilee',
+    label: 'sdbg.examples.form.been_to_jubilee.label',
     type: 'select',
     options: [
-      { value: 'TRUE', viewValue: 'TRUE' },
-      { value: 'FALSE', viewValue: 'FALSE' }
+      { value: 'TRUE', viewValue: 'sdbg.examples.form.checkbox.true' },
+      { value: 'FALSE', viewValue: 'sdbg.examples.form.checkbox.false' }
     ],
-    error: 'This field is required',
+    error: 'sdbg.examples.form.been_to_jubilee.error',
     isReadonly: false
   },
   {
     name: 'can_set_fire',
-    label: 'Can Set Fire',
+    label: 'sdbg.examples.form.can_set_fire.label',
     type: 'select',
     options: [
-      { value: 'TRUE', viewValue: 'TRUE' },
-      { value: 'FALSE', viewValue: 'FALSE' }
+      { value: 'TRUE', viewValue: 'sdbg.examples.form.checkbox.true' },
+      { value: 'FALSE', viewValue: 'sdbg.examples.form.checkbox.false' }
     ],
-    error: 'This field is required',
+    error: 'sdbg.examples.form.can_set_fire.error',
     isReadonly: false
   },
   {
     name: 'can_carve_wood',
-    label: 'Can Carve Wood',
+    label: 'sdbg.examples.form.can_carve_wood.label',
     type: 'select',
     options: [
-      { value: 'TRUE', viewValue: 'TRUE' },
-      { value: 'FALSE', viewValue: 'FALSE' }
+      { value: 'TRUE', viewValue: 'sdbg.examples.form.checkbox.true' },
+      { value: 'FALSE', viewValue: 'sdbg.examples.form.checkbox.false' }
     ],
-    error: 'This field is required',
+    error: 'sdbg.examples.form.can_carve_wood.error',
     isReadonly: false
   },
   {
     name: 'can_train_others',
-    label: 'Can Train Others',
+    label: 'sdbg.examples.form.can_train_others.label',
     type: 'select',
     options: [
-      { value: 'TRUE', viewValue: 'TRUE' },
-      { value: 'FALSE', viewValue: 'FALSE' }
+      { value: 'TRUE', viewValue: 'sdbg.examples.form.checkbox.true' },
+      { value: 'FALSE', viewValue: 'sdbg.examples.form.checkbox.false' }
     ],
-    error: 'This field is required',
+    error: 'sdbg.examples.form.can_train_others.error',
     isReadonly: false
   },
   {
     name: 'can_make_sausage',
-    label: 'Can Make Sausage',
+    label: 'sdbg.examples.form.can_make_sausage.label',
     type: 'select',
     options: [
-      { value: 'TRUE', viewValue: 'TRUE' },
-      { value: 'FALSE', viewValue: 'FALSE' }
+      { value: 'TRUE', viewValue: 'sdbg.examples.form.checkbox.true' },
+      { value: 'FALSE', viewValue: 'sdbg.examples.form.checkbox.false' }
     ],
-    error: 'This field is required',
+    error: 'sdbg.examples.form.can_make_sausage.error',
     isReadonly: false
   },
   {
     name: 'can_lead_campfire',
-    label: 'Can Lead Campfire',
+    label: 'sdbg.examples.form.can_lead_campfire.label',
     type: 'select',
     options: [
-      { value: 'TRUE', viewValue: 'TRUE' },
-      { value: 'FALSE', viewValue: 'FALSE' }
+      { value: 'TRUE', viewValue: 'sdbg.examples.form.checkbox.true' },
+      { value: 'FALSE', viewValue: 'sdbg.examples.form.checkbox.false' }
     ],
-    error: 'This field is required',
+    error: 'sdbg.examples.form.can_lead_campfire.error',
     isReadonly: false
   },
   {
     name: 'can_first_aid',
-    label: 'Can Perform First Aid',
+    label: 'sdbg.examples.form.can_first_aid.label',
     type: 'select',
     options: [
-      { value: 'TRUE', viewValue: 'TRUE' },
-      { value: 'FALSE', viewValue: 'FALSE' }
+      { value: 'TRUE', viewValue: 'sdbg.examples.form.checkbox.true' },
+      { value: 'FALSE', viewValue: 'sdbg.examples.form.checkbox.false' }
     ],
-    error: 'This field is required',
+    error: 'sdbg.examples.form.can_first_aid.error',
     isReadonly: false
   },
   {
     name: 'can_cook',
-    label: 'Can Cook',
+    label: 'sdbg.examples.form.can_cook.label',
     type: 'select',
     options: [
-      { value: 'TRUE', viewValue: 'TRUE' },
-      { value: 'FALSE', viewValue: 'FALSE' }
+      { value: 'TRUE', viewValue: 'sdbg.examples.form.checkbox.true' },
+      { value: 'FALSE', viewValue: 'sdbg.examples.form.checkbox.false' }
     ],
-    error: 'This field is required',
+    error: 'sdbg.examples.form.can_cook.error',
     isReadonly: false
   }
 ];

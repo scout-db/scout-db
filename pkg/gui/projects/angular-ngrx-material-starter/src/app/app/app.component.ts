@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
   version = env.versions.app;
   year = new Date().getFullYear();
   logo = 'assets/logo.png';
-  languages = ['en', 'de', 'sk', 'fr', 'es', 'pt-br', 'zh-cn', 'he', 'ar'];
+  languages = ['en', 'hu'];
   navigation = [
     { link: 'about', label: 'sdbg.menu.about' },
     { link: 'feature-list', label: 'sdbg.menu.features' },

@@ -12,7 +12,7 @@
           class="w-100"
           *ngIf="field.type !== 'select'"
         >
-          <mat-label>{{ field.label }}</mat-label>
+          <mat-label>{{ field.label | translate }}</mat-label>
           <input
             matInput
             name="{{ field.name }}"
@@ -45,9 +45,9 @@
             type="url"
             *ngIf="field.type === 'url'"
           />
-          <mat-error *ngIf="form.get(field.name)?.['invalid']">{{
-            field.error
-          }}</mat-error>
+          <mat-error *ngIf="form.get(field.name)?.['invalid']">
+            {{ field.error | translate }}
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field
@@ -55,22 +55,21 @@
           class="w-100"
           *ngIf="field.type === 'select'"
         >
-          <mat-label>{{ field.label }}</mat-label>
+          <mat-label>{{ field.label | translate }}</mat-label>
           <mat-select
             [attr.name]="field.name"
             [formControlName]="field.name"
-            [disabled]="field.isReadonly"
           >
             <mat-option
               *ngFor="let option of field.options"
               [value]="option.value"
             >
-              {{ option.viewValue }}
+              {{ option.viewValue | translate }}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="form.get(field.name)?.['invalid']">{{
-            field.error
-          }}</mat-error>
+          <mat-error *ngIf="form.get(field.name)?.['invalid']">
+            {{ field.error | translate }}
+          </mat-error>
         </mat-form-field>
       </div>
     </div>

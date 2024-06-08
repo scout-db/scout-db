@@ -3,6 +3,7 @@
     "@ionic/angular/common",
     "@ionic/angular"
   ],
+  "cSpell.dictionaries": ["en,hu"],
   "cSpell.words": [
     "Adatbázis",
     "Albertirsa",

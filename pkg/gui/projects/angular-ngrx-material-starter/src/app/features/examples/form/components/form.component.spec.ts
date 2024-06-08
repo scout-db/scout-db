@@ -9,7 +9,11 @@ import { MatInputHarness } from '@angular/material/input/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatSelectHarness } from '@angular/material/select/testing';
 
-import { RankLongName, Scout } from '@kmcssz-org/scoutdb-common';
+import {
+  RankLongName,
+  Scout,
+  ScoutBeenToJubileeEnum
+} from '@kmcssz-org/scoutdb-common';
 
 import { NotificationService } from '../../../../core/core.module';
 import { SharedModule } from '../../../../shared/shared.module';
@@ -17,6 +21,7 @@ import { createMockScout } from '../../../../../test/create-mock-scout';
 
 import { FormComponent } from './form.component';
 import { selectFormState } from '../form.selectors';
+import { debug } from 'console';
 
 describe('FormComponent', () => {
   let store: MockStore;
@@ -37,22 +42,27 @@ describe('FormComponent', () => {
       })
     );
 
-  const selectOptionStartsWith = (
-    msh: MatSelectHarness,
-    prefix: string
-  ): Promise<void> => {
-    const regExp = new RegExp(`${prefix}.*`);
-    return msh.clickOptions({ text: regExp });
-  };
-
   const getSaveButton = () =>
     loader.getHarness(
       MatButtonHarness.with({ text: 'sdbg.examples.form.save' })
     );
 
+  const checkboxEnumToI18n = (value: 'TRUE' | 'FALSE'): string => {
+    if (value !== 'TRUE' && value !== 'FALSE') {
+      throw new Error(`Invalid mat-select value: "${value}"`);
+    }
+    return value === 'TRUE'
+      ? 'sdbg.examples.form.checkbox.true'
+      : 'sdbg.examples.form.checkbox.false';
+  };
+
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [SharedModule, NoopAnimationsModule, TranslateModule.forRoot()],
+      imports: [
+        SharedModule,
+        NoopAnimationsModule,
+        TranslateModule.forRoot({ defaultLanguage: 'en' })
+      ],
       declarations: [FormComponent],
       providers: [provideMockStore(), NotificationService]
     });
@@ -109,20 +119,35 @@ describe('FormComponent', () => {
     const rankLongName = RankLongName[scout.rank];
     await rankSelect.clickOptions({ text: rankLongName });
 
-    await beenToJubileeSelect.clickOptions({ text: scout.been_to_jubilee });
-    await canSetFireSelect.clickOptions({ text: scout.can_set_fire });
-    await canCarveWoodSelect.clickOptions({ text: scout.can_carve_wood });
+    const beenToJubileeText = checkboxEnumToI18n(scout.been_to_jubilee);
+    await beenToJubileeSelect.clickOptions({ text: beenToJubileeText });
+
+    const canSetFireText = checkboxEnumToI18n(scout.can_set_fire);
+    await canSetFireSelect.clickOptions({ text: canSetFireText });
+
+    const canCarveWoodText = checkboxEnumToI18n(scout.can_carve_wood);
+    await canCarveWoodSelect.clickOptions({ text: canCarveWoodText });
+
+    const canTrainOthersText = checkboxEnumToI18n(scout.can_train_others);
     await canTrainOthersSelect.clickOptions({
-      text: scout.can_train_others
+      text: canTrainOthersText
     });
+
+    const canMakeSausageText = checkboxEnumToI18n(scout.can_make_sausage);
     await canMakeSausageSelect.clickOptions({
-      text: scout.can_make_sausage
+      text: canMakeSausageText
     });
+
+    const canLeadCampfireText = checkboxEnumToI18n(scout.can_lead_campfire);
     await canLeadCampfireSelect.clickOptions({
-      text: scout.can_lead_campfire
+      text: canLeadCampfireText
     });
-    await canFirstAidSelect.clickOptions({ text: scout.can_first_aid });
-    await canCookSelect.clickOptions({ text: scout.can_cook });
+
+    const canFirstAidText = checkboxEnumToI18n(scout.can_first_aid);
+    await canFirstAidSelect.clickOptions({ text: canFirstAidText });
+
+    const canCookText = checkboxEnumToI18n(scout.can_cook);
+    await canCookSelect.clickOptions({ text: canCookText });
 
     await saveButton.click();
 

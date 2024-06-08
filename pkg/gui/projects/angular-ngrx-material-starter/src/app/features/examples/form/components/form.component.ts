@@ -86,7 +86,8 @@ export class FormComponent implements OnInit {
         this.save();
       });
       this.reset(ngForm);
-      this.notificationService.info('Your data has been saved, thank you!');
+      const savedOKLbl = this.translate.instant('sdbg.examples.form.text7');
+      this.notificationService.info(savedOKLbl);
     }
   }
 
