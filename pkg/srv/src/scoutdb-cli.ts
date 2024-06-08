@@ -1,8 +1,7 @@
 import process from "process";
 
-import yargs from "yargs";
-
 import { newRex } from "@kmcssz-org/scoutdb-common";
+import yargs from "yargs";
 
 import { ISharedGlobalState } from "./lib/state/shared-global-state.js";
 import { configureOpenTelemetry } from "./lib/tracing/configure-open-telemetry.js";
@@ -27,6 +26,12 @@ export async function main() {
       type: "string",
       default: "./public",
       description: "Directory containing static files",
+    })
+    .option("sqlite-db-path", {
+      alias: "d",
+      type: "string",
+      default: "/data/scoutdb/scoutdb.sqlite3",
+      description: "File path of the SQL db (SQLite) file to use.",
     })
     .option("tracing-exporter-trace-otlp-http-endpoint", {
       type: "string",
@@ -87,6 +92,7 @@ export async function main() {
     httpPort: argv.httpPort,
     httpHost: argv.httpHost,
     wwwDir: argv.wwwDir,
+    sqliteDbPath: argv.sqliteDbPath,
   };
 
   try {

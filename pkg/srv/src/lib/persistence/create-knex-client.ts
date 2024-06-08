@@ -8,6 +8,7 @@ import { createMigrationSource } from "./migrations/knex/knex-migration-source";
 
 export interface IRunDbSchemaMigrationsOptions {
   sgs: Readonly<ISharedGlobalState>;
+  sqliteDbPath: Readonly<string>;
 }
 
 export async function createKnexClient(
@@ -20,7 +21,7 @@ export async function createKnexClient(
   const migrationSource = await createMigrationSource();
   log.debug("Created migration source OK");
 
-  const dbFilePath = "/data/scoutdb/scoutdb.sqlite3";
+  const dbFilePath = req.sqliteDbPath;
   log.debug("dbFilePath=%s", dbFilePath);
 
   const knexConfig = {

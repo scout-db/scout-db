@@ -4,7 +4,11 @@ import { newRex, OpenApiJson, Scout } from "@kmcssz-org/scoutdb-common";
 import bodyParser from "body-parser";
 import express from "express";
 import * as OpenApiValidator from "express-openapi-validator";
-import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK } from "http-errors-enhanced-cjs";
+import {
+  BAD_REQUEST,
+  INTERNAL_SERVER_ERROR,
+  OK,
+} from "http-errors-enhanced-cjs";
 import { Err, Ok, Result } from "ts-results";
 
 import {
@@ -21,9 +25,9 @@ export async function startServer(
   const logLevel = opts.sgs.logLevel || DEFAULT_APP_LOG_LEVEL;
   const log = createLogger({ sgs: opts.sgs, level: logLevel });
   const app = express();
-  const db = (await createKnexClient({ sgs: opts.sgs })).expect(
-    "The Knex client to have been created OK.",
-  );
+  const db = (
+    await createKnexClient({ sgs: opts.sgs, sqliteDbPath: opts.sqliteDbPath })
+  ).expect("The Knex client to have been created OK.");
 
   // Use body-parser to parse JSON requests
   app.use(bodyParser.json());

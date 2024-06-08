@@ -21,6 +21,7 @@ test("startServer()", async (t) => {
     httpPort: 3000,
     httpHost: "localhost",
     wwwDir: "./public",
+    sqliteDbPath: "../../"
   };
 
   const srv: IScoutDbServer = await startServer(srvOpts);

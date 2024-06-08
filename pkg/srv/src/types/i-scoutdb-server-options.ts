@@ -5,4 +5,5 @@ export interface IScoutDbServerOptions {
   readonly httpPort: number;
   readonly httpHost: string;
   readonly wwwDir: string;
+  readonly sqliteDbPath: string;
 }
