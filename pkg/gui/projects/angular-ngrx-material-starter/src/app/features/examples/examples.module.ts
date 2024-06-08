@@ -50,6 +50,7 @@ export function httpLoaderFactory(http: HttpClient) {
     MatPaginatorModule,
     MatSortModule,
     TranslateModule.forChild({
+      defaultLanguage: 'hu',
       loader: {
         provide: TranslateLoader,
         useFactory: httpLoaderFactory,
