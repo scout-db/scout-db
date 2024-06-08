@@ -7,3 +7,5 @@ export const actionFormUpdate = createAction(
 );
 
 export const actionFormReset = createAction('[Form] Reset');
+
+export const actionFormSavedOnBackend = createAction('[Form] SavedOnBackend');

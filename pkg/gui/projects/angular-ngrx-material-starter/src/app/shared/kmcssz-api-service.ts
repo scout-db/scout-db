@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import {
   KmcsszApi,
   KmcsszApiConfiguration,
@@ -6,6 +7,7 @@ import {
 } from '@kmcssz-org/scoutdb-common';
 
 import { environment } from '../../environments/environment';
+import { actionFormSavedOnBackend } from '../features/examples/form/form.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +15,14 @@ import { environment } from '../../environments/environment';
 export class KmcsszApiService {
   private readonly api: KmcsszApi;
 
-  constructor() {
+  constructor(private store: Store<unknown>) {
     const basePath = environment.httpApiBaseUrl;
     this.api = new KmcsszApi(new KmcsszApiConfiguration({ basePath }));
   }
 
-  public async upsertScout(scout: Scout): Promise<unknown> {
-    const response = await this.api.createScout(scout);
-    return response;
+  public async upsertScout(scout: Scout): Promise<Scout> {
+    const res = await this.api.createScout(scout);
+    this.store.dispatch(actionFormSavedOnBackend());
+    return res.data;
   }
 }

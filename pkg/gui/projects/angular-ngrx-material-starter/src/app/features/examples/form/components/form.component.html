@@ -1,5 +1,10 @@
 <div class="container mt-4">
-  <form (ngSubmit)="onSubmit()" [formGroup]="form" novalidate>
+  <form
+    #formGroupDirective="ngForm"
+    (ngSubmit)="onSubmit(formGroupDirective)"
+    [formGroup]="form"
+    novalidate
+  >
     <div class="row">
       <div class="col-md-6 mb-3" *ngFor="let field of fields">
         <mat-form-field

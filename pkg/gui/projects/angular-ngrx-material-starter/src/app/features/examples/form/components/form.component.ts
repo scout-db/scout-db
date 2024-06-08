@@ -1,9 +1,16 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { UntypedFormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
+import {
+  UntypedFormBuilder,
+  FormGroup,
+  FormArray,
+  FormGroupDirective
+} from '@angular/forms';
+import { ActionsSubject, Store, select } from '@ngrx/store';
+import { ofType } from '@ngrx/effects';
 import { take } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { nanoid } from 'nanoid';
 
 import { Scout } from '@kmcssz-org/scoutdb-common';
 
@@ -11,9 +18,13 @@ import {
   ROUTE_ANIMATIONS_ELEMENTS,
   NotificationService
 } from '../../../../core/core.module';
-import { environment } from "../../../../../environments/environment";
+import { environment } from '../../../../../environments/environment';
 
-import { actionFormReset, actionFormUpdate } from '../form.actions';
+import {
+  actionFormReset,
+  actionFormSavedOnBackend,
+  actionFormUpdate
+} from '../form.actions';
 import { selectFormState } from '../form.selectors';
 import { State } from '../../examples.state';
 
@@ -41,7 +52,8 @@ export class FormComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private store: Store<State>,
     private translate: TranslateService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private actionsListener$: ActionsSubject
   ) {
     const cfg = createScoutFormGroupConfig();
     this.form = this.fb.group(cfg);
@@ -61,21 +73,27 @@ export class FormComponent implements OnInit {
     this.store.dispatch(actionFormUpdate({ form: this.form.value }));
   }
 
-  onSubmit() {
+  async onSubmit(ngForm: FormGroupDirective) {
     if (this.form.valid) {
-      this.save();
-      this.notificationService.info(
-        (this.form.value.requestGift
-          ? this.translate.instant('sdbg.examples.form.text4')
-          : this.translate.instant('sdbg.examples.form.text5')) +
-          ' : ' +
-          this.translate.instant('sdbg.examples.form.text6')
-      );
+      await new Promise<void>((resolve, reject) => {
+        this.actionsListener$
+          .pipe(ofType(actionFormSavedOnBackend), take(1))
+          .subscribe((data: any) => {
+            console.log('ACTION_LISTENER', data);
+            resolve();
+          });
+
+        this.save();
+      });
+      this.reset(ngForm);
+      this.notificationService.info('Your data has been saved, thank you!');
     }
   }
 
-  reset() {
+  reset(ngForm: FormGroupDirective) {
+    ngForm.resetForm();
     this.form.reset();
+    this.form.patchValue({ id: nanoid(16) });
     this.form.clearValidators();
     this.form.clearAsyncValidators();
     this.store.dispatch(actionFormReset());

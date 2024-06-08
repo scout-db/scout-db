@@ -13,16 +13,15 @@ export class FormEffects {
     () =>
       this.actions$.pipe(
         ofType(actionFormUpdate),
-        tap(
-          (action) => this.api.upsertScout(action.form)
-          // this.localStorageService.setItem(FORM_KEY, { form: action.form })
-        )
+        tap(async (action) => {
+          await this.api.upsertScout(action.form);
+        }),
       ),
     { dispatch: false }
   );
 
   constructor(
     private actions$: Actions,
-    private api: KmcsszApiService
+    private api: KmcsszApiService,
   ) {}
 }
