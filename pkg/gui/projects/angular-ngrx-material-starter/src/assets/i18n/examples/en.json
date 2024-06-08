@@ -42,8 +42,6 @@
   "sdbg.examples.form.text6": "Clap",
   "sdbg.examples.form.text7": "We've successfully saved the data to the database.",
 
-
-
   "sdbg.examples.form.checkbox.true": "TRUE",
   "sdbg.examples.form.checkbox.false": "FALSE",
 
@@ -108,11 +106,7 @@
   "sdbg.examples.form.can_first_aid.label": "Can Perform First Aid",
 
   "sdbg.examples.form.can_cook.error": "Filling out this field is mandatory!",
-  "sdbg.examples.form.can_cook.label": "Can Cook"
-
-
-
-
+  "sdbg.examples.form.can_cook.label": "Can Cook",
 
   "sdbg.examples.form.title": "Reactive form using a form builder",
   "sdbg.examples.menu.auth": "Auth",
