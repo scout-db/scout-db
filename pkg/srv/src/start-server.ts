@@ -168,7 +168,7 @@ export async function startServer(
       if (emailCheck.val.isServerError) {
         log.error("%s Check fail: scout email uniqueness %o", emailCheck.val);
       } else {
-        log.debug("%s Scout email is not unique: %o", scout.email_1);
+        log.debug("%s Scout email is not unique: %o", fn, scout.email_1);
         const errPojo = emailCheck.val.serialize();
         res.json(errPojo);
       }
