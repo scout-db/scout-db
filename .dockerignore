@@ -1,3 +1,10 @@
-**/node_modules/**
+node_modules/
 dist/
 build/
+.angular/
+.cache/
+*.sqlite3
+
+./pkg/gui/.angular/
+./pkg/srv/node_modules/
+./pkg/common/node_modules/
