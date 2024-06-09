@@ -1,3 +1,5 @@
+import path from "node:path";
+
 import { DiagLogLevel } from "@opentelemetry/api";
 import test from "ava";
 
@@ -16,17 +18,26 @@ test("startServer()", async (t) => {
     serviceName: "scoutdb-server-TEST",
     serviceVersion: "0.0.0-test",
   };
+
+  const wwwDirRelative = "../../gui/dist/angular-ngrx-material-starter/";
+  const wwwDir = path.resolve(__dirname, wwwDirRelative);
+  console.log("wwwDir=%s", wwwDir);
+
+  const sqliteDbPathRelative = "../../../scoutdb.test.sqlite3";
+  const sqliteDbPath = path.resolve(__dirname, sqliteDbPathRelative);
+
   const srvOpts: IScoutDbServerOptions = {
     sgs,
     httpPort: 3000,
-    httpHost: "localhost",
-    wwwDir: "./public",
-    sqliteDbPath: "../../"
+    httpHost: "127.0.0.1",
+    wwwDir,
+    sqliteDbPath,
   };
 
   const srv: IScoutDbServer = await startServer(srvOpts);
   t.is(srv.opts.httpPort, 3000, "httpPort is 3000");
-  t.is(srv.opts.wwwDir, "./public", "wwwDir is ./public");
+  t.is(srv.opts.wwwDir, wwwDir, "wwwDir is " + wwwDir);
+  t.is(srv.opts.sqliteDbPath, sqliteDbPath, "sqliteDbPath is " + sqliteDbPath);
   t.truthy(srv.httpServer, "httpServer is truthy");
   t.truthy(srv.expressApp, "expressApp is truthy");
 });

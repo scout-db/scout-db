@@ -4,6 +4,21 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 jobs:
+  srv_test_unit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4.1.6
+      - run: corepack enable
+      - uses: actions/setup-node@v4.0.2
+        with:
+          node-version: '20.11.1'
+          cache: 'yarn'
+          cache-dependency-path: './yarn.lock'
+      - run: yarn install
+      - run: yarn build
+        working-directory: ./pkg/common/
+      - run: yarn test
+        working-directory: ./pkg/srv
   gui_test_unit:
     runs-on: ubuntu-24.04
     steps:

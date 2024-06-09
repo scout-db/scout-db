@@ -15,6 +15,7 @@ import {
   createLogger,
   DEFAULT_APP_LOG_LEVEL,
 } from "./lib/logging/create-logger.js";
+import { checkScoutEmailExists } from "./lib/persistence/check-scout-email-exists.js";
 import { createKnexClient } from "./lib/persistence/create-knex-client.js";
 import { IScoutDbServerOptions } from "./types/i-scoutdb-server-options.js";
 import { IScoutDbServer } from "./types/i-scoutdb-server.js";
@@ -29,8 +30,10 @@ export async function startServer(
     await createKnexClient({ sgs: opts.sgs, sqliteDbPath: opts.sqliteDbPath })
   ).expect("The Knex client to have been created OK.");
 
+  log.debug("Configuring ExpressJS instance...");
   // Use body-parser to parse JSON requests
   app.use(bodyParser.json());
+  log.debug("Enabled HTTP request JSON body parser OK");
 
   const paths = Object.keys(
     (OpenApiJson as { paths: Record<string, unknown> }).paths,
@@ -154,6 +157,24 @@ export async function startServer(
     const fn = "HTTP POST /api/v1/scouts";
     log.debug("%s ENTRY", fn);
 
+    const scout = req.body as Scout;
+    const { sgs } = opts;
+    const { email_1: email } = scout;
+
+    const emailCheck = await checkScoutEmailExists({ sgs, db, email });
+    if (emailCheck.err) {
+      res.status(emailCheck.val.statusCode);
+
+      if (emailCheck.val.isServerError) {
+        log.error("%s Check fail: scout email uniqueness %o", emailCheck.val);
+      } else {
+        log.debug("%s Scout email is not unique: %o", scout.email_1);
+        const errPojo = emailCheck.val.serialize();
+        res.json(errPojo);
+      }
+      return Ok.EMPTY;
+    }
+
     try {
       const entity = await db<Scout>("scout").insert(req.body);
       log.debug("[knex] scout entity: %o", entity);
@@ -192,6 +213,8 @@ export async function startServer(
     return Ok.EMPTY;
   });
 
+  log.debug("Registered ExpressJS handlers OK.");
+
   // Start the server
   const { httpHost, httpPort } = opts;
   const httpServer = app.listen(httpPort, httpHost, (): unknown => {
@@ -201,6 +224,7 @@ export async function startServer(
     log.info(`Serving static files from ${opts.wwwDir}`);
     return;
   });
+  log.debug("Instantiated HTTP server OK");
 
   return {
     httpServer,

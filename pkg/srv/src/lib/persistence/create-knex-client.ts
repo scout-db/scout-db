@@ -41,6 +41,9 @@ export async function createKnexClient(
   const preMigrationDbVersion = await db.migrate.currentVersion();
   log.debug("Pre-migration DB version: %s", preMigrationDbVersion);
 
+  const migrationList = await db.migrate.list();
+  log.debug("Migration list: %o", migrationList);
+
   const migrationResults = await db.migrate.latest();
 
   const postMigrationDbVersion = await db.migrate.currentVersion();

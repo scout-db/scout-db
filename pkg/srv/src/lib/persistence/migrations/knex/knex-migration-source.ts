@@ -2,6 +2,7 @@ import { Knex } from "knex";
 import { Err, Ok, Result } from "ts-results";
 
 import * as Sql001MigrationCreateTableScout from "./sql-001-migration_create_table_scout";
+import * as Sql002MigrationAlterTableScoutEmailUnique from "./sql-002-migration_alter_table_scout_email_unique";
 
 export interface IKnexMigration {
   up(knex: Readonly<Knex>): Promise<void>;
@@ -35,13 +36,13 @@ export function createMigrationSource(): IKnexMigrationSource<IKnexMigration> {
   const migrations: Map<string, IKnexMigration> = new Map();
 
   registerMigration(migrations, Sql001MigrationCreateTableScout);
+  registerMigration(migrations, Sql002MigrationAlterTableScoutEmailUnique);
 
   const kms: IKnexMigrationSource<IKnexMigration> = {
     getMigrations: async (): Promise<string[]> => {
-      return [Sql001MigrationCreateTableScout.getId()];
+      return Array.from(migrations.keys());
     },
     getMigrationName: (migrationName: Readonly<string>): Readonly<string> => {
-      console.log("getMigrationName() --> ", migrationName);
       return migrationName;
     },
     getMigration: async function (
