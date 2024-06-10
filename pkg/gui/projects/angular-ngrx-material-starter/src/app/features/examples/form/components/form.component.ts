@@ -22,8 +22,9 @@ import { environment } from '../../../../../environments/environment';
 
 import {
   actionFormReset,
-  actionFormSavedOnBackend,
-  actionFormUpdate
+  actionFormUpdate,
+  actionFormUpdateFailure,
+  actionFormUpdateSuccess
 } from '../form.actions';
 import { selectFormState } from '../form.selectors';
 import { State } from '../../examples.state';
@@ -74,21 +75,27 @@ export class FormComponent implements OnInit {
   }
 
   async onSubmit(ngForm: FormGroupDirective) {
-    if (this.form.valid) {
-      await new Promise<void>((resolve, reject) => {
-        this.actionsListener$
-          .pipe(ofType(actionFormSavedOnBackend), take(1))
-          .subscribe((data: any) => {
-            console.log('ACTION_LISTENER', data);
-            resolve();
-          });
-
-        this.save();
-      });
-      this.reset(ngForm);
-      const savedOKLbl = this.translate.instant('sdbg.examples.form.text7');
-      this.notificationService.info(savedOKLbl);
+    if (!this.form.valid) {
+      throw new Error('onSubmit() handler called while form was not valid.');
     }
+
+    this.actionsListener$
+      .pipe(ofType(actionFormUpdateSuccess), take(1))
+      .subscribe((data: any) => {
+        console.log('ACTION_LISTENER - actionFormUpdateSuccess', data);
+        this.reset(ngForm);
+        const savedOKLbl = this.translate.instant('sdbg.examples.form.text7');
+        this.notificationService.info(savedOKLbl);
+      });
+
+    this.actionsListener$
+      .pipe(ofType(actionFormUpdateFailure), take(1))
+      .subscribe((data: { message: string }) => {
+        console.log('ACTION_LISTENER - actionFormUpdateFailure', data);
+        this.notificationService.error(data.message);
+      });
+
+    this.save();
   }
 
   reset(ngForm: FormGroupDirective) {

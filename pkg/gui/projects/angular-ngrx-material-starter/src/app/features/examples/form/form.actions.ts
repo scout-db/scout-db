@@ -6,6 +6,11 @@ export const actionFormUpdate = createAction(
   props<{ form: Scout }>()
 );
 
-export const actionFormReset = createAction('[Form] Reset');
+export const actionFormUpdateSuccess = createAction('[Form] Update Success');
 
-export const actionFormSavedOnBackend = createAction('[Form] SavedOnBackend');
+export const actionFormUpdateFailure = createAction(
+  '[Form] Update Failure',
+  props<{ message: Readonly<string> }>()
+);
+
+export const actionFormReset = createAction('[Form] Reset');

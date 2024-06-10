@@ -13,15 +13,15 @@ export class FormEffects {
     () =>
       this.actions$.pipe(
         ofType(actionFormUpdate),
-        tap(async (action) => {
-          await this.api.upsertScout(action.form);
-        }),
+        tap((action) => {
+          this.api.createScout(action.form);
+        })
       ),
     { dispatch: false }
   );
 
   constructor(
     private actions$: Actions,
-    private api: KmcsszApiService,
+    private api: KmcsszApiService
   ) {}
 }

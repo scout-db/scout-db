@@ -15,6 +15,8 @@ export {
   ConfigurationParameters as KmcsszApiConfigurationParameters,
 } from "./generated/openapi/typescript-axios/configuration.js";
 
+export { hasKey } from "./lib/types/has-key.js";
+
 export { RankLongName } from "./generated/openapi/typescript-axios/api.js";
 export { Scout } from "./generated/openapi/typescript-axios/api.js";
 export { ScoutBeenToJubileeEnum } from "./generated/openapi/typescript-axios/api.js";

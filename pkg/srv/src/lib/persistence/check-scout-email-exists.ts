@@ -1,10 +1,10 @@
 import { Scout } from "@kmcssz-org/scoutdb-common";
+import { hasKey } from "@kmcssz-org/scoutdb-common";
 import { BadRequestError, HttpError } from "http-errors-enhanced-cjs";
 import { InternalServerError } from "http-errors-enhanced-cjs";
 import { Knex } from "knex";
 import { Err, Ok, Result } from "ts-results";
 
-import { hasKey } from "../../types/has-key";
 import { createLogger } from "../logging/create-logger";
 import { ISharedGlobalState } from "../state/shared-global-state";
 
@@ -47,7 +47,7 @@ export async function checkScoutEmailExists(
     return Err(ex);
   }
 
-  if (!aRow.count || typeof aRow.count !== "number" || !isFinite(aRow.count)) {
+  if (typeof aRow.count !== "number" || !isFinite(aRow.count)) {
     const ex = new InternalServerError({
       message: "Email uniqueness check fail: Count is not a finite integer.",
     });
