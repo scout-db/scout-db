@@ -40,6 +40,12 @@ Run the image you've just built and then visit: http://localhost:3000/
 docker run -it --restart=always --env SCOUTDB_HTTP_HOST=0.0.0.0 -v "$(pwd)":/data/scoutdb/ -p 3000:3000 scoutdb
 ```
 
+### Building Image for Production
+
+```sh
+docker build . --tag "ghcr.io/scout-db/scout-db:main-$(git rev-parse --short HEAD)"
+```
+
 ### Running the image in production
 
 ```sh
