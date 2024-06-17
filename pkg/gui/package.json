@@ -16,7 +16,7 @@
     "format:write": "prettier projects/**/*.{ts,json,md,scss} --write",
     "format:test": "prettier projects/**/*.{ts,json,md,scss} --list-different",
     "release": "standard-version && git push --follow-tags origin master",
-    "analyze": "npm run build:prod -- --stats-json && webpack-bundle-analyzer ./dist/angular-ngrx-material-starter/stats.json",
+    "analyze": "npm run build:prod -- --stats-json && webpack-bundle-analyzer ./dist/scout-db-gui/stats.json",
     "server": "node ./projects/server/server.js",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"

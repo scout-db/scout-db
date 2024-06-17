@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-ngrx-material-starter": {
+    "scout-db-gui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -11,27 +11,27 @@
           "style": "scss"
         }
       },
-      "root": "projects/angular-ngrx-material-starter",
-      "sourceRoot": "projects/angular-ngrx-material-starter/src",
+      "root": "projects/scout-db-gui",
+      "sourceRoot": "projects/scout-db-gui/src",
       "prefix": "sdbg",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "sourceMap": true,
-            "outputPath": "dist/angular-ngrx-material-starter",
-            "index": "projects/angular-ngrx-material-starter/src/index.html",
-            "main": "projects/angular-ngrx-material-starter/src/main.ts",
-            "polyfills": "projects/angular-ngrx-material-starter/src/polyfills.ts",
-            "tsConfig": "projects/angular-ngrx-material-starter/tsconfig.app.json",
+            "outputPath": "dist/scout-db-gui",
+            "index": "projects/scout-db-gui/src/index.html",
+            "main": "projects/scout-db-gui/src/main.ts",
+            "polyfills": "projects/scout-db-gui/src/polyfills.ts",
+            "tsConfig": "projects/scout-db-gui/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "projects/angular-ngrx-material-starter/src/favicon.ico",
-              "projects/angular-ngrx-material-starter/src/assets"
+              "projects/scout-db-gui/src/favicon.ico",
+              "projects/scout-db-gui/src/assets"
             ],
             "styles": [
-              "projects/angular-ngrx-material-starter/src/styles-app-loading.scss",
-              "projects/angular-ngrx-material-starter/src/styles.scss"
+              "projects/scout-db-gui/src/styles-app-loading.scss",
+              "projects/scout-db-gui/src/styles.scss"
             ],
             "scripts": []
           },
@@ -39,8 +39,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/angular-ngrx-material-starter/src/environments/environment.ts",
-                  "with": "projects/angular-ngrx-material-starter/src/environments/environment.prod.ts"
+                  "replace": "projects/scout-db-gui/src/environments/environment.ts",
+                  "with": "projects/scout-db-gui/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -89,35 +89,35 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "angular-ngrx-material-starter:build",
-            "proxyConfig": "projects/angular-ngrx-material-starter/proxy.conf.json"
+            "buildTarget": "scout-db-gui:build",
+            "proxyConfig": "projects/scout-db-gui/proxy.conf.json"
           },
           "configurations": {
             "production": {
-              "buildTarget": "angular-ngrx-material-starter:build:production"
+              "buildTarget": "scout-db-gui:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "angular-ngrx-material-starter:build"
+            "buildTarget": "scout-db-gui:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/angular-ngrx-material-starter/src/test.ts",
-            "polyfills": "projects/angular-ngrx-material-starter/src/polyfills.ts",
-            "tsConfig": "projects/angular-ngrx-material-starter/tsconfig.spec.json",
-            "karmaConfig": "projects/angular-ngrx-material-starter/karma.conf.js",
+            "main": "projects/scout-db-gui/src/test.ts",
+            "polyfills": "projects/scout-db-gui/src/polyfills.ts",
+            "tsConfig": "projects/scout-db-gui/tsconfig.spec.json",
+            "karmaConfig": "projects/scout-db-gui/karma.conf.js",
             "assets": [
-              "projects/angular-ngrx-material-starter/src/favicon.ico",
-              "projects/angular-ngrx-material-starter/src/assets"
+              "projects/scout-db-gui/src/favicon.ico",
+              "projects/scout-db-gui/src/assets"
             ],
             "styles": [
-              "projects/angular-ngrx-material-starter/src/styles-app-loading.scss",
-              "projects/angular-ngrx-material-starter/src/styles.scss"
+              "projects/scout-db-gui/src/styles-app-loading.scss",
+              "projects/scout-db-gui/src/styles.scss"
             ],
             "scripts": []
           },
@@ -125,8 +125,8 @@
             "test": {
               "fileReplacements": [
                 {
-                  "replace": "projects/angular-ngrx-material-starter/src/environments/environment.ts",
-                  "with": "projects/angular-ngrx-material-starter/src/environments/environment.test.ts"
+                  "replace": "projects/scout-db-gui/src/environments/environment.ts",
+                  "with": "projects/scout-db-gui/src/environments/environment.test.ts"
                 }
               ]
             }
@@ -135,25 +135,25 @@
         "e2e": {
           "builder": "@cypress/schematic:cypress",
           "options": {
-            "devServerTarget": "angular-ngrx-material-starter:serve",
+            "devServerTarget": "scout-db-gui:serve",
             "watch": true,
             "headless": false
           },
           "configurations": {
             "production": {
-              "devServerTarget": "angular-ngrx-material-starter:serve:production"
+              "devServerTarget": "scout-db-gui:serve:production"
             }
           }
         },
         "cypress-run": {
           "builder": "@cypress/schematic:cypress",
           "options": {
-            "devServerTarget": "angular-ngrx-material-starter:serve",
-            "configFile": "projects/angular-ngrx-material-starter/cypress.config.js"
+            "devServerTarget": "scout-db-gui:serve",
+            "configFile": "projects/scout-db-gui/cypress.config.js"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "angular-ngrx-material-starter:serve:production"
+              "devServerTarget": "scout-db-gui:serve:production"
             }
           }
         },
@@ -162,7 +162,7 @@
           "options": {
             "watch": true,
             "headless": false,
-            "configFile": "projects/angular-ngrx-material-starter/cypress.config.js"
+            "configFile": "projects/scout-db-gui/cypress.config.js"
           }
         }
       }

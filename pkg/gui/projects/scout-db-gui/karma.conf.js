@@ -27,7 +27,7 @@ module.exports = function (config) {
     coverageIstanbulReporter: {
       dir: require('path').join(
         __dirname,
-        '../../coverage/angular-ngrx-material-starter'
+        '../../coverage/scout-db-gui'
       ),
       reports: ['html', 'lcovonly', 'text-summary'],
       fixWebpackSourcePaths: true
