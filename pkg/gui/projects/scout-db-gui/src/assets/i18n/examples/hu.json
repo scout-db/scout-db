@@ -65,14 +65,14 @@
   "sdbg.examples.form.phone_number_1.error": "A telefonszám megadása kötelező!",
   "sdbg.examples.form.phone_number_1.label": "Telefonszám",
 
-  "sdbg.examples.form.troop_name.error": "Az őrs nevének megadása kötelező!",
-  "sdbg.examples.form.troop_name.label": "Őrs neve",
+  "sdbg.examples.form.troop_name.error": "Az csapat nevének megadása kötelező!",
+  "sdbg.examples.form.troop_name.label": "Csapat neve",
 
-  "sdbg.examples.form.troop_number.error": "Az őrs számának megadása kötelező!",
-  "sdbg.examples.form.troop_number.label": "Őrs száma",
+  "sdbg.examples.form.troop_number.error": "Az csapat számának megadása kötelező!",
+  "sdbg.examples.form.troop_number.label": "Csapat száma",
 
-  "sdbg.examples.form.troop_url.error": "Az őrs URL megadása kötelező!",
-  "sdbg.examples.form.troop_url.label": "Őrs URL",
+  "sdbg.examples.form.troop_url.error": "Az csapat URL megadása kötelező!",
+  "sdbg.examples.form.troop_url.label": "Csapat URL",
 
   "sdbg.examples.form.country.error": "Az ország megadása kötelező!",
   "sdbg.examples.form.country.label": "Ország",
@@ -87,7 +87,7 @@
   "sdbg.examples.form.rank.label": "Rang",
 
   "sdbg.examples.form.been_to_jubilee.error": "Ezt a mezőt kötelező kitölteni!",
-  "sdbg.examples.form.been_to_jubilee.label": "Részt vett jubileumon",
+  "sdbg.examples.form.been_to_jubilee.label": "Részt vett-e jubileumi táborban",
 
   "sdbg.examples.form.can_set_fire.error": "Ezt a mezőt kötelező kitölteni!",
   "sdbg.examples.form.can_set_fire.label": "Tud tüzet gyújtani",
