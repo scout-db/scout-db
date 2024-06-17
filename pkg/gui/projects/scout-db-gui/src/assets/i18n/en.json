@@ -34,6 +34,8 @@
   "sdbg.header.github": "Project Github Repository",
   "sdbg.menu.about": "About",
   "sdbg.menu.examples": "Examples",
+  "sdbg.examples.menu.form": "Form",
+  "sdbg.examples.menu.authenticated": "List",
   "sdbg.menu.features": "Features",
   "sdbg.menu.login": "Sign in",
   "sdbg.menu.logout": "Logout",

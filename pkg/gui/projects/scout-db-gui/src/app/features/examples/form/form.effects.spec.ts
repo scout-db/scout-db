@@ -17,7 +17,7 @@ describe('FormEffects', () => {
 
   beforeEach(() => {
     kmcsszApiServiceMock = jasmine.createSpyObj('KmcsszApiServiceMock', [
-      'upsertScout'
+      'createScout'
     ]);
   });
 
@@ -30,7 +30,7 @@ describe('FormEffects', () => {
       expect(metadata.persistForm?.dispatch).toEqual(false);
     });
 
-    it('should call upsertScout on KmcsszApiServiceMock for UPDATE action', () => {
+    it('should call createScout on KmcsszApiServiceMock for UPDATE action', () => {
       scheduler.run((helpers) => {
         const { cold } = helpers;
         const form = createMockScout();
@@ -40,7 +40,7 @@ describe('FormEffects', () => {
         const effect = new FormEffects(actions, kmcsszApiServiceMock);
 
         effect.persistForm.subscribe(() => {
-          expect(kmcsszApiServiceMock.upsertScout).toHaveBeenCalledWith(form);
+          expect(kmcsszApiServiceMock.createScout).toHaveBeenCalledWith(form);
         });
       });
     });

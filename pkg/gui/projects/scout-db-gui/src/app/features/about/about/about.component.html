@@ -3,29 +3,41 @@
     <div class="container">
       <h1>{{ 'sdbg.title.long' | translate }}</h1>
       <div class="actions">
-        <a [ngClass]="routeAnimationsElements" mat-raised-button class="actions-main" color="primary" routerLink="../feature-list">
+        <a
+          [ngClass]="routeAnimationsElements"
+          mat-raised-button
+          class="actions-main"
+          color="primary"
+          routerLink="link"
+        >
           {{ 'sdbg.menu.features' | translate }}
         </a>
-        <a mat-raised-button class="actions-main" color="accent" routerLink="../examples" [ngClass]="routeAnimationsElements" data-testid="about-page-examples-button">
+        <a
+          mat-raised-button
+          class="actions-main"
+          color="accent"
+          routerLink="authenticated"
+          [ngClass]="routeAnimationsElements"
+          data-testid="about-page-examples-button"
+        >
           {{ 'sdbg.menu.examples' | translate }}
         </a>
-        <a mat-raised-button class="actions-main" color="warn" routerLink="../settings" [ngClass]="routeAnimationsElements">
-          {{ 'sdbg.about.change-theme' | translate }}
-        </a>
-        <br>
-        <span [ngClass]="routeAnimationsElements">{{ 'sdbg.about.check-blogs' | translate }}</span>
-        <br>
-        <a mat-raised-button
-           [ngClass]="routeAnimationsElements"
-           rel="noopener noreferrer"
-           target="_blank"
-           href="https://kmcssz.org">
-           <fa-icon [icon]="['fab','medium-m']"></fa-icon>
+        <br />
+        <span [ngClass]="routeAnimationsElements">{{
+          'sdbg.about.check-blogs' | translate
+        }}</span>
+        <br />
+        <a
+          mat-raised-button
+          [ngClass]="routeAnimationsElements"
+          rel="noopener noreferrer"
+          target="_blank"
+          href="https://kmcssz.org"
+        >
+          <fa-icon [icon]="['fab', 'medium-m']"></fa-icon>
           KMCSSZ.org
         </a>
-        
       </div>
-      
     </div>
   </div>
 </div>

@@ -37,9 +37,11 @@ export class AppComponent implements OnInit {
   logo = 'assets/logo.png';
   languages = ['en', 'hu'];
   navigation = [
-    { link: 'about', label: 'sdbg.menu.about' },
-    { link: 'feature-list', label: 'sdbg.menu.features' },
-    { link: 'examples', label: 'sdbg.menu.examples' }
+    { link: 'examples/form', label: 'sdbg.examples.menu.form' },
+    {
+      link: 'examples/authenticated',
+      label: 'sdbg.examples.menu.authenticated'
+    }
   ];
   navigationSideMenu = [
     ...this.navigation,

@@ -77,7 +77,7 @@ export class AuthenticatedComponent implements OnInit {
 
   constructor() {
     const scouts: Scout[] = [];
-    for (let i = 0; i < 5000; i++) {
+    for (let i = 0; i < 50; i++) {
       const aScout = createMockScout();
       scouts.push(aScout);
     }

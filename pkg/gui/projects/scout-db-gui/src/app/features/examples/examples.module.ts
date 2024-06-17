@@ -15,21 +15,11 @@ import { environment } from '../../../environments/environment';
 import { FEATURE_NAME, reducers } from './examples.state';
 import { ExamplesRoutingModule } from './examples-routing.module';
 import { ExamplesComponent } from './examples/examples.component';
-import { TodosContainerComponent } from './todos/components/todos-container.component';
-import { TodosEffects } from './todos/todos.effects';
-import { StockMarketContainerComponent } from './stock-market/components/stock-market-container.component';
-import { StockMarketEffects } from './stock-market/stock-market.effects';
-import { StockMarketService } from './stock-market/stock-market.service';
-import { ParentComponent } from './theming/parent/parent.component';
-import { ChildComponent } from './theming/child/child.component';
-import { CrudComponent } from './crud/components/crud.component';
-import { BooksEffects } from './crud/books.effects';
 import { FormComponent } from './form/components/form.component';
 import { FormEffects } from './form/form.effects';
 import { AuthenticatedComponent } from './authenticated/authenticated.component';
-import { NotificationsComponent } from './notifications/components/notifications.component';
 import { ExamplesEffects } from './examples.effects';
-import { ElementsComponent } from './elements/elements.component';
+import { CommonModule } from '@angular/common';
 
 export function httpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(
@@ -45,6 +35,7 @@ export function httpLoaderFactory(http: HttpClient) {
     LazyElementsModule,
     SharedModule,
     ExamplesRoutingModule,
+    CommonModule,
     StoreModule.forFeature(FEATURE_NAME, reducers),
     MatTableModule,
     MatPaginatorModule,
@@ -60,25 +51,15 @@ export function httpLoaderFactory(http: HttpClient) {
     }),
     EffectsModule.forFeature([
       ExamplesEffects,
-      TodosEffects,
-      StockMarketEffects,
-      BooksEffects,
       FormEffects
     ])
   ],
   declarations: [
     ExamplesComponent,
-    TodosContainerComponent,
-    StockMarketContainerComponent,
-    ParentComponent,
-    ChildComponent,
     AuthenticatedComponent,
-    CrudComponent,
     FormComponent,
-    NotificationsComponent,
-    ElementsComponent
   ],
-  providers: [StockMarketService]
+  providers: []
 })
 export class ExamplesModule {
   constructor() {}

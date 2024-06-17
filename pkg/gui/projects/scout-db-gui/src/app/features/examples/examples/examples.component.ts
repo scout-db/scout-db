@@ -20,13 +20,7 @@ export class ExamplesComponent implements OnInit {
   isAuthenticated$: Observable<boolean> | undefined;
 
   examples = [
-    { link: 'todos', label: 'sdbg.examples.menu.todos' },
-    { link: 'stock-market', label: 'sdbg.examples.menu.stocks' },
-    { link: 'theming', label: 'sdbg.examples.menu.theming' },
-    { link: 'crud', label: 'sdbg.examples.menu.crud' },
     { link: 'form', label: 'sdbg.examples.menu.form' },
-    { link: 'notifications', label: 'sdbg.examples.menu.notifications' },
-    { link: 'elements', label: 'sdbg.examples.menu.elements' },
     { link: 'authenticated', label: 'sdbg.examples.menu.auth', auth: true }
   ];
 

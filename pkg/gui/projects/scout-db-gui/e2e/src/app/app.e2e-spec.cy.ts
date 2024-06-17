@@ -5,8 +5,8 @@ describe('App', () => {
     cy.visit('/'); // Navigate to the home page before each test
   });
 
-  it('should redirect to "about" route', () => {
-    cy.url().should('include', '/about'); // Check if URL includes 'about'
+  it('should redirect to "examples/form" route', () => {
+    cy.url().should('include', '/examples/form'); // Check if URL includes 'about'
   });
 
   it('should display current year in the footer', () => {
@@ -17,8 +17,8 @@ describe('App', () => {
     ); // Check if footer contains the current year
   });
 
-  it('should have "About", "Features", "Examples" menus', () => {
-    const expectedMenus = ['About', 'Features', 'Examples'];
+  it('should have "Form", "List" menus', () => {
+    const expectedMenus = ['Form', 'List'];
     cy.get('[data-testid="app-nav-bar-main"]').within(() => {
       cy.get('[data-testid="app-nav-bar-route-button"]').each((menu, index) => {
         cy.wrap(menu).should('have.text', expectedMenus[index]);

@@ -34,6 +34,8 @@
   "sdbg.header.github": "Projekt Github Repository",
   "sdbg.menu.about": "Névjegy",
   "sdbg.menu.examples": "Példák",
+  "sdbg.examples.menu.form": "Űrlap",
+  "sdbg.examples.menu.authenticated": "Lista",
   "sdbg.menu.features": "Funkciók",
   "sdbg.menu.login": "Bejelentkezés",
   "sdbg.menu.logout": "Kijelentkezés",

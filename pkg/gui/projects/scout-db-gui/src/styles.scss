@@ -44,24 +44,12 @@
 @import './app/app/app.component.scss-theme';
 @import './app/shared/big-input/big-input/big-input.component.scss-theme';
 @import './app/features/about/about/about.component.scss-theme';
-@import './app/features/examples/notifications/components/notifications.component.scss-theme';
-@import './app/features/examples/todos/components/todos-container.component.scss-theme';
-@import './app/features/examples/stock-market/components/stock-market-container.component.scss-theme';
-@import './app/features/examples/theming/parent/parent.component.scss-theme';
-@import './app/features/examples/theming/child/child.component.scss-theme';
-@import './app/features/examples/examples/examples.component.scss-theme';
 
 @mixin custom-components-theme($theme) {
   @include sdbg-styles-reset-theme($theme);
   @include sdbg-app-component-theme($theme);
   @include sdbg-about-component-theme($theme);
   @include sdbg-big-input-component-theme($theme);
-  @include sdbg-notifications-component-theme($theme);
-  @include sdbg-todos-container-component-theme($theme);
-  @include sdbg-stock-market-container-component-theme($theme);
-  @include sdbg-parent-component-theme($theme);
-  @include sdbg-child-component-theme($theme);
-  @include sdbg-examples-component-theme($theme);
 }
 
 .default-theme {

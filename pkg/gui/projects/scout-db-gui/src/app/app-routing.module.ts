@@ -4,7 +4,7 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'about',
+    redirectTo: 'examples/form',
     pathMatch: 'full'
   },
   {
@@ -35,7 +35,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'about'
+    redirectTo: 'examples/form'
   }
 ];
 

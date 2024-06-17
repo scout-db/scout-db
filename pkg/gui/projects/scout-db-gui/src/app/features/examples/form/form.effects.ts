@@ -14,6 +14,7 @@ export class FormEffects {
       this.actions$.pipe(
         ofType(actionFormUpdate),
         tap((action) => {
+          console.log("---------->>>>> API-asdf", this.api);
           this.api.createScout(action.form);
         })
       ),
