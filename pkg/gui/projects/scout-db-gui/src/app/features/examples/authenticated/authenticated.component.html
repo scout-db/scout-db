@@ -100,7 +100,13 @@
   </div>
 </div>
 
-<mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+<mat-table
+  [dataSource]="dataSource"
+  matSort
+  matSortActive="city"
+  matSortDirection="asc"
+  class="mat-elevation-z8"
+>
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
     <td mat-cell *matCellDef="let scout">{{ scout.id }}</td>
@@ -191,6 +197,18 @@
 </mat-table>
 
 <mat-paginator
+  [length]="resultsLength"
+  [pageSize]="10"
   [pageSizeOptions]="[5, 10, 25, 100, 500, 1000, 5000]"
   showFirstLastButtons
 ></mat-paginator>
+
+<div class="float-end" style="min-height: 128px;">
+  isLoadingResults={{ isLoadingResults }}<br />
+  resultsLength={{ resultsLength }}<br />
+  <div class="example-loading-shade">
+    @if (isLoadingResults) {
+      <mat-spinner></mat-spinner>
+    }
+  </div>
+</div>

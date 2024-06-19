@@ -34,13 +34,19 @@ export interface GetScoutsV1200Response {
      * @type {Array<Scout>}
      * @memberof GetScoutsV1200Response
      */
-    'data'?: Array<Scout>;
+    'data': Array<Scout>;
+    /**
+     * 
+     * @type {GetScoutsV1200ResponseSorting}
+     * @memberof GetScoutsV1200Response
+     */
+    'sorting': GetScoutsV1200ResponseSorting;
     /**
      * 
      * @type {GetScoutsV1200ResponsePagination}
      * @memberof GetScoutsV1200Response
      */
-    'pagination'?: GetScoutsV1200ResponsePagination;
+    'pagination': GetScoutsV1200ResponsePagination;
 }
 /**
  * 
@@ -53,26 +59,53 @@ export interface GetScoutsV1200ResponsePagination {
      * @type {number}
      * @memberof GetScoutsV1200ResponsePagination
      */
-    'totalRecords'?: number;
+    'totalRecords': number;
     /**
      * 
      * @type {number}
      * @memberof GetScoutsV1200ResponsePagination
      */
-    'totalPages'?: number;
+    'totalPages': number;
     /**
      * 
      * @type {number}
      * @memberof GetScoutsV1200ResponsePagination
      */
-    'currentPage'?: number;
+    'currentPage': number;
     /**
      * 
      * @type {number}
      * @memberof GetScoutsV1200ResponsePagination
      */
-    'pageSize'?: number;
+    'pageSize': number;
 }
+/**
+ * 
+ * @export
+ * @interface GetScoutsV1200ResponseSorting
+ */
+export interface GetScoutsV1200ResponseSorting {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetScoutsV1200ResponseSorting
+     */
+    'sortDirection': GetScoutsV1200ResponseSortingSortDirectionEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetScoutsV1200ResponseSorting
+     */
+    'sortFieldName': string;
+}
+
+export const GetScoutsV1200ResponseSortingSortDirectionEnum = {
+    Asc: 'asc',
+    Desc: 'desc'
+} as const;
+
+export type GetScoutsV1200ResponseSortingSortDirectionEnum = typeof GetScoutsV1200ResponseSortingSortDirectionEnum[keyof typeof GetScoutsV1200ResponseSortingSortDirectionEnum];
+
 /**
  * 
  * @export
@@ -371,12 +404,18 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary Get paginated scout records
-         * @param {number} [page] Page number for pagination (default is 1)
-         * @param {number} [pageSize] Number of records per page (default is 10)
+         * @param {number} page Page number for pagination (default is 1)
+         * @param {number} pageSize Number of records per page (default is 10)
+         * @param {string} [sortFieldName] The name of the column in the SQL database table to sort the results based on.
+         * @param {GetScoutsV1SortDirectionEnum} [sortDirection] The direction in which the retrieved data should be sorted. Defaults to ascending.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getScoutsV1: async (page?: number, pageSize?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getScoutsV1: async (page: number, pageSize: number, sortFieldName?: string, sortDirection?: GetScoutsV1SortDirectionEnum, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'page' is not null or undefined
+            assertParamExists('getScoutsV1', 'page', page)
+            // verify required parameter 'pageSize' is not null or undefined
+            assertParamExists('getScoutsV1', 'pageSize', pageSize)
             const localVarPath = `/api/v1/scouts`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -388,6 +427,14 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (sortFieldName !== undefined) {
+                localVarQueryParameter['sortFieldName'] = sortFieldName;
+            }
+
+            if (sortDirection !== undefined) {
+                localVarQueryParameter['sortDirection'] = sortDirection;
+            }
 
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
@@ -434,13 +481,15 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get paginated scout records
-         * @param {number} [page] Page number for pagination (default is 1)
-         * @param {number} [pageSize] Number of records per page (default is 10)
+         * @param {number} page Page number for pagination (default is 1)
+         * @param {number} pageSize Number of records per page (default is 10)
+         * @param {string} [sortFieldName] The name of the column in the SQL database table to sort the results based on.
+         * @param {GetScoutsV1SortDirectionEnum} [sortDirection] The direction in which the retrieved data should be sorted. Defaults to ascending.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getScoutsV1(page?: number, pageSize?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetScoutsV1200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getScoutsV1(page, pageSize, options);
+        async getScoutsV1(page: number, pageSize: number, sortFieldName?: string, sortDirection?: GetScoutsV1SortDirectionEnum, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetScoutsV1200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getScoutsV1(page, pageSize, sortFieldName, sortDirection, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DefaultApi.getScoutsV1']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -468,13 +517,15 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @summary Get paginated scout records
-         * @param {number} [page] Page number for pagination (default is 1)
-         * @param {number} [pageSize] Number of records per page (default is 10)
+         * @param {number} page Page number for pagination (default is 1)
+         * @param {number} pageSize Number of records per page (default is 10)
+         * @param {string} [sortFieldName] The name of the column in the SQL database table to sort the results based on.
+         * @param {GetScoutsV1SortDirectionEnum} [sortDirection] The direction in which the retrieved data should be sorted. Defaults to ascending.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getScoutsV1(page?: number, pageSize?: number, options?: any): AxiosPromise<GetScoutsV1200Response> {
-            return localVarFp.getScoutsV1(page, pageSize, options).then((request) => request(axios, basePath));
+        getScoutsV1(page: number, pageSize: number, sortFieldName?: string, sortDirection?: GetScoutsV1SortDirectionEnum, options?: any): AxiosPromise<GetScoutsV1200Response> {
+            return localVarFp.getScoutsV1(page, pageSize, sortFieldName, sortDirection, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -498,13 +549,15 @@ export interface DefaultApiInterface {
     /**
      * 
      * @summary Get paginated scout records
-     * @param {number} [page] Page number for pagination (default is 1)
-     * @param {number} [pageSize] Number of records per page (default is 10)
+     * @param {number} page Page number for pagination (default is 1)
+     * @param {number} pageSize Number of records per page (default is 10)
+     * @param {string} [sortFieldName] The name of the column in the SQL database table to sort the results based on.
+     * @param {GetScoutsV1SortDirectionEnum} [sortDirection] The direction in which the retrieved data should be sorted. Defaults to ascending.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApiInterface
      */
-    getScoutsV1(page?: number, pageSize?: number, options?: RawAxiosRequestConfig): AxiosPromise<GetScoutsV1200Response>;
+    getScoutsV1(page: number, pageSize: number, sortFieldName?: string, sortDirection?: GetScoutsV1SortDirectionEnum, options?: RawAxiosRequestConfig): AxiosPromise<GetScoutsV1200Response>;
 
 }
 
@@ -530,16 +583,26 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
     /**
      * 
      * @summary Get paginated scout records
-     * @param {number} [page] Page number for pagination (default is 1)
-     * @param {number} [pageSize] Number of records per page (default is 10)
+     * @param {number} page Page number for pagination (default is 1)
+     * @param {number} pageSize Number of records per page (default is 10)
+     * @param {string} [sortFieldName] The name of the column in the SQL database table to sort the results based on.
+     * @param {GetScoutsV1SortDirectionEnum} [sortDirection] The direction in which the retrieved data should be sorted. Defaults to ascending.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public getScoutsV1(page?: number, pageSize?: number, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getScoutsV1(page, pageSize, options).then((request) => request(this.axios, this.basePath));
+    public getScoutsV1(page: number, pageSize: number, sortFieldName?: string, sortDirection?: GetScoutsV1SortDirectionEnum, options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).getScoutsV1(page, pageSize, sortFieldName, sortDirection, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
+/**
+ * @export
+ */
+export const GetScoutsV1SortDirectionEnum = {
+    Asc: 'asc',
+    Desc: 'desc'
+} as const;
+export type GetScoutsV1SortDirectionEnum = typeof GetScoutsV1SortDirectionEnum[keyof typeof GetScoutsV1SortDirectionEnum];
 
 

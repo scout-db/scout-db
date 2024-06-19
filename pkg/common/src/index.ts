@@ -17,6 +17,12 @@ export {
 
 export { hasKey } from "./lib/types/has-key.js";
 
+export { GetScoutsV1200Response } from "./generated/openapi/typescript-axios/api.js";
+export { GetScoutsV1200ResponsePagination } from "./generated/openapi/typescript-axios/api.js";
+export { GetScoutsV1200ResponseSorting } from "./generated/openapi/typescript-axios/api.js";
+export { GetScoutsV1200ResponseSortingSortDirectionEnum } from "./generated/openapi/typescript-axios/api.js";
+export { GetScoutsV1500Response } from "./generated/openapi/typescript-axios/api.js";
+export { GetScoutsV1SortDirectionEnum } from "./generated/openapi/typescript-axios/api.js";
 export { RankLongName } from "./generated/openapi/typescript-axios/api.js";
 export { Scout } from "./generated/openapi/typescript-axios/api.js";
 export { ScoutBeenToJubileeEnum } from "./generated/openapi/typescript-axios/api.js";

@@ -1,9 +1,16 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { merge } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
 
 import {
   Scout,
@@ -15,11 +22,12 @@ import {
   ScoutCanMakeSausageEnum,
   ScoutCanSetFireEnum,
   ScoutCanTrainOthersEnum,
-  ScoutRankEnum
+  ScoutRankEnum,
+  newRex
 } from '@kmcssz-org/scoutdb-common';
 
 import { ROUTE_ANIMATIONS_ELEMENTS } from '../../../core/core.module';
-import { createMockScout } from '../../../../test/create-mock-scout';
+import { KmcsszApiService } from '../../../shared/kmcssz-api-service';
 
 @Component({
   selector: 'sdbg-authenticated',
@@ -30,6 +38,10 @@ import { createMockScout } from '../../../../test/create-mock-scout';
 export class AuthenticatedComponent implements OnInit {
   @ViewChild(MatPaginator) public paginator!: MatPaginator;
   @ViewChild(MatSort) public sort!: MatSort;
+
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public resultsLength = 0;
 
   public routeAnimationsElements = ROUTE_ANIMATIONS_ELEMENTS;
   public displayedColumns: string[] = [
@@ -75,24 +87,64 @@ export class AuthenticatedComponent implements OnInit {
 
   public dataSource: MatTableDataSource<Scout>;
 
-  constructor() {
-    const scouts: Scout[] = [];
-    for (let i = 0; i < 50; i++) {
-      const aScout = createMockScout();
-      scouts.push(aScout);
-    }
-
-    this.dataSource = new MatTableDataSource(scouts);
+  constructor(
+    private apiSvc: KmcsszApiService,
+    private cdr: ChangeDetectorRef
+  ) {
+    const initialData: Scout[] = [];
+    this.dataSource = new MatTableDataSource(initialData);
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          console.log('starting data fetch...');
+          this.isLoadingResults = true;
+
+          return this.apiSvc.getScoutsV1(
+            this.paginator.pageIndex + 1,
+            this.paginator.pageSize,
+            this.sort.active,
+            this.sort.direction
+          );
+        }),
+        map((data) => {
+          if (data.isErr()) {
+            const message = data.error.message;
+            console.error('Failed to fetch scout list: ', data.error, message);
+            throw newRex('Failed to fetch scout list data:', data.error);
+          }
+          console.log('data received OK', data);
+          this.isLoadingResults = false;
+          this.isRateLimitReached = data === null;
+
+          this.resultsLength = data.value.pagination.totalRecords;
+          console.log('resultsLength=%o', data.value.pagination.totalRecords);
+          this.resetDataSource(data.value.data);
+          
+          this.cdr.detectChanges();
+          
+          return data.value.data;
+        })
+      ).subscribe();
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  public resetDataSource(data: Scout[]): void {
+    this.dataSource = new MatTableDataSource<Scout>(data);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+
     this.dataSource.filterPredicate = this.dataSource.filterPredicate = (
-      data: Scout,
+      row: Scout,
       filter: string
     ): boolean => {
       const q = JSON.parse(filter);
@@ -100,29 +152,29 @@ export class AuthenticatedComponent implements OnInit {
 
       const searchTerm = q.free_text_search;
       const matchFreeTextSearch =
-        data.first_name.toLowerCase().includes(searchTerm) ||
-        data.last_name.toLowerCase().includes(searchTerm) ||
-        data.email_1.toLowerCase().includes(searchTerm) ||
-        data.troop_name.toLowerCase().includes(searchTerm) ||
-        data.country.toLowerCase().includes(searchTerm) ||
-        data.state.toLowerCase().includes(searchTerm) ||
-        data.city.toLowerCase().includes(searchTerm) ||
-        data.rank.toLowerCase().includes(searchTerm);
+        row.first_name.toLowerCase().includes(searchTerm) ||
+        row.last_name.toLowerCase().includes(searchTerm) ||
+        row.email_1.toLowerCase().includes(searchTerm) ||
+        row.troop_name.toLowerCase().includes(searchTerm) ||
+        row.country.toLowerCase().includes(searchTerm) ||
+        row.state.toLowerCase().includes(searchTerm) ||
+        row.city.toLowerCase().includes(searchTerm) ||
+        row.rank.toLowerCase().includes(searchTerm);
 
       const searchTermMatch = searchTerm ? matchFreeTextSearch : true;
 
       const been_to_jubilee =
-        data.been_to_jubilee === ScoutBeenToJubileeEnum.True;
-      const can_set_fire = data.can_set_fire === ScoutCanSetFireEnum.True;
-      const can_carve_wood = data.can_carve_wood === ScoutCanCarveWoodEnum.True;
+        row.been_to_jubilee === ScoutBeenToJubileeEnum.True;
+      const can_set_fire = row.can_set_fire === ScoutCanSetFireEnum.True;
+      const can_carve_wood = row.can_carve_wood === ScoutCanCarveWoodEnum.True;
       const can_train_others =
-        data.can_train_others === ScoutCanTrainOthersEnum.True;
+        row.can_train_others === ScoutCanTrainOthersEnum.True;
       const can_make_sausage =
-        data.can_make_sausage === ScoutCanMakeSausageEnum.True;
+        row.can_make_sausage === ScoutCanMakeSausageEnum.True;
       const can_lead_campfire =
-        data.can_lead_campfire === ScoutCanLeadCampfireEnum.True;
-      const can_first_aid = data.can_first_aid === ScoutCanFirstAidEnum.True;
-      const can_cook = data.can_cook === ScoutCanCookEnum.True;
+        row.can_lead_campfire === ScoutCanLeadCampfireEnum.True;
+      const can_first_aid = row.can_first_aid === ScoutCanFirstAidEnum.True;
+      const can_cook = row.can_cook === ScoutCanCookEnum.True;
 
       const boolFlagsMatch =
         (fv.been_to_jubilee ? been_to_jubilee === q.been_to_jubilee : true) &&
@@ -141,10 +193,12 @@ export class AuthenticatedComponent implements OnInit {
         (fv.can_cook ? can_cook === q.can_cook : true);
 
       const ranksMatch =
-        fv.ranks.length > 0 ? fv.ranks.includes(data.rank) : true;
+        fv.ranks.length > 0 ? fv.ranks.includes(row.rank) : true;
 
       return boolFlagsMatch && searchTermMatch && ranksMatch;
     };
+
+    this.dataSource.filter = JSON.stringify(this.filterValues);
   }
 
   applyTextFilter(event: Event) {
@@ -182,6 +236,7 @@ export class AuthenticatedComponent implements OnInit {
     filterValue: boolean
   ) {
     this.filterValues[column] = filterValue;
+    console.log('applyBooleanFilter() ', filterValue);
 
     this.dataSource.filter = JSON.stringify(this.filterValues);
 

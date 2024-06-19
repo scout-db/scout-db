@@ -66,22 +66,37 @@ export async function startServer(
   app.get(
     OpenApiJson.paths["/api/v1/scouts"].get["x-kmcssz"].httpPath,
     async (req, res): Promise<Result<void, Error>> => {
+      await new Promise((resolve) => setTimeout(resolve, 800));
       const fn = "HTTP GET /api/v1/scouts";
       log.debug("%s ENTRY", fn);
 
-      if (typeof req.query.page !== "string") {
+      if (typeof req.query.page !== "number") {
         res
           .status(BAD_REQUEST)
           .json({ error: "Invalid page query parameter." });
         return Ok.EMPTY;
       }
-      if (typeof req.query.pageSize !== "string") {
+      if (typeof req.query.pageSize !== "number") {
         res
           .status(BAD_REQUEST)
           .json({ error: "Invalid pageSize query parameter." });
         return Ok.EMPTY;
       }
+      if (typeof req.query.sortFieldName !== "string") {
+        res
+          .status(BAD_REQUEST)
+          .json({ error: "Invalid sortFieldName query parameter." });
+        return Ok.EMPTY;
+      }
+      if (typeof req.query.sortDirection !== "string") {
+        res
+          .status(BAD_REQUEST)
+          .json({ error: "Invalid sortDirection query parameter." });
+        return Ok.EMPTY;
+      }
 
+      const sortFieldName = req.query.sortFieldName;
+      const sortDirection = req.query.sortDirection;
       const page = parseInt(req.query.page) || 1;
       const pageSize = parseInt(req.query.pageSize) || 10;
       const offset = (page - 1) * pageSize;
@@ -107,9 +122,12 @@ export async function startServer(
         const totalPages = Math.ceil(totalRowCount / pageSize);
         log.debug("%s totalPages=%d", fn, totalPages);
 
+        log.debug("% sort field=%s dir=%s", fn, sortFieldName, sortDirection);
+
         // Get the paginated data
         const scouts = await db("scout")
           .select("*")
+          .orderBy(sortFieldName, sortDirection)
           .limit(pageSize)
           .offset(offset);
 
@@ -130,28 +148,6 @@ export async function startServer(
       }
     },
   );
-
-  app.get("/api/v1/scouts", async (req, res): Promise<Result<void, Error>> => {
-    const fn = "HTTP GET /api/v1/scouts";
-    log.debug("%s ENTRY", fn);
-
-    try {
-      const entity = await db<Scout>("scout").insert(req.body);
-      log.debug("[knex] scout entity: %o", entity);
-      res.json({
-        entity,
-        ts: new Date().toJSON(),
-        url: req.url,
-      });
-    } catch (ex: unknown) {
-      const rex = newRex("Failed to insert scout entity to SQLite.", ex);
-      log.debug(rex);
-      res.status(INTERNAL_SERVER_ERROR).json({
-        message: "InternalServerError",
-      });
-    }
-    return Ok.EMPTY;
-  });
 
   app.post("/api/v1/scouts", async (req, res): Promise<Result<void, Error>> => {
     const fn = "HTTP POST /api/v1/scouts";
