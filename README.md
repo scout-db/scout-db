@@ -72,3 +72,48 @@ docker run --detach \
     --publish 3000:3000 \
     scoutdb
 ```
+
+### OpenTelemetry Local Setup
+
+```sh
+git clone https://github.com/SigNoz/signoz.git
+cd signoz/deploy
+```
+
+```sh
+docker-compose -f docker/clickhouse-setup/docker-compose.yaml up \
+    frontend \
+    logspout \
+    otel-collector \
+    otel-collector-migrator \
+    alertmanager \
+    query-service \
+    clickhouse \
+    zookeeper-1 
+```
+
+Now execute start the server as explained in sections above and then send in a few
+test requests both good ones and a couple of them which logs errors or crashes the
+HTTP handler entirely:
+
+```sh
+curl http://localhost:3000/api/hello
+```
+
+```sh
+curl http://localhost:3000/api/simulate-error-throw?theCode=12345
+```
+
+```sh
+curl http://localhost:3000/api/simulate-error-log?theCode=12345
+```
+
+Then visit: http://localhost:3301/ to explore the traces and the associated logs.
+
+> If this is the first time you are setting up SigNoz on your machine then you'll
+need to create a user first.
+> If You forgot the user you've created earlier, you'll need to wipe the data directory: `sudo rm -rf deploy/docker/clickhouse-setup/data`
+
+Once logged in successfully, you should see on the exceptions tab that the 
+`simulate-error-throw` endpoint crashed the handler as expected and it was
+captured in SigNoz by the OpenTelemetry instrumentation automatically.

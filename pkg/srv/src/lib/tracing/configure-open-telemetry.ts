@@ -1,24 +1,37 @@
 import process from "process";
 
-import { Exception } from "@opentelemetry/api";
+import { ContextAPI, Exception, Tracer } from "@opentelemetry/api";
+import { context, trace } from "@opentelemetry/api";
 import { diag, DiagConsoleLogger } from "@opentelemetry/api";
 import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
 import { setGlobalErrorHandler } from "@opentelemetry/core";
+import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
-import { Resource } from "@opentelemetry/resources";
+import { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { NodeSDK } from "@opentelemetry/sdk-node";
-import { AlwaysOnSampler } from "@opentelemetry/sdk-trace-base";
-import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
+import { TraceIdRatioBasedSampler } from "@opentelemetry/sdk-trace-node";
 
 import { ISharedGlobalState } from "../state/shared-global-state.js";
 
 export interface IOpenTelemetryOptions {
   readonly sgs: ISharedGlobalState;
+  /**
+   * Instrumenting the file-system operations causes an extreme initial spike in
+   * memory usage when the application is booting (it's loading the source files).
+   * Since we don't particularly use the file-system too heavily, it's OK to turn
+   * this off for now.
+   * The static web server component caches things in-memory after the initial load
+   * as well so it shouldn't be a concern after the cold start either.
+   * @see https://github.com/open-telemetry/opentelemetry-js-contrib/issues/1344
+   */
+  readonly enableInstrumentationFs: boolean;
 }
 
 export interface IOpenTelemetryOut {
   readonly sdk: NodeSDK;
   readonly opts: IOpenTelemetryOptions;
+  readonly tracer: Tracer;
+  readonly contextApi: ContextAPI;
 }
 
 export async function configureOpenTelemetry(
@@ -32,25 +45,39 @@ export async function configureOpenTelemetry(
   };
 
   setGlobalErrorHandler((ex: Readonly<Exception>): null => {
-    console.error(`${fnTag} OpenTelemetry global error handler: `, ex);
+    const msg = JSON.stringify(ex);
+    console.warn(`${fnTag} OpenTelemetry global error:`, msg);
     return null;
   });
 
+  const collectorOptions = {
+    url: opts.sgs.tracingExporterLogOtlpHttpEndpoint,
+    concurrencyLimit: 1, // an optional limit on pending requests
+  };
+  const logExporter = new OTLPLogExporter(collectorOptions);
+
   const traceExporter = new OTLPTraceExporter(exporterOptions);
+  const logRecordProcessor = new BatchLogRecordProcessor(logExporter);
+  const sampler = new TraceIdRatioBasedSampler(opts.sgs.tracingSamplingRatio);
+
+  const nodeAutoInstrumentations = getNodeAutoInstrumentations({
+    "@opentelemetry/instrumentation-fs": {
+      enabled: opts.enableInstrumentationFs,
+    },
+  });
 
   const sdk = new NodeSDK({
     serviceName: opts.sgs.serviceName,
-    sampler: new AlwaysOnSampler(),
+    logRecordProcessor,
+    sampler,
     traceExporter,
-    instrumentations: [getNodeAutoInstrumentations()],
-    resource: new Resource({
-      [SemanticResourceAttributes.SERVICE_NAME]: opts.sgs.serviceName,
-      [SemanticResourceAttributes.SERVICE_VERSION]: opts.sgs.serviceVersion,
-    }),
+    instrumentations: [nodeAutoInstrumentations],
   });
+
   // initialize the SDK and register with the OpenTelemetry API
   // this enables the API to record telemetry
   sdk.start();
+  const tracer = trace.getTracer(opts.sgs.serviceName, opts.sgs.serviceVersion);
 
   // gracefully shut down the SDK on process exit
   process.on("SIGTERM", async (): Promise<void> => {
@@ -64,5 +91,5 @@ export async function configureOpenTelemetry(
     }
   });
 
-  return { sdk, opts };
+  return { contextApi: context, sdk, opts, tracer };
 }

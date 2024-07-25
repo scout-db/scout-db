@@ -5,7 +5,9 @@ import { isEnumValue } from "../../types/is-enum-value.js";
 
 export interface ISharedGlobalState {
   readonly tracingExporterTraceOtlpHttpEndpoint: string;
+  readonly tracingExporterLogOtlpHttpEndpoint: string;
   readonly tracingDiagLogLevel: DiagLogLevel;
+  readonly tracingSamplingRatio: number;
   readonly logLevel: AppLogLevel;
   readonly serviceName: string;
   readonly serviceVersion: string;

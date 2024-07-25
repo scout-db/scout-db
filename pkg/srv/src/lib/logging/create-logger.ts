@@ -1,4 +1,3 @@
-import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 import { pino } from "pino";
 
 import { AppLogLevel } from "../../types/app-log-level.js";
@@ -14,52 +13,29 @@ export function createLogger(
   },
 ): pino.Logger {
   const level = opts.level ?? opts.sgs.logLevel ?? DEFAULT_APP_LOG_LEVEL;
+  console.log("level ", level);
 
   const transports = pino.transport({
     targets: [
       {
-        target: "pino-opentelemetry-transport",
-        level,
-        options: {
-          logRecordProcessorOptions: [
-            {
-              recordProcessorType: "batch",
-            },
-          ],
-          loggerName: opts.sgs.serviceName,
-          serviceName: opts.sgs.serviceName,
-          serviceVersion: opts.sgs.serviceVersion,
-        },
-      },
-      {
-        level,
         target: "pino-pretty",
         options: {
           singleLine: true,
-          levelFirst: false,
         },
       },
     ],
   });
 
-  const mixinData: Record<string, unknown> = {
-    [SemanticResourceAttributes.SERVICE_NAME]: opts.sgs.serviceName,
-    [SemanticResourceAttributes.SERVICE_VERSION]: opts.sgs.serviceVersion,
-    [SemanticResourceAttributes.SERVICE_NAMESPACE]: opts.sgs.serviceVersion,
-  };
-
   const logger = pino(
     {
-      mixin() {
-        return mixinData;
-      },
       level,
+      name: opts.name,
+      errorKey: "ex",
       redact: {
         paths: ["email", "password", "token"],
       },
     },
     transports,
   );
-
   return logger;
 }

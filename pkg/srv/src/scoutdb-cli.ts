@@ -1,6 +1,5 @@
-import process from "process";
+import process from "node:process";
 
-import { newRex } from "@kmcssz-org/scoutdb-common";
 import yargs from "yargs";
 
 import { ISharedGlobalState } from "./lib/state/shared-global-state.js";
@@ -38,6 +37,30 @@ export async function main() {
       default: "http://localhost:4318/v1/traces",
       description: "OTLP traces endpoint to use by the HTTP trace exporter",
     })
+    .option("tracing-exporter-log-otlp-http-endpoint", {
+      type: "string",
+      default: "http://localhost:4318/v1/logs",
+      description: "OTLP logs endpoint to use by the HTTP log exporter",
+    })
+    .option("tracing-instrumentation-fs-enabled", {
+      alias: "fle",
+      type: "boolean",
+      default: false,
+      boolean: true,
+      defaultDescription: "It is off  by default.",
+      description:
+        "Enables automatic instrumentation of NodeJS file-system operations. " +
+        "It can cause memory usage spikes during application boot when the " +
+        "source code for dependencies is read from the file-system.",
+    })
+    .option("tracing-sampling-ratio", {
+      type: "number",
+      default: 1,
+      description:
+        "For example 1 will lead to sampling everything (100%) and " +
+        "0.1 will result in 10% of the traces sampled. " +
+        "See: https://opentelemetry.io/docs/languages/js/sampling/#traceidratiobasedsampler",
+    })
     .option("tracing-diag-log-level", {
       type: "string",
       choices: ["NONE", "ERROR", "WARN", "INFO", "DEBUG", "VERBOSE", "ALL"],
@@ -64,6 +87,16 @@ export async function main() {
       description:
         "Logging level (one of: silent, fatal, error, warn, info, debug, trace)",
     })
+    .option("fastify-logging-enabled", {
+      alias: "fle",
+      type: "boolean",
+      default: false,
+      boolean: true,
+      defaultDescription: "It is off  by default.",
+      description:
+        "Enables Fastify request logging. " +
+        "See: https://fastify.dev/docs/latest/Reference/Logging/#enable-logging",
+    })
     .env("SCOUTDB")
     .help()
     .alias("help", "h").argv;
@@ -79,36 +112,57 @@ export async function main() {
   const sgs: ISharedGlobalState = {
     tracingExporterTraceOtlpHttpEndpoint:
       argv.tracingExporterTraceOtlpHttpEndpoint,
+    tracingExporterLogOtlpHttpEndpoint: argv.tracingExporterLogOtlpHttpEndpoint,
     tracingDiagLogLevel: diagLogLevel,
+    tracingSamplingRatio: argv.tracingSamplingRatio,
     logLevel: argv.logLevel,
     serviceName: argv.tracingServiceName,
-    serviceVersion: "0.0.0-test",
-    buildVersion: "0.0.0-test",
+    serviceVersion: "0.0.0-test", // FIXME - parse this from package.json
+    buildVersion: "0.0.0-test", // FIXME - parse this from package.json
     extras: new Map(),
   };
 
+  const { tracer } = await configureOpenTelemetry({
+    sgs,
+    enableInstrumentationFs: false,
+  });
+
+  const { createLogger } = await import("./lib/logging/create-logger.js");
+
+  const log = createLogger({
+    sgs: sgs,
+    level: sgs.logLevel,
+    name: "daffodil-cli",
+  });
+
+  log.info("Importing start-server impl...");
+  const { startServer } = await import("./start-server.js");
+
+  log.info("Launching server...");
+
   const srvOpts: IScoutDbServerOptions = {
+    tracer,
     sgs,
     httpPort: argv.httpPort,
     httpHost: argv.httpHost,
     wwwDir: argv.wwwDir,
     sqliteDbPath: argv.sqliteDbPath,
+    fastifyLoggingEnabled: argv.fastifyLoggingEnabled,
   };
+  const startResult = await startServer(srvOpts);
 
-  try {
-    await configureOpenTelemetry({ sgs });
-  } catch (ex: unknown) {
-    throw newRex("Failed to configure OpenTelemetry", ex);
+  if (startResult.err) {
+    const errorMessage = "Failed to start Daffodil Server.";
+    log.fatal({ err: startResult.val }, errorMessage);
+    process.exit(1);
+  } else {
+    log.info("Launched server OK");
   }
-
-  const { startServer } = await import("./start-server.js");
-  await startServer(srvOpts);
 }
 
 if (require.main === module) {
-  main();
-  // .catch((err) => {
-  //   console.error(err);
-  //   process.exit(1);
-  // });
+  main().catch((ex) => {
+    console.error("Fatal Error in Application: ", ex);
+    process.exit(1);
+  });
 }

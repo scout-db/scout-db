@@ -1,231 +1,153 @@
-import path from "path";
+import path from "node:path";
 
-import { newRex, OpenApiJson, Scout } from "@kmcssz-org/scoutdb-common";
-import bodyParser from "body-parser";
-import express from "express";
-import * as OpenApiValidator from "express-openapi-validator";
-import {
-  BAD_REQUEST,
-  INTERNAL_SERVER_ERROR,
-  OK,
-} from "http-errors-enhanced-cjs";
+import fastifyHttpProxy from "@fastify/http-proxy";
+import fastifyStatic from "@fastify/static";
+import { OpenApiJson } from "@kmcssz-org/scoutdb-common";
+import Fastify from "fastify";
+import { HttpError, InternalServerError } from "http-errors-enhanced-cjs";
 import { Err, Ok, Result } from "ts-results";
 
 import {
   createLogger,
   DEFAULT_APP_LOG_LEVEL,
 } from "./lib/logging/create-logger.js";
-import { checkScoutEmailExists } from "./lib/persistence/check-scout-email-exists.js";
-import { createKnexClient } from "./lib/persistence/create-knex-client.js";
 import { IScoutDbServerOptions } from "./types/i-scoutdb-server-options.js";
 import { IScoutDbServer } from "./types/i-scoutdb-server.js";
 
 export async function startServer(
   opts: IScoutDbServerOptions,
-): Promise<IScoutDbServer> {
+): Promise<Result<IScoutDbServer, Error>> {
   const logLevel = opts.sgs.logLevel || DEFAULT_APP_LOG_LEVEL;
-  const log = createLogger({ sgs: opts.sgs, level: logLevel });
-  const app = express();
-  const db = (
-    await createKnexClient({ sgs: opts.sgs, sqliteDbPath: opts.sqliteDbPath })
-  ).expect("The Knex client to have been created OK.");
-
-  log.debug("Configuring ExpressJS instance...");
-  // Use body-parser to parse JSON requests
-  app.use(bodyParser.json());
-  log.debug("Enabled HTTP request JSON body parser OK");
-
-  const paths = Object.keys(
-    (OpenApiJson as { paths: Record<string, unknown> }).paths,
-  );
-  log.debug(`Paths to be checked by OpenApiValidator: `, paths);
-
-  app.use(
-    OpenApiValidator.middleware({
-      apiSpec: OpenApiJson as never,
-      validateApiSpec: false,
-      validateRequests: true, // (default)
-      validateResponses: false, // false by default
-      ignorePaths: (path: string) => !paths.includes(path),
-    }),
-  );
-
-  app.post("/api/v1/health", async (req, res): Promise<Result<void, Error>> => {
-    const fn = "HTTP POST /api/v1/health";
-    log.debug("%s ENTRY", fn);
-
-    res.json({
-      ts: new Date().toJSON(),
-      url: req.url,
-      memoryUsageV8: process.memoryUsage(),
-    });
-    return Ok.EMPTY;
+  const tracer = opts.tracer;
+  const log = createLogger({
+    sgs: opts.sgs,
+    level: logLevel,
+    name: "startServer()",
   });
+  try {
+    const app = Fastify({
+      logger: opts.fastifyLoggingEnabled,
+    });
 
-  // GET handler for fetching paginated scout records
-  app.get(
-    OpenApiJson.paths["/api/v1/scouts"].get["x-kmcssz"].httpPath,
-    async (req, res): Promise<Result<void, Error>> => {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      const fn = "HTTP GET /api/v1/scouts";
-      log.debug("%s ENTRY", fn);
+    log.debug("Configuring Fastify instance...");
 
-      if (typeof req.query.page !== "number") {
-        res
-          .status(BAD_REQUEST)
-          .json({ error: "Invalid page query parameter." });
-        return Ok.EMPTY;
-      }
-      if (typeof req.query.pageSize !== "number") {
-        res
-          .status(BAD_REQUEST)
-          .json({ error: "Invalid pageSize query parameter." });
-        return Ok.EMPTY;
-      }
-      if (typeof req.query.sortFieldName !== "string") {
-        res
-          .status(BAD_REQUEST)
-          .json({ error: "Invalid sortFieldName query parameter." });
-        return Ok.EMPTY;
-      }
-      if (typeof req.query.sortDirection !== "string") {
-        res
-          .status(BAD_REQUEST)
-          .json({ error: "Invalid sortDirection query parameter." });
-        return Ok.EMPTY;
-      }
+    app.setErrorHandler((err, req, reply): Result<null, Error> => {
+      const E_MSG_500_GENERIC =
+        "Please take not of the spanId and traceId " +
+        "and report it to our team for further investigation of this issue.";
 
-      const sortFieldName = req.query.sortFieldName;
-      const sortDirection = req.query.sortDirection;
-      const page = parseInt(req.query.page) || 1;
-      const pageSize = parseInt(req.query.pageSize) || 10;
-      const offset = (page - 1) * pageSize;
-      log.debug("%s page=%d pageSize=%d offset=%d", fn, page, pageSize, offset);
-
-      try {
-        // Get the total count of records
-        const totalRecordsResult = await db("scout")
-          .count("* as count")
-          .first();
-        if (!totalRecordsResult) {
-          throw new Error("Could not count scout rows.");
+      tracer.startActiveSpan("handleUncaughtErrorFastify", (span) => {
+        const { spanId, traceId } = span.spanContext();
+        log.error({ err }, "Fastify uncaught HttpError in handler.");
+        if (err instanceof HttpError) {
+          span.recordException(err);
+          const debugData = {
+            spanId,
+            traceId,
+            message: err.error,
+            technicalSupport: E_MSG_500_GENERIC,
+            ts: new Date().toJSON(),
+            url: req.url,
+            memoryUsageV8: process.memoryUsage(),
+          };
+          // Send error response to user
+          reply.status(err.statusCode).send(debugData);
+        } else {
+          // fastify will use parent error handler to handle this
+          log.warn({ err }, "Fastify uncaught generic handler Error.");
+          reply.send(err);
         }
-        log.debug("%s totalRecordResult=%o", fn, totalRecordsResult);
-
-        const totalRowCount =
-          typeof totalRecordsResult.count === "string"
-            ? parseInt(totalRecordsResult.count, 10)
-            : totalRecordsResult.count;
-
-        log.debug("%s totalRowCount=%d", fn, totalRowCount);
-
-        const totalPages = Math.ceil(totalRowCount / pageSize);
-        log.debug("%s totalPages=%d", fn, totalPages);
-
-        log.debug("% sort field=%s dir=%s", fn, sortFieldName, sortDirection);
-
-        // Get the paginated data
-        const scouts = await db("scout")
-          .select("*")
-          .orderBy(sortFieldName, sortDirection)
-          .limit(pageSize)
-          .offset(offset);
-
-        res.status(OK).json({
-          data: scouts,
-          pagination: {
-            totalRecords: totalRowCount,
-            totalPages: totalPages,
-            currentPage: page,
-            pageSize: pageSize,
-          },
-        });
-        return Ok.EMPTY;
-      } catch (ex: unknown) {
-        const rex = newRex("Failed to serve request: ", ex);
-        res.status(INTERNAL_SERVER_ERROR).json({ error: rex.toJSON() });
-        return Err(rex);
-      }
-    },
-  );
-
-  app.post("/api/v1/scouts", async (req, res): Promise<Result<void, Error>> => {
-    const fn = "HTTP POST /api/v1/scouts";
-    log.debug("%s ENTRY", fn);
-
-    const scout = req.body as Scout;
-    const { sgs } = opts;
-    const { email_1: email } = scout;
-
-    const emailCheck = await checkScoutEmailExists({ sgs, db, email });
-    if (emailCheck.err) {
-      res.status(emailCheck.val.statusCode);
-
-      if (emailCheck.val.isServerError) {
-        log.error("%s Check fail: scout email uniqueness %o", emailCheck.val);
-        res.json(emailCheck.val.serialize());
-      } else {
-        log.debug("%s Scout email is not unique: %o", fn, scout.email_1);
-        const errPojo = emailCheck.val.serialize();
-        res.json(errPojo);
-      }
-      return Ok.EMPTY;
-    }
-
-    try {
-      const entity = await db<Scout>("scout").insert(req.body);
-      log.debug("[knex] scout entity: %o", entity);
-      res.json({
-        entity,
-        ts: new Date().toJSON(),
-        url: req.url,
+        span.end();
+        return Ok(null);
       });
-    } catch (ex: unknown) {
-      const rex = newRex("Failed to insert scout entity to SQLite.", ex);
-      log.debug(rex);
-      res.status(INTERNAL_SERVER_ERROR).json({
-        message: "InternalServerError",
-      });
-    }
-    return Ok.EMPTY;
-  });
-
-  // Define an API endpoint
-  app.get("/api/hello", (req, res): Result<void, Error> => {
-    log.info("HTTP GET /api/hello");
-    res.json({
-      message: "hello",
-      url: req.url,
-      requestIp: req.ip,
-      requestedAt: new Date(),
+      return Ok(null);
     });
-    return Ok.EMPTY;
-  });
 
-  // Serve static files
-  app.use(express.static(opts.wwwDir));
+    const paths = Object.keys(
+      (OpenApiJson as { paths: Record<string, unknown> }).paths,
+    );
+    log.debug(`Paths to be checked by OpenApiValidator: `, paths);
 
-  app.get("*", (_req, res): Result<void, Error> => {
-    res.sendFile(path.join(opts.wwwDir, "index.html"));
-    return Ok.EMPTY;
-  });
+    app.post(
+      "/api/v1/health",
+      async (req): Promise<Record<string, unknown>> => {
+        const fn = "HTTP POST /api/v1/health";
+        log.debug("%s ENTRY", fn);
 
-  log.debug("Registered ExpressJS handlers OK.");
+        return {
+          ts: new Date().toJSON(),
+          url: req.url,
+          memoryUsageV8: process.memoryUsage(),
+        };
+      },
+    );
 
-  // Start the server
-  const { httpHost, httpPort } = opts;
-  const httpServer = app.listen(httpPort, httpHost, (): unknown => {
+    app.get("/api/hello", async (req): Promise<Record<string, unknown>> => {
+      log.info("HTTP GET /api/hello");
+      return {
+        message: "hello",
+        url: req.url,
+        requestIp: req.ip,
+        requestedAt: new Date(),
+      };
+    });
+
+    app.get("/api/simulate-error-throw", async (req): Promise<void> => {
+      log.info("HTTP GET /api/simulate-error-throw");
+      throw new InternalServerError("We threw it!" + JSON.stringify(req.query));
+    });
+
+    app.get("/api/simulate-error-log", async (req): Promise<void> => {
+      log.info("HTTP GET /api/simulate-error-log");
+
+      const causeRoot = new Error("The laws of physics.");
+      const cause = new Error("CAP Theorem.", { cause: causeRoot });
+
+      const errorMessage = "We logged it!" + JSON.stringify(req.query);
+      const ex = new TypeError(errorMessage, { cause });
+      log.error(ex, "VERSION_1 Simulated error logged.");
+      log.error({ ex }, "VERSION_2 Simulated error logged.");
+      log.error({ err: ex }, "VERSION_3 Simulated error logged.");
+    });
+
+    app.setNotFoundHandler(async (_req, reply) => {
+      const indexHtmlPath = path.join(opts.wwwDir, "index.html");
+      return reply.sendFile(indexHtmlPath);
+    });
+
+    app.register(fastifyStatic, {
+      root: opts.wwwDir,
+      logLevel: "debug",
+    });
+
+    app.register(fastifyHttpProxy, {
+      upstream: "http://fixme.my-api.example.com",
+      prefix: "/api", // optional
+      http2: true, // optional
+    });
+
+    log.debug("Registered Fastify handlers OK.");
     log.debug("Effective log level=%s", logLevel);
+
+    // Start the server
+    const { httpHost, httpPort } = opts;
+
+    const address = await app.listen({ port: httpPort, host: httpHost });
+    log.info(`Fastify listening address: ${address}`);
     log.info(`Server is running on HTTP host ${httpHost}`);
     log.info(`Server is running on HTTP port ${httpPort}`);
     log.info(`Serving static files from ${opts.wwwDir}`);
-    return;
-  });
-  log.debug("Instantiated HTTP server OK");
+    log.debug("Instantiated HTTP server OK");
 
-  return {
-    httpServer,
-    expressApp: app,
-    opts,
-  };
+    const output: IScoutDbServer = {
+      app: app,
+      opts,
+    };
+    return Ok(output);
+  } catch (ex: unknown) {
+    const errorMessage = "Failed to start/configure Fastify server.";
+    const err = new InternalServerError(errorMessage, { cause: ex });
+    log.error({ err });
+    return Err(err);
+  }
 }
